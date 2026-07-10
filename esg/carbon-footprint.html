@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>產品碳足跡行動平台｜Charlotte Chang 張雅雯</title>
+<style>
+:root{
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --purple:#6b46a8; --purple-light:#f0eaf8;
+  --red:#c0392b; --red-light:#fdeceb;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f4f7f9; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+header{background:linear-gradient(135deg,#3d2766,var(--purple));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem}
+header .sub{font-size:.72rem;opacity:.85;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:49;overflow-x:auto}
+nav button{flex:1;min-width:88px;padding:11px 6px;border:none;background:none;font-size:.88rem;font-family:inherit;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--purple);border-bottom-color:var(--purple);font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:14px 12px 80px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:1.02rem;color:var(--purple);margin-bottom:8px}
+.card h3{font-size:.94rem;margin:10px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+input,select,textarea{padding:8px;border:1px solid var(--line);border-radius:7px;font-family:inherit;font-size:.88rem;background:#fff;width:100%}
+label.f{display:block;font-size:.78rem;color:var(--gray);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;cursor:pointer;background:var(--purple);color:#fff}
+.btn.sec{background:#fff;color:var(--purple);border:1px solid var(--purple)}
+.btn.warn{background:#fff;color:var(--red);border:1px solid var(--red)}
+.btn.sm{padding:5px 10px;font-size:.78rem}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+th{background:#f1edf8;font-weight:700}
+td.num,th.num{text-align:right}
+.srcRow{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;background:#fff}
+.srcRow .rowGrid{display:grid;grid-template-columns:100px 1.6fr 1fr 1fr 1fr 1fr 34px;gap:6px;align-items:end}
+@media(max-width:760px){.srcRow .rowGrid{grid-template-columns:1fr 1fr}}
+.tot{font-size:1.05rem;font-weight:700}
+.bar{height:16px;border-radius:8px;background:#e8edf2;overflow:hidden;margin:3px 0 8px}
+.bar>div{height:100%}
+.result{border-left:4px solid var(--purple);background:var(--purple-light);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem}
+details{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+summary{padding:11px 12px;cursor:pointer;font-weight:700;font-size:.9rem;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"＋";color:var(--gray)}
+details[open] summary::after{content:"－"}
+details .body{padding:0 12px 12px;font-size:.86rem}
+ul.tight{padding-left:18px}ul.tight li{margin-bottom:4px}
+.src{font-size:.72rem;color:var(--gray);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+.src a{color:var(--blue);word-break:break-all}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
+@media print{header,nav,.btnrow,footer,.noprint{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>產品碳足跡行動平台</h1><a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜ISO 14067 搖籃到大門（Cradle-to-Gate）簡化評估</div>
+</header>
+<nav>
+  <button class="active" data-p="def" onclick="go('def',this)">產品定義</button>
+  <button data-p="data" onclick="go('data',this)">生命週期數據</button>
+  <button data-p="rep" onclick="go('rep',this)">結果報表</button>
+  <button data-p="ref" onclick="go('ref',this)">評估指引</button>
+</nav>
+<main>
+
+<!-- ===== 產品定義 ===== -->
+<section class="page active" id="p-def">
+  <div class="card">
+    <h2>Step 1｜產品定義與功能單位</h2>
+    <div class="grid2">
+      <div><label class="f">公司名稱</label><input type="text" id="d-comp" placeholder="○○工業股份有限公司"></div>
+      <div><label class="f">產品名稱／型號</label><input type="text" id="d-prod" placeholder="例：不鏽鋼閥體 V-100"></div>
+      <div><label class="f">功能單位（宣告單位）</label><input type="text" id="d-unit" placeholder="例：1 件（單重 2.5 kg）"></div>
+      <div><label class="f">評估期間資料年度</label><input type="text" id="d-year" placeholder="例：114 年度"></div>
+      <div><label class="f">年產量（供分攤製造能源）</label><input type="text" id="d-qty" inputmode="numeric" placeholder="例：50000"></div>
+      <div><label class="f">評估範疇</label><input type="text" id="d-scope" value="搖籃到大門（原料開採→出廠）" ></div>
+    </div>
+    <label class="f">產品說明／主要製程</label>
+    <textarea id="d-desc" rows="2" placeholder="例：鑄造→CNC 加工→表面處理→組裝→包裝"></textarea>
+    <div class="btnrow">
+      <button class="btn" onclick="saveAll()">儲存</button>
+      <button class="btn warn" onclick="resetAll()">清除全部資料</button>
+    </div>
+    <p class="hint" style="margin-top:6px">分攤原則：全廠能源可依「年產量」分攤到單位產品；若有產線獨立電表，優先使用產線數據。資料存於本機瀏覽器，離線可用。</p>
+  </div>
+</section>
+
+<!-- ===== 生命週期數據 ===== -->
+<section class="page" id="p-data">
+  <div class="card">
+    <h2>Step 2｜生命週期階段活動數據</h2>
+    <p class="hint">填「每一功能單位」之投入量（例：每件產品用鋼 2.5 kg、耗電 1.2 度）。若手上只有全年總量，填總量後在報表頁勾選「除以年產量」。係數為通用參考值，可依實測或資料庫修改。</p>
+    <div class="grid2">
+      <div><label class="f">數據填寫基準</label>
+        <select id="basis" onchange="recalcAll()">
+          <option value="unit">每一功能單位（直接）</option>
+          <option value="total">全年總量（自動除以年產量）</option>
+        </select></div>
+      <div><label class="f">電力係數（kgCO₂e/度）</label><input type="text" id="elecEF" value="0.467" onchange="recalcAll()"></div>
+    </div>
+    <div class="btnrow">
+      <button class="btn" onclick="addRow()">＋ 新增項目</button>
+      <button class="btn sec" onclick="addPreset()">＋ 帶入金屬加工業常見組合</button>
+    </div>
+  </div>
+  <div id="rows"></div>
+  <div class="card">
+    <div class="tot">單位產品碳足跡：<span id="grand">0.000</span> kgCO₂e／功能單位</div>
+    <div class="hint" id="stageTot"></div>
+  </div>
+</section>
+
+<!-- ===== 結果報表 ===== -->
+<section class="page" id="p-rep">
+  <div class="card">
+    <h2>Step 3｜碳足跡結果報表</h2>
+    <div class="btnrow noprint">
+      <button class="btn" onclick="buildReport()">產出報表</button>
+      <button class="btn sec" onclick="window.print()">列印／存 PDF</button>
+    </div>
+    <div id="repOut"></div>
+  </div>
+</section>
+
+<!-- ===== 指引 ===== -->
+<section class="page" id="p-ref">
+  <div class="card"><h2>評估指引</h2></div>
+  <div id="refList"></div>
+</section>
+
+</main>
+<footer>
+  Charlotte Chang 張雅雯 製作｜材料係數為國際 LCA 文獻通用參考值、電力係數依能源署 114 年度公告<br>
+  本工具供初步熱點分析與輔導用；正式碳足跡宣告請依 ISO 14067 採用環境部產品碳足跡資訊網或商用 LCA 資料庫係數並經查驗。
+</footer>
+
+<script>
+function go(p,btn){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.getElementById('p-'+p).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');window.scrollTo(0,0);saveAll();
+}
+
+/* ====== 係數庫（kgCO₂e/單位，通用參考值，可修改）======
+   stage: M原物料 / E製造能源 / T運輸 / P包裝 */
+const EF=[
+{k:"steel",n:"碳鋼／熱軋鋼材",u:"kg",f:2.0,st:"M"},
+{k:"sus",n:"不鏽鋼（304 系）",u:"kg",f:6.2,st:"M"},
+{k:"alu",n:"鋁（原生錠）",u:"kg",f:16.5,st:"M"},
+{k:"aluR",n:"鋁（再生錠）",u:"kg",f:2.3,st:"M"},
+{k:"copper",n:"銅材",u:"kg",f:4.5,st:"M"},
+{k:"zinc",n:"鋅（鍍鋅／壓鑄）",u:"kg",f:3.5,st:"M"},
+{k:"pp",n:"塑膠 PP",u:"kg",f:1.9,st:"M"},
+{k:"pe",n:"塑膠 PE（HD/LD）",u:"kg",f:1.9,st:"M"},
+{k:"abs",n:"塑膠 ABS",u:"kg",f:3.2,st:"M"},
+{k:"pet",n:"塑膠 PET",u:"kg",f:2.6,st:"M"},
+{k:"rubber",n:"橡膠（合成）",u:"kg",f:2.8,st:"M"},
+{k:"glass",n:"玻璃",u:"kg",f:1.0,st:"M"},
+{k:"customM",n:"其他原物料（自填係數）",u:"kg",f:0,st:"M"},
+{k:"elec",n:"製程用電",u:"度(kWh)",f:0.467,st:"E",elec:true},
+{k:"ng",n:"製程天然氣",u:"m³",f:1.879,st:"E"},
+{k:"lpg",n:"製程 LPG",u:"公升",f:1.752,st:"E"},
+{k:"diesel",n:"廠內柴油（堆高機等分攤）",u:"公升",f:2.606,st:"E"},
+{k:"water",n:"自來水",u:"公噸",f:0.16,st:"E"},
+{k:"truck",n:"卡車運輸（原料進廠，重量×距離）",u:"公噸·公里",f:0.12,st:"T"},
+{k:"sea",n:"海運（進口原料）",u:"公噸·公里",f:0.012,st:"T"},
+{k:"air",n:"空運",u:"公噸·公里",f:1.1,st:"T"},
+{k:"carton",n:"瓦楞紙箱",u:"kg",f:0.9,st:"P"},
+{k:"pefoam",n:"PE 袋／緩衝材",u:"kg",f:2.0,st:"P"},
+{k:"pallet",n:"木棧板（分攤）",u:"kg",f:0.25,st:"P"},
+{k:"stretch",n:"PE 纏繞膜",u:"kg",f:2.0,st:"P"},
+{k:"customP",n:"其他包材（自填係數）",u:"kg",f:0,st:"P"}
+];
+const STAGE={M:"原物料",E:"製造能源",T:"運輸",P:"包裝"};
+const SCOLOR={M:"var(--purple)",E:"var(--amber)",T:"var(--blue)",P:"var(--green)"};
+let rows=[];
+
+function addRow(k){rows.push({k:k||"steel",qty:"",ef:null,note:""});renderRows();saveAll();}
+function addPreset(){
+  ["steel","elec","ng","truck","carton","pefoam"].forEach(k=>rows.push({k,qty:"",ef:null,note:""}));
+  renderRows();saveAll();
+}
+function delRow(i){if(!confirm('刪除此列？'))return;rows.splice(i,1);renderRows();saveAll();}
+function efOf(r){
+  const d=EF.find(e=>e.k===r.k);
+  if(d.elec)return parseFloat(document.getElementById('elecEF').value)||0;
+  return r.ef!=null?r.ef:d.f;
+}
+function divisor(){
+  if(document.getElementById('basis').value==='total'){
+    return parseFloat(document.getElementById('d-qty').value)||1;
+  }
+  return 1;
+}
+function rowCF(r){return (parseFloat(r.qty)||0)*efOf(r)/divisor();}
+function renderRows(){
+  const box=document.getElementById('rows');
+  box.innerHTML=rows.map((r,i)=>{
+    const d=EF.find(e=>e.k===r.k);
+    return `<div class="srcRow">
+    <div class="rowGrid">
+      <div><label class="f">階段</label><div style="padding:6px 0;font-weight:700;color:${SCOLOR[d.st]}">${STAGE[d.st]}</div></div>
+      <div><label class="f">項目</label><select onchange="chgKind(${i},this.value)">${EF.map(e=>`<option value="${e.k}" ${e.k===r.k?'selected':''}>［${STAGE[e.st]}］${e.n}</option>`).join('')}</select></div>
+      <div><label class="f">投入量</label><input type="text" inputmode="decimal" value="${r.qty}" onchange="chgQty(${i},this.value)"></div>
+      <div><label class="f">單位</label><input type="text" value="${d.u}" disabled></div>
+      <div><label class="f">係數 kgCO₂e/${d.u}</label><input type="text" inputmode="decimal" value="${efOf(r)}" ${d.elec?'disabled':''} onchange="chgEF(${i},this.value)"></div>
+      <div><label class="f">kgCO₂e/單位</label><input type="text" value="${rowCF(r).toFixed(3)}" disabled style="font-weight:700"></div>
+      <div><button class="btn warn sm" onclick="delRow(${i})">✕</button></div>
+    </div>
+    <label class="f">備註（供應商、規格）</label><input type="text" value="${r.note||''}" placeholder="例：中鋼熱軋 SS400" onchange="chgNote(${i},this.value)">
+    </div>`;
+  }).join('')||'<div class="card hint">尚無項目，請點「＋新增項目」或「帶入常見組合」。</div>';
+  totals();
+}
+function chgKind(i,v){rows[i].k=v;rows[i].ef=null;renderRows();saveAll();}
+function chgQty(i,v){rows[i].qty=v;renderRows();saveAll();}
+function chgEF(i,v){rows[i].ef=parseFloat(v)||0;renderRows();saveAll();}
+function chgNote(i,v){rows[i].note=v;saveAll();}
+function recalcAll(){renderRows();saveAll();}
+function sums(){
+  const s={M:0,E:0,T:0,P:0};let g=0;
+  rows.forEach(r=>{const d=EF.find(e=>e.k===r.k);const t=rowCF(r);s[d.st]+=t;g+=t;});
+  return{s,g};
+}
+function totals(){
+  const{s,g}=sums();
+  document.getElementById('grand').textContent=g.toFixed(3);
+  document.getElementById('stageTot').innerHTML=Object.keys(STAGE).map(k=>`${STAGE[k]} ${s[k].toFixed(3)}`).join('｜');
+}
+
+/* ====== 報表 ====== */
+function buildReport(){
+  const{s,g}=sums();
+  const comp=document.getElementById('d-comp').value||"（未填公司名）";
+  const prod=document.getElementById('d-prod').value||"（未填產品）";
+  const unit=document.getElementById('d-unit').value||"1 單位";
+  const list=rows.filter(r=>parseFloat(r.qty)>0).map(r=>({d:EF.find(e=>e.k===r.k),r,t:rowCF(r)})).sort((a,b)=>b.t-a.t);
+  const bars=Object.keys(STAGE).map(k=>{
+    const p=g>0?s[k]/g*100:0;
+    return `${STAGE[k]}：${s[k].toFixed(3)} kgCO₂e（${p.toFixed(1)}%）<div class="bar"><div style="width:${p}%;background:${SCOLOR[k]}"></div></div>`;
+  }).join('');
+  document.getElementById('repOut').innerHTML=`<div class="result">
+  <b>${comp}｜${prod} 產品碳足跡評估（搖籃到大門）</b><br>
+  功能單位：${unit}｜資料年度：${document.getElementById('d-year').value||'—'}｜主要製程：${document.getElementById('d-desc').value||'—'}<br><br>
+  <div class="tot">碳足跡 ${g.toFixed(3)} kgCO₂e／功能單位</div><br>${bars}
+  <h3>計算明細</h3>
+  <table><tr><th>階段</th><th>項目</th><th class="num">投入量</th><th>單位</th><th class="num">係數</th><th class="num">kgCO₂e</th><th class="num">占比</th></tr>
+  ${list.map(x=>`<tr><td>${STAGE[x.d.st]}</td><td>${x.d.n}${x.r.note?`<br><span class="hint">${x.r.note}</span>`:''}</td><td class="num">${(+x.r.qty).toLocaleString()}</td><td>${x.d.u}</td><td class="num">${efOf(x.r)}</td><td class="num"><b>${x.t.toFixed(3)}</b></td><td class="num">${g>0?(x.t/g*100).toFixed(1):0}%</td></tr>`).join('')}
+  <tr><th colspan="5">合計</th><th class="num">${g.toFixed(3)}</th><th class="num">100%</th></tr></table>
+  ${list.length?`<b>碳足跡熱點：</b>${list.slice(0,3).map(x=>`${x.d.n}（${g>0?(x.t/g*100).toFixed(0):0}%`+`）`).join('、')}<br>
+  <b>減量建議方向：</b>${hotAdvice(s,g)}`:''}
+  <br><span class="hint">Charlotte Chang 張雅雯｜產出日期 ${new Date().toLocaleDateString('zh-TW')}｜本評估採通用參考係數，屬初步熱點分析；正式宣告請依 ISO 14067 採用環境部產品碳足跡資訊網或經查驗之資料庫係數。</span></div>`;
+  saveAll();
+}
+function hotAdvice(s,g){
+  if(g<=0)return'—';
+  const top=Object.keys(s).sort((a,b)=>s[b]-s[a])[0];
+  return{
+   M:"原物料占比最高——優先評估再生料替代（如再生鋁、再生塑膠）、減重設計、提高良率降低投料。",
+   E:"製造能源占比最高——優先做空壓、加熱製程節能與設備汰換，並評估綠電採購直接降低產品碳足跡。",
+   T:"運輸占比最高——評估在地採購縮短運距、海運替代空運、提高裝載率。",
+   P:"包裝占比最高——評估包材減量、再生紙箱與循環棧板。"
+  }[top];
+}
+
+/* ====== 指引 ====== */
+const REF=[
+{t:"碳足跡與碳盤查差在哪？（客戶常問）",h:`<ul class="tight">
+<li><b>碳盤查（ISO 14064-1）</b>＝算「整家公司」一年的排放，供 ESG 報告與法規申報。</li>
+<li><b>碳足跡（ISO 14067）</b>＝算「單一產品」整個生命週期的排放，供客戶詢單、標籤與 CBAM 申報。</li>
+<li>順序建議：先完成碳盤查建立能源數據基礎，再挑主力產品做碳足跡——製造能源分攤直接沿用盤查數據。</li></ul>`},
+{t:"評估四步驟（ISO 14067 簡化）",h:`<ul class="tight">
+<li><b>1. 目的與範疇</b>：定功能單位（1 件？1 kg？1 批？）與系統邊界（本工具＝搖籃到大門）。</li>
+<li><b>2. 數據蒐集</b>：BOM 表（材料重量）、製程能耗（分攤）、原料運輸重量×距離、包材重量。</li>
+<li><b>3. 計算</b>：活動數據 × 排放係數，彙總各階段。</li>
+<li><b>4. 熱點與減量</b>：找出占比最高階段，提出減量方案；需對外宣告時進行第三方查證。</li></ul>`},
+{t:"什麼時候客戶會需要碳足跡？",h:`<ul class="tight">
+<li><b>歐盟 CBAM</b>：出口鋼鐵、鋁、水泥、肥料等產品需申報內含排放量（embedded emissions）。</li>
+<li><b>品牌商供應鏈</b>：Apple、國際車廠等要求供應商提供零組件碳足跡數據。</li>
+<li><b>碳足跡標籤</b>：環境部產品碳足跡標籤制度，行銷差異化。</li>
+<li><b>綠色採購與投標</b>：部分政府與企業標案將產品碳足跡納入評選。</li></ul>`},
+{t:"係數說明與正式資料庫",h:`<ul class="tight">
+<li>本工具材料係數為國際 LCA 文獻常見平均值（如鋼 2.0、不鏽鋼 6.2、原生鋁 16.5 kgCO₂e/kg），僅供熱點初判，實際值因供應商產地與製程差異可能相差數倍。</li>
+<li>正式評估請採用：環境部產品碳足跡資訊網係數、供應商提供之實測數據、或 ecoinvent 等商用資料庫。</li>
+<li>電力 0.467＝能源署 114 年度公告；使用綠電可依購電合約調整。</li></ul>
+<div class="src">
+・<a href="https://cfp-calculate.tw/">環境部產品碳足跡資訊網</a><br>
+・<a href="https://www.moeaea.gov.tw/ecw/populace/content/ContentDesc.aspx?menu_id=27028">能源署｜114 年度電力排碳係數</a></div>`}
+];
+function renderRef(){
+  document.getElementById('refList').innerHTML=REF.map((g,i)=>`<details ${i===0?'open':''}><summary>${g.t}</summary><div class="body">${g.h}</div></details>`).join('');
+}
+
+/* ====== 儲存 ====== */
+const BF=['d-comp','d-prod','d-unit','d-year','d-qty','d-scope','d-desc','basis','elecEF'];
+function saveAll(){
+  try{
+    const o={f:{},r:rows};
+    BF.forEach(id=>o.f[id]=document.getElementById(id).value);
+    localStorage.setItem('cfpTool',JSON.stringify(o));
+  }catch(e){}
+}
+function loadAll(){
+  try{
+    const o=JSON.parse(localStorage.getItem('cfpTool')||'{}');
+    if(o.f)BF.forEach(id=>{if(o.f[id]!=null)document.getElementById(id).value=o.f[id];});
+    rows=o.r||[];
+  }catch(e){}
+  renderRows();
+}
+function resetAll(){
+  if(!confirm('確定清除本機所有已填資料？'))return;
+  localStorage.removeItem('cfpTool');location.reload();
+}
+document.addEventListener('input',e=>{if(BF.includes(e.target.id))saveAll();});
+renderRef();loadAll();
+</script>
+</body>
+</html>

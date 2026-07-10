@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>碳盤查行動平台｜Charlotte Chang 張雅雯</title>
+<style>
+:root{
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --red:#c0392b; --red-light:#fdeceb;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f4f7f9; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+header{background:linear-gradient(135deg,#12384f,var(--blue));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem}
+header .sub{font-size:.72rem;opacity:.85;margin-top:2px}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:49;overflow-x:auto}
+nav button{flex:1;min-width:88px;padding:11px 6px;border:none;background:none;font-size:.88rem;font-family:inherit;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:14px 12px 80px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:1.02rem;color:var(--blue);margin-bottom:8px}
+.card h3{font-size:.94rem;margin:10px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+input,select,textarea{padding:8px;border:1px solid var(--line);border-radius:7px;font-family:inherit;font-size:.88rem;background:#fff;width:100%}
+label.f{display:block;font-size:.78rem;color:var(--gray);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2,.grid3{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;cursor:pointer;background:var(--blue);color:#fff}
+.btn.sec{background:#fff;color:var(--blue);border:1px solid var(--blue)}
+.btn.warn{background:#fff;color:var(--red);border:1px solid var(--red)}
+.btn.sm{padding:5px 10px;font-size:.78rem}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+th{background:#eef4f8;font-weight:700}
+td.num,th.num{text-align:right}
+.srcRow{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;background:#fff}
+.srcRow .rowGrid{display:grid;grid-template-columns:90px 1.6fr 1fr 1fr 1fr 1fr 34px;gap:6px;align-items:end}
+@media(max-width:760px){.srcRow .rowGrid{grid-template-columns:1fr 1fr;}}
+.tot{font-size:1.05rem;font-weight:700}
+.bar{height:16px;border-radius:8px;background:#e8edf2;overflow:hidden;margin:3px 0 8px}
+.bar>div{height:100%;background:var(--blue)}
+.s1{background:var(--amber)!important}
+.s2{background:var(--green)!important}
+.result{border-left:4px solid var(--blue);background:var(--blue-light);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem}
+details{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+summary{padding:11px 12px;cursor:pointer;font-weight:700;font-size:.9rem;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"＋";color:var(--gray)}
+details[open] summary::after{content:"－"}
+details .body{padding:0 12px 12px;font-size:.86rem}
+ul.tight{padding-left:18px}ul.tight li{margin-bottom:4px}
+.badge{display:inline-block;font-size:.68rem;padding:1px 7px;border-radius:10px;background:var(--blue-light);color:var(--blue);margin-left:4px}
+.src{font-size:.72rem;color:var(--gray);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+.src a{color:var(--blue);word-break:break-all}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
+@media print{header,nav,.btnrow,footer,.noprint{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>碳盤查行動平台（範疇一＋二）</h1><a href="../index.html" style="color:#fff;font-size:.78rem;text-decoration:none;opacity:.9">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜依 ISO 14064-1 架構、環境部公告排放係數（GWP：IPCC AR6）編製</div>
+</header>
+<nav>
+  <button class="active" data-p="base" onclick="go('base',this)">盤查邊界</button>
+  <button data-p="id" onclick="go('id',this)">排放源盤點</button>
+  <button data-p="calc" onclick="go('calc',this)">數據計算</button>
+  <button data-p="rep" onclick="go('rep',this)">結果報表</button>
+  <button data-p="ref" onclick="go('ref',this)">盤查指引</button>
+</nav>
+<main>
+
+<!-- ===== 盤查邊界 ===== -->
+<section class="page active" id="p-base">
+  <div class="card">
+    <h2>Step 1｜基本資料與盤查邊界</h2>
+    <div class="grid2">
+      <div><label class="f">公司名稱</label><input type="text" id="b-name" placeholder="○○工業股份有限公司"></div>
+      <div><label class="f">盤查年度（報告期間）</label><input type="text" id="b-year" placeholder="例：115 年 1/1–12/31"></div>
+      <div><label class="f">邊界設定方法</label>
+        <select id="b-method">
+          <option>營運控制權法（建議）</option>
+          <option>財務控制權法</option>
+          <option>股權比例法</option>
+        </select></div>
+      <div><label class="f">員工人數</label><input type="text" id="b-emp" inputmode="numeric" placeholder="供排放強度計算"></div>
+      <div><label class="f">年營收（新臺幣萬元）</label><input type="text" id="b-rev" inputmode="numeric" placeholder="供排放強度計算"></div>
+      <div><label class="f">盤查執行單位／窗口</label><input type="text" id="b-owner" placeholder="例：管理部 王經理"></div>
+    </div>
+    <label class="f">納入邊界之廠區／據點（一行一個）</label>
+    <textarea id="b-sites" rows="3" placeholder="例：臺南總廠（仁德區）&#10;高雄倉庫（岡山區）"></textarea>
+    <label class="f">排除項目與理由（如有）</label>
+    <textarea id="b-excl" rows="2" placeholder="例：租賃車輛由承租人控制，列範疇三不納入"></textarea>
+    <div class="btnrow">
+      <button class="btn" onclick="saveAll()">儲存</button>
+      <button class="btn warn" onclick="resetAll()">清除全部資料</button>
+    </div>
+    <p class="hint" style="margin-top:6px">資料存於本機瀏覽器，離線可用。</p>
+  </div>
+</section>
+
+<!-- ===== 排放源盤點 ===== -->
+<section class="page" id="p-id">
+  <div class="card">
+    <h2>Step 2｜排放源鑑別</h2>
+    <p class="hint">現場帶客戶走一圈廠區，逐項勾選存在的排放源；勾選後到「數據計算」頁填入活動數據。</p>
+  </div>
+  <div class="card">
+    <h3>範疇一：直接排放</h3>
+    <table>
+      <tr><th style="width:110px">類型</th><th>常見排放源</th><th>佐證資料</th></tr>
+      <tr><td>固定燃燒</td><td>鍋爐、加熱爐、發電機、廚房爐具（柴油、重油、天然氣、LPG）</td><td>購油單據、瓦斯帳單</td></tr>
+      <tr><td>移動燃燒</td><td>公務車、貨車、堆高機（汽油、柴油、LPG）</td><td>加油發票、油卡月結單</td></tr>
+      <tr><td>製程排放</td><td>焊接（乙炔）、化學反應製程</td><td>氣體採購單</td></tr>
+      <tr><td>逸散排放</td><td>冷氣／冰水機冷媒補充、滅火器（CO₂）、化糞池</td><td>維修單、填充紀錄</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>範疇二：能源間接排放</h3>
+    <table>
+      <tr><td style="width:110px">外購電力</td><td>台電電費（各廠區電號逐一盤點）</td><td>電費單 12 期</td></tr>
+      <tr><td>外購蒸汽</td><td>園區汽電共生蒸汽（如有）</td><td>蒸汽費帳單</td></tr>
+    </table>
+    <p class="hint">提醒：屋頂太陽能自發自用不計入範疇二；購買綠電／憑證於市場基準法下可扣減，初次盤查建議先以地點基準法（台電係數）計算。</p>
+  </div>
+</section>
+
+<!-- ===== 數據計算 ===== -->
+<section class="page" id="p-calc">
+  <div class="card">
+    <h2>Step 3｜活動數據與排放量計算</h2>
+    <p class="hint">新增排放源列，選擇類別後自動帶入排放係數（可修改）。排放量＝活動數據 × 係數，單位自動換算為公噸 CO₂e。</p>
+    <div class="grid2">
+      <div><label class="f">電力排放係數（kgCO₂e/度）</label><input type="text" id="elecEF" value="0.467" onchange="recalcAll()"></div>
+      <div><label class="f" style="visibility:hidden">-</label><p class="hint">預設 0.467＝能源署公告 114 年度公用售電業係數（產業別 0.466）。次年公告後請更新。</p></div>
+    </div>
+    <div class="btnrow">
+      <button class="btn" onclick="addRow()">＋ 新增排放源</button>
+      <button class="btn sec" onclick="addPreset()">＋ 帶入常見排放源組合</button>
+    </div>
+  </div>
+  <div id="rows"></div>
+  <div class="card">
+    <div class="tot">合計：<span id="grand">0.000</span> 公噸 CO₂e／年</div>
+    <div class="hint">範疇一 <span id="t-s1">0.000</span> t｜範疇二 <span id="t-s2">0.000</span> t</div>
+  </div>
+</section>
+
+<!-- ===== 結果報表 ===== -->
+<section class="page" id="p-rep">
+  <div class="card">
+    <h2>Step 4｜盤查結果報表</h2>
+    <div class="btnrow noprint">
+      <button class="btn" onclick="buildReport()">產出報表</button>
+      <button class="btn sec" onclick="window.print()">列印／存 PDF</button>
+    </div>
+    <div id="repOut"></div>
+  </div>
+</section>
+
+<!-- ===== 盤查指引 ===== -->
+<section class="page" id="p-ref">
+  <div class="card"><h2>盤查指引與法規背景</h2></div>
+  <div id="refList"></div>
+</section>
+
+</main>
+<footer>
+  Charlotte Chang 張雅雯 製作｜係數基準：環境部公告溫室氣體排放係數（113.2.5，GWP 採 IPCC AR6）、排放係數管理表 6.0.4、能源署 114 年度電力排碳係數<br>
+  本工具供現場快速估算與輔導用；正式盤查申報請以環境部最新公告係數及查驗機構要求為準。
+</footer>
+
+<script>
+function go(p,btn){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.getElementById('p-'+p).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');window.scrollTo(0,0);saveAll();
+}
+
+/* ====== 排放係數庫 ======
+   f = kgCO2e / 單位（燃料類為管理表6.0.4 CO2主項係數；冷媒為 AR6 GWP）
+   燃料燃燒之 CH4、N2O 貢獻通常 <1%，現場估算暫不計，正式盤查依管理表全項計算 */
+const EF=[
+{k:"gasoline",n:"車用汽油（移動燃燒）",u:"公升",f:2.263,s:1,note:"加油發票／油卡月結"},
+{k:"diesel",n:"柴油（移動／固定燃燒）",u:"公升",f:2.606,s:1,note:"購油單據"},
+{k:"fueloil",n:"燃料油／重油（鍋爐）",u:"公升",f:2.978,s:1,note:"購油單據"},
+{k:"lpg",n:"液化石油氣 LPG（爐具、堆高機）",u:"公升",f:1.752,s:1,note:"瓦斯行單據"},
+{k:"ng",n:"天然氣（鍋爐、廚房）",u:"立方公尺",f:1.879,s:1,note:"瓦斯帳單 12 期"},
+{k:"kerosene",n:"煤油",u:"公升",f:2.567,s:1,note:"購油單據"},
+{k:"acetylene",n:"乙炔（焊接製程）",u:"公斤",f:3.385,s:1,note:"氣體採購單"},
+{k:"r22",n:"冷媒 R-22 補充量（逸散）",u:"公斤",f:1960,s:1,note:"冷氣維修／填充單"},
+{k:"r134a",n:"冷媒 R-134a 補充量（逸散）",u:"公斤",f:1530,s:1,note:"維修單"},
+{k:"r410a",n:"冷媒 R-410A 補充量（逸散）",u:"公斤",f:2256,s:1,note:"維修單"},
+{k:"r404a",n:"冷媒 R-404A 補充量（逸散）",u:"公斤",f:4728,s:1,note:"冷凍設備維修單"},
+{k:"r407c",n:"冷媒 R-407C 補充量（逸散）",u:"公斤",f:1908,s:1,note:"維修單"},
+{k:"r32",n:"冷媒 R-32 補充量（逸散）",u:"公斤",f:771,s:1,note:"維修單"},
+{k:"co2ext",n:"CO₂ 滅火器充填（逸散）",u:"公斤",f:1,s:1,note:"換藥單據"},
+{k:"elec",n:"外購電力（台電）",u:"度(kWh)",f:0.467,s:2,note:"電費單 12 期",elec:true},
+{k:"steam",n:"外購蒸汽（自填係數）",u:"公噸",f:0,s:2,note:"蒸汽帳單＋供應商係數"},
+{k:"custom1",n:"其他範疇一排放源（自填係數）",u:"自訂",f:0,s:1,note:"化糞池、其他製程等"},
+{k:"custom2",n:"其他範疇二排放源（自填係數）",u:"自訂",f:0,s:2,note:""}
+];
+let rows=[]; // {k, qty, ef(可覆寫), site, quality}
+const QUAL=["一手數據（發票/帳單）","二手數據（月結/彙總）","估算值"];
+
+function addRow(k){
+  rows.push({k:k||"elec",qty:"",ef:null,site:"",quality:0});
+  renderRows();saveAll();
+}
+function addPreset(){
+  ["elec","gasoline","diesel","lpg","r410a"].forEach(k=>rows.push({k,qty:"",ef:null,site:"",quality:0}));
+  renderRows();saveAll();
+}
+function delRow(i){
+  if(!confirm('刪除此列？'))return;
+  rows.splice(i,1);renderRows();saveAll();
+}
+function efOf(r){
+  const d=EF.find(e=>e.k===r.k);
+  if(d.elec) return parseFloat(document.getElementById('elecEF').value)||0;
+  return r.ef!=null?r.ef:d.f;
+}
+function renderRows(){
+  const box=document.getElementById('rows');
+  box.innerHTML=rows.map((r,i)=>{
+    const d=EF.find(e=>e.k===r.k);
+    const co2e=((parseFloat(r.qty)||0)*efOf(r)/1000);
+    return `<div class="srcRow">
+    <div class="rowGrid">
+      <div><label class="f">範疇</label><div style="padding:6px 0;font-weight:700;color:${d.s===1?'var(--amber)':'var(--green)'}">範疇${d.s===1?'一':'二'}</div></div>
+      <div><label class="f">排放源</label><select onchange="chgKind(${i},this.value)">${EF.map(e=>`<option value="${e.k}" ${e.k===r.k?'selected':''}>${e.n}</option>`).join('')}</select></div>
+      <div><label class="f">活動數據（年）</label><input type="text" inputmode="decimal" value="${r.qty}" placeholder="數量" onchange="chgQty(${i},this.value)"></div>
+      <div><label class="f">單位</label><input type="text" value="${d.u}" disabled></div>
+      <div><label class="f">係數 kgCO₂e/${d.u}</label><input type="text" inputmode="decimal" value="${efOf(r)}" ${d.elec?'disabled':''} onchange="chgEF(${i},this.value)"></div>
+      <div><label class="f">排放量 tCO₂e</label><input type="text" value="${co2e.toFixed(3)}" disabled style="font-weight:700"></div>
+      <div><button class="btn warn sm" onclick="delRow(${i})">✕</button></div>
+    </div>
+    <div class="grid2" style="margin-top:6px">
+      <div><label class="f">廠區／設備備註</label><input type="text" value="${r.site||''}" placeholder="例：總廠 3 台堆高機" onchange="chgSite(${i},this.value)"></div>
+      <div><label class="f">數據品質（${d.note||'佐證資料'}）</label><select onchange="chgQ(${i},this.value)">${QUAL.map((q,v)=>`<option value="${v}" ${v==r.quality?'selected':''}>${q}</option>`).join('')}</select></div>
+    </div></div>`;
+  }).join('')||'<div class="card hint">尚無排放源，請點「＋新增排放源」或「帶入常見組合」。</div>';
+  totals();
+}
+function chgKind(i,k){rows[i].k=k;rows[i].ef=null;renderRows();saveAll();}
+function chgQty(i,v){rows[i].qty=v;renderRows();saveAll();}
+function chgEF(i,v){rows[i].ef=parseFloat(v)||0;renderRows();saveAll();}
+function chgSite(i,v){rows[i].site=v;saveAll();}
+function chgQ(i,v){rows[i].quality=+v;saveAll();}
+function recalcAll(){renderRows();saveAll();}
+function sums(){
+  let s1=0,s2=0;
+  rows.forEach(r=>{
+    const d=EF.find(e=>e.k===r.k);
+    const t=(parseFloat(r.qty)||0)*efOf(r)/1000;
+    if(d.s===1)s1+=t;else s2+=t;
+  });
+  return{s1,s2,g:s1+s2};
+}
+function totals(){
+  const{s1,s2,g}=sums();
+  document.getElementById('grand').textContent=g.toFixed(3);
+  document.getElementById('t-s1').textContent=s1.toFixed(3);
+  document.getElementById('t-s2').textContent=s2.toFixed(3);
+}
+
+/* ====== 報表 ====== */
+function buildReport(){
+  const{s1,s2,g}=sums();
+  const name=document.getElementById('b-name').value||"（未填公司名）";
+  const year=document.getElementById('b-year').value||"（未填期間）";
+  const emp=parseFloat(document.getElementById('b-emp').value)||0;
+  const rev=parseFloat(document.getElementById('b-rev').value)||0;
+  const p1=g>0?Math.round(s1/g*100):0;
+  const list=rows.filter(r=>parseFloat(r.qty)>0).map(r=>{
+    const d=EF.find(e=>e.k===r.k);
+    return{d,r,t:(parseFloat(r.qty)||0)*efOf(r)/1000};
+  }).sort((a,b)=>b.t-a.t);
+  document.getElementById('repOut').innerHTML=`<div class="result">
+  <b>${name}｜溫室氣體盤查估算報告（範疇一＋二）</b><br>
+  報告期間：${year}｜邊界方法：${document.getElementById('b-method').value}<br>
+  納入據點：${(document.getElementById('b-sites').value||'—').replace(/\n/g,'、')}<br><br>
+  <div class="tot">總排放量 ${g.toFixed(2)} 公噸 CO₂e</div>
+  範疇一（直接排放）${s1.toFixed(2)} t（${p1}%）<div class="bar"><div class="s1" style="width:${p1}%"></div></div>
+  範疇二（外購電力）${s2.toFixed(2)} t（${100-p1}%）<div class="bar"><div class="s2" style="width:${100-p1}%"></div></div>
+  ${emp?`人均排放強度：${(g/emp).toFixed(2)} tCO₂e/人｜`:''}${rev?`營收排放強度：${(g/rev*10000).toFixed(2)} tCO₂e/百萬元`:''}
+  <h3>排放清冊</h3>
+  <table><tr><th>範疇</th><th>排放源</th><th class="num">活動數據</th><th>單位</th><th class="num">係數</th><th class="num">tCO₂e</th><th class="num">占比</th><th>數據品質</th></tr>
+  ${list.map(x=>`<tr><td>範疇${x.d.s===1?'一':'二'}</td><td>${x.d.n}${x.r.site?`<br><span class="hint">${x.r.site}</span>`:''}</td><td class="num">${(+x.r.qty).toLocaleString()}</td><td>${x.d.u}</td><td class="num">${efOf(x.r)}</td><td class="num"><b>${x.t.toFixed(3)}</b></td><td class="num">${g>0?(x.t/g*100).toFixed(1):0}%</td><td>${QUAL[x.r.quality]}</td></tr>`).join('')}
+  <tr><th colspan="5">合計</th><th class="num">${g.toFixed(3)}</th><th class="num">100%</th><th></th></tr></table>
+  ${list.length?`<b>主要排放熱點：</b>${list.slice(0,3).map(x=>`${x.d.n}（${g>0?(x.t/g*100).toFixed(0):0}%）`).join('、')}<br>
+  <b>減碳建議方向：</b>${p1>=50?'範疇一占比高——優先評估燃油設備電動化（堆高機、公務車）、鍋爐燃料轉換與冷媒管理制度。':'範疇二占比高——優先推動照明/空調/空壓系統節能、功率因數改善，並評估屋頂太陽能與綠電採購。'}`:''}
+  <br><span class="hint">Charlotte Chang 張雅雯｜產出日期 ${new Date().toLocaleDateString('zh-TW')}｜本報告為估算性質，燃料係數僅計 CO₂ 主項；正式盤查請依環境部最新排放係數管理表全項計算並經查驗。</span></div>`;
+  saveAll();
+}
+
+/* ====== 指引 ====== */
+const REF=[
+{t:"盤查五步驟（ISO 14064-1 架構）",h:`<ul class="tight">
+<li><b>1. 邊界設定</b>：以營運控制權法界定納入之廠區據點，文件化排除項目。</li>
+<li><b>2. 排放源鑑別</b>：範疇一（固定燃燒、移動燃燒、製程、逸散）、範疇二（外購電力、蒸汽）逐區盤點。</li>
+<li><b>3. 活動數據蒐集</b>：以發票、帳單等一手數據優先，建立 12 個月完整紀錄與數據品質註記。</li>
+<li><b>4. 排放量計算</b>：活動數據 × 排放係數 × GWP，彙整為排放清冊。</li>
+<li><b>5. 文件化與查證</b>：編製盤查報告書、建立內部管理程序；需對外聲明時委託查驗機構查證。</li></ul>`},
+{t:"誰有法定盤查義務？（客戶常問）",h:`<ul class="tight">
+<li><b>環境部公告應盤查登錄對象</b>：全廠（場）化石燃料燃燒 CO₂e 年排放 2.5 萬公噸以上之製造業等——多數中小企業不在此列。</li>
+<li><b>上市櫃公司</b>：依證交所作業辦法時程分批盤查與確信（資本額未達 50 億者 115 年起揭露個體公司數據）。</li>
+<li><b>未上市中小企業</b>：無法定義務，但碳費機制、CBAM、品牌商供應鏈要求（範疇三數據）將逐步傳導——先建立盤查能力就是接單競爭力。</li></ul>`},
+{t:"係數與 GWP 說明",h:`<ul class="tight">
+<li>燃料係數採環境部排放係數管理表 6.0.4 之 CO₂ 主項係數（CH₄、N₂O 貢獻通常小於 1%，現場估算暫不計）。</li>
+<li>冷媒逸散＝補充量 × GWP，GWP 採 IPCC AR6（環境部 113.2.5 公告）：R-22＝1960、R-134a＝1530、R-410A＝2256、R-404A＝4728、R-32＝771。</li>
+<li>電力係數：能源署公告 114 年度（2025）公用售電業 0.467 kgCO₂e/度；114 年度起分流產業 0.466／民生 0.471，每年 6 月前後更新，請隨新公告調整。</li></ul>`},
+{t:"現場資料蒐集清單（帶客戶準備）",h:`<ul class="tight">
+<li>台電電費單 12 期（各電號）</li><li>瓦斯（天然氣／LPG）帳單或購買單據</li>
+<li>加油發票、油卡月結單（公務車、貨車、堆高機）</li><li>鍋爐燃料採購單據</li>
+<li>冷氣、冰水機、冷凍設備之冷媒補充維修單</li><li>滅火器換藥紀錄、焊接氣體採購單</li>
+<li>員工人數、年營收（計算排放強度）</li></ul>`},
+{t:"資料來源（官方連結）",h:`<div class="src">
+・<a href="https://ghgregistry.moenv.gov.tw/epa_ghg/Downloads/FileDownloads.aspx?Type_ID=1">環境部事業溫室氣體排放量資訊平台｜排放係數管理表下載</a><br>
+・<a href="https://ghgregistry.moenv.gov.tw/upload/Tools/%E5%85%AC%E5%91%8A%E6%BA%AB%E5%AE%A4%E6%B0%A3%E9%AB%94%E6%8E%92%E6%94%BE%E4%BF%82%E6%95%B8.pdf">環境部公告溫室氣體排放係數（含 GWP AR6 附表）</a><br>
+・<a href="https://www.moeaea.gov.tw/ecw/populace/content/ContentDesc.aspx?menu_id=27028">經濟部能源署｜114 年度電力排碳係數</a></div>`}
+];
+function renderRef(){
+  document.getElementById('refList').innerHTML=REF.map((g,i)=>`<details ${i===0?'open':''}><summary>${g.t}</summary><div class="body">${g.h}</div></details>`).join('');
+}
+
+/* ====== 儲存 ====== */
+const BF=['b-name','b-year','b-method','b-emp','b-rev','b-owner','b-sites','b-excl','elecEF'];
+function saveAll(){
+  try{
+    const o={f:{},r:rows};
+    BF.forEach(id=>o.f[id]=document.getElementById(id).value);
+    localStorage.setItem('carbonTool',JSON.stringify(o));
+  }catch(e){}
+}
+function loadAll(){
+  try{
+    const o=JSON.parse(localStorage.getItem('carbonTool')||'{}');
+    if(o.f)BF.forEach(id=>{if(o.f[id]!=null)document.getElementById(id).value=o.f[id];});
+    rows=o.r||[];
+  }catch(e){}
+  renderRows();
+}
+function resetAll(){
+  if(!confirm('確定清除本機所有已填資料？'))return;
+  localStorage.removeItem('carbonTool');location.reload();
+}
+document.addEventListener('input',e=>{if(BF.includes(e.target.id))saveAll();});
+renderRef();loadAll();
+</script>
+</body>
+</html>

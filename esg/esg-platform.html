@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESG 行動服務平台｜Charlotte Chang 張雅雯</title>
+<style>
+:root{
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --red:#c0392b; --red-light:#fdeceb;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f4f7f9; --card:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem;letter-spacing:.5px}
+header .sub{font-size:.72rem;opacity:.85;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:49;overflow-x:auto}
+nav button{flex:1;min-width:100px;padding:11px 6px;border:none;background:none;font-size:.88rem;font-family:inherit;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--green-dark);border-bottom-color:var(--green);font-weight:700}
+main{max-width:960px;margin:0 auto;padding:14px 12px 90px}
+.page{display:none}
+.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:1.02rem;color:var(--green-dark);margin-bottom:8px}
+.card h3{font-size:.94rem;margin:10px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+.badge{display:inline-block;font-size:.68rem;padding:1px 7px;border-radius:10px;margin-left:4px;vertical-align:1px;white-space:nowrap}
+.b-new{background:var(--red-light);color:var(--red)}
+.b-mod{background:var(--amber-light);color:var(--amber)}
+.b-type{background:var(--blue-light);color:var(--blue)}
+.b-cat{background:#eef1f5;color:var(--gray)}
+input[type=text],input[type=date],select,textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:7px;font-family:inherit;font-size:.9rem;background:#fff}
+label.f{display:block;font-size:.78rem;color:var(--gray);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;cursor:pointer;background:var(--green);color:#fff}
+.btn.sec{background:#fff;color:var(--green-dark);border:1px solid var(--green)}
+.btn.warn{background:#fff;color:var(--red);border:1px solid var(--red)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+/* score bar */
+.scorebar{position:fixed;bottom:0;left:0;right:0;background:var(--green-dark);color:#fff;padding:9px 14px;display:none;z-index:60;font-size:.85rem}
+.scorebar.show{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+.scorebar b{font-size:1.15rem}
+/* indicator rows */
+.ind{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;background:#fff}
+.ind .top{display:flex;gap:8px;align-items:flex-start}
+.ind .id{font-weight:700;color:var(--green-dark);min-width:40px;font-size:.9rem}
+.ind .txt{flex:1;font-size:.88rem}
+.ind .meta{margin-top:2px}
+.ind .opts{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.opt{padding:5px 13px;border:1px solid var(--line);border-radius:16px;font-size:.8rem;cursor:pointer;background:#fff;color:var(--gray);font-family:inherit}
+.opt.y.on{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.n.on{background:var(--red);color:#fff;border-color:var(--red)}
+.opt.na.on{background:var(--gray);color:#fff;border-color:var(--gray)}
+.opt.plus.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+.bonus{font-size:.76rem;color:var(--blue);margin-top:6px;background:var(--blue-light);padding:6px 8px;border-radius:6px}
+.groupHead{margin:16px 0 8px;padding:8px 12px;border-radius:8px;font-weight:700;font-size:.95rem;display:flex;justify-content:space-between;align-items:center}
+.gh-E{background:var(--green-light);color:var(--green-dark)}
+.gh-S{background:var(--amber-light);color:var(--amber)}
+.gh-G{background:var(--blue-light);color:var(--blue)}
+.subcat{font-size:.8rem;color:var(--gray);font-weight:700;margin:10px 0 5px;padding-left:2px}
+/* diagnosis */
+.dq{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;background:#fff}
+.dq .q{font-size:.88rem;margin-bottom:7px}
+.lvl{display:flex;gap:5px;flex-wrap:wrap}
+.lvl button{flex:1;min-width:70px;padding:6px 4px;border:1px solid var(--line);border-radius:7px;background:#fff;font-size:.76rem;cursor:pointer;color:var(--gray);font-family:inherit}
+.lvl button.on{background:var(--green);color:#fff;border-color:var(--green)}
+.result{border-left:4px solid var(--green);background:var(--green-light);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem}
+/* structure guide */
+details{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+summary{padding:11px 12px;cursor:pointer;font-weight:700;font-size:.9rem;color:var(--ink);list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"＋";color:var(--gray)}
+details[open] summary::after{content:"－"}
+details .body{padding:0 12px 12px;font-size:.86rem}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+th{background:#f0f4f7;font-weight:700}
+ul.tight{padding-left:18px}
+ul.tight li{margin-bottom:4px}
+.tag-must{color:var(--red);font-weight:700;font-size:.75rem}
+.tag-opt{color:var(--blue);font-weight:700;font-size:.75rem}
+.src{font-size:.72rem;color:var(--gray);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+.src a{color:var(--blue);word-break:break-all}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
+@media print{
+  header,nav,.btnrow,.scorebar,footer .noprint{display:none!important}
+  body{background:#fff}
+  .page{display:none}
+  .page.active{display:block}
+  main{padding-bottom:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>ESG 行動服務平台</h1><a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜依證交所 115 年（第一屆）ESG 評鑑指標與永續報告書作業辦法（115.05.18）編製</div>
+</header>
+<nav>
+  <button class="active" data-p="home" onclick="go('home',this)">客戶資料</button>
+  <button data-p="diag" onclick="go('diag',this)">現況診斷</button>
+  <button data-p="mat" onclick="go('mat',this)">重大議題</button>
+  <button data-p="check" onclick="go('check',this)">評鑑自評</button>
+  <button data-p="guide" onclick="go('guide',this)">報告書指引</button>
+</nav>
+<main>
+
+<!-- ============ 客戶資料 ============ -->
+<section class="page active" id="p-home">
+  <div class="card">
+    <h2>本次服務客戶</h2>
+    <div class="grid2">
+      <div><label class="f">公司名稱</label><input type="text" id="c-name" placeholder="例：○○工業股份有限公司"></div>
+      <div><label class="f">拜訪日期</label><input type="date" id="c-date"></div>
+      <div><label class="f">所在園區／地區</label><input type="text" id="c-area" placeholder="例：臺南科技工業區"></div>
+      <div><label class="f">產業別</label><input type="text" id="c-ind" placeholder="例：金屬加工、塑膠、電子零組件"></div>
+      <div><label class="f">是否上市櫃</label>
+        <select id="c-listed">
+          <option value="no">未上市櫃（自願參考證交所標準）</option>
+          <option value="yes-s">上市櫃－資本額未達 20 億</option>
+          <option value="yes-m">上市櫃－資本額 20～50 億</option>
+          <option value="yes-l">上市櫃－資本額 50～100 億</option>
+          <option value="yes-xl">上市櫃－資本額 100 億以上</option>
+        </select></div>
+      <div><label class="f">窗口／職稱</label><input type="text" id="c-contact" placeholder="例：王經理（管理部）"></div>
+    </div>
+    <label class="f">備註（供應鏈要求、客戶指定框架、既有認證等）</label>
+    <textarea id="c-note" rows="3" placeholder="例：主要客戶要求 2027 年前提供碳盤查數據；已有 ISO 14001"></textarea>
+    <div class="btnrow">
+      <button class="btn" onclick="saveAll()">儲存</button>
+      <button class="btn sec" onclick="window.print()">列印本頁</button>
+      <button class="btn warn" onclick="resetAll()">清除全部資料</button>
+    </div>
+    <p class="hint" style="margin-top:8px">資料儲存於本機瀏覽器，離線可用；換裝置不會同步。</p>
+  </div>
+  <div class="card">
+    <h2>115 年（2026）關鍵時程速覽</h2>
+    <table>
+      <tr><th>事項</th><th>時點</th><th>依據</th></tr>
+      <tr><td>全體上市櫃公司申報 114 年度永續報告書</td><td>每年 8/31 前</td><td>作業辦法第 5 條</td></tr>
+      <tr><td>資本額 100 億以上公司適用 IFRS S1/S2（115 會計年度）</td><td>115 年度起</td><td>金管會接軌藍圖第一階段</td></tr>
+      <tr><td>資本額 50 億以上、100 億以上公司：揭露減碳目標、策略與行動計畫</td><td>115 / 114 年起</td><td>作業辦法第 4-1 條</td></tr>
+      <tr><td>資本額未達 50 億：溫室氣體範疇一、二個體公司盤查</td><td>115 年起</td><td>作業辦法第 4-1 條</td></tr>
+      <tr><td>第一屆 ESG 評鑑適用期間</td><td>115/1/1–12/31</td><td>115 年評鑑作業手冊</td></tr>
+      <tr><td>ESG 評鑑公司自評</td><td>115/10–116/1/31</td><td>115 年評鑑作業手冊</td></tr>
+      <tr><td>第一屆 ESG 評鑑結果公布</td><td>116 年 4 月底前</td><td>115 年評鑑作業手冊</td></tr>
+    </table>
+    <p class="hint">未上市櫃中小企業無申報義務，以上時程用於說明供應鏈壓力來源與提前佈局的理由。</p>
+  </div>
+</section>
+
+<!-- ============ 現況診斷 ============ -->
+<section class="page" id="p-diag">
+  <div class="card">
+    <h2>ESG 成熟度快速診斷</h2>
+    <p class="hint">現場帶客戶逐題勾選（每題 0–3 分），完成後自動產出成熟度評等與建議。約 10 分鐘。</p>
+  </div>
+  <div id="diagList"></div>
+  <div class="card">
+    <div class="btnrow">
+      <button class="btn" onclick="diagResult()">產出診斷結果</button>
+      <button class="btn sec" onclick="window.print()">列印</button>
+    </div>
+    <div id="diagOut"></div>
+  </div>
+</section>
+
+<!-- ============ 重大議題鑑別（GRI 3）============ -->
+<section class="page" id="p-mat">
+  <div class="card">
+    <h2>利害關係人與重大議題鑑別（GRI 3 方法論）</h2>
+    <p class="hint">依 GRI 3「重大主題」三步驟：①辨識利害關係人 → ②評估各議題之衝擊嚴重度與發生可能性 → ③產出重大性矩陣與重大主題清單，結果直接對應報告書第 4 章。</p>
+  </div>
+  <div class="card">
+    <h3>步驟一：辨識利害關係人</h3>
+    <p class="hint">勾選與客戶營運相關者（點選切換）。</p>
+    <div class="lvl" id="shList" style="flex-wrap:wrap"></div>
+  </div>
+  <div class="card">
+    <h3>步驟二：議題衝擊評估</h3>
+    <p class="hint">每項議題兩軸評分（1–5）：<b>衝擊嚴重度</b>＝對經濟、環境、人群（含人權）之實際或潛在衝擊程度；<b>發生可能性</b>＝該衝擊發生之機率。現場可帶客戶主管逐題討論。</p>
+  </div>
+  <div id="matList"></div>
+  <div class="card">
+    <h3>步驟三：重大性矩陣與重大主題</h3>
+    <div class="btnrow">
+      <button class="btn" onclick="matResult()">產出矩陣與清單</button>
+      <button class="btn sec" onclick="window.print()">列印</button>
+    </div>
+    <div id="matOut"></div>
+  </div>
+</section>
+
+<!-- ============ 評鑑自評 ============ -->
+<section class="page" id="p-check">
+  <div class="card">
+    <h2>115 年（第一屆）ESG 評鑑自評 Checklist</h2>
+    <p class="hint">依證交所 115 年度 ESG 評鑑三大構面 75 項指標。權重：環境面 21%、社會面 31%、治理面 48%。計分依官方公式：構面符合比例 × 權重加總 × 100，另加 AA 題、A+ 進階各 +1 分。<b>未上市櫃客戶以此作為自願性體檢基準</b>，協助其對照上市櫃水準找出差距。</p>
+    <div class="btnrow">
+      <button class="btn sec" onclick="bulkSet('y')">全部標記符合</button>
+      <button class="btn sec" onclick="bulkSet(null)">全部清空</button>
+    </div>
+  </div>
+  <div id="indList"></div>
+  <div class="card">
+    <h3>額外加、減分（委員會決議，非構面計分）</h3>
+    <p class="hint" style="margin-bottom:6px">加分例：獲永續發展相關標章認證、綠色採購績優單位、電子化發放股東會紀念品、提升企業價值較佳實踐。減分例：重大違反誠信經營、內控缺失、內線交易、環境污染或勞工權益損害經重大處分、庫藏股執行率低於 50% 且理由顯不合理。</p>
+    <div class="grid2">
+      <div><label class="f">預估額外加分</label><input type="text" id="extraPlus" inputmode="numeric" placeholder="0" onchange="calc()"></div>
+      <div><label class="f">預估額外減分</label><input type="text" id="extraMinus" inputmode="numeric" placeholder="0" onchange="calc()"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 報告書指引 ============ -->
+<section class="page" id="p-guide">
+  <div class="card">
+    <h2>永續報告書架構指引</h2>
+    <p class="hint">依證交所「上市公司編製與申報永續報告書作業辦法」（115.05.18 修正）與 GRI 準則整理。<span class="tag-must">紅字＝上市公司強制</span>／<span class="tag-opt">藍字＝建議或自願</span>。為未上市客戶草擬報告書時，以本架構為藍本、按重大性簡化。</p>
+  </div>
+  <div id="guideList"></div>
+</section>
+
+</main>
+
+<div class="scorebar" id="scorebar">
+  <span>構面得分 <b id="sc-base">0</b>/100</span>
+  <span>E <span id="sc-e">0/16</span>｜S <span id="sc-s">0/23</span>｜G <span id="sc-g">0/36</span></span>
+  <span>加分後總分 <b id="sc-total">0</b></span>
+</div>
+
+<footer>
+  Charlotte Chang 張雅雯 製作｜資料基準日：2026 年 7 月<br>
+  依據：證交所 115 年度（第一屆）ESG 評鑑指標暨作業手冊、上市公司編製與申報永續報告書作業辦法（115.05.18）<br>
+  本工具為輔導參考，正式申報請以證交所公司治理中心公告為準。
+</footer>
+
+<script>
+/* ====== 頁面切換 ====== */
+function go(p,btn){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.getElementById('p-'+p).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('scorebar').classList.toggle('show', p==='check');
+  window.scrollTo(0,0);
+  saveAll();
+}
+
+/* ====== 115年ESG評鑑 75項指標 ======
+   type: A / B / AA / A+   badge: new / mod
+   plus: A+ 進階加分要件；AA 符合即總分+1 */
+const IND=[
+/* --- 環境面 E（16項，21%）--- */
+{id:"E-1",c:"E",g:"溫室氣體",t:"制定溫室氣體減量管理政策，包含減量目標、推動措施及達成情形",type:"A+",plus:"揭露 2030 年減碳目標、策略及行動計畫（+1）"},
+{id:"E-2",c:"E",g:"溫室氣體",t:"揭露過去兩年溫室氣體範疇一及範疇二年排放量（含資料邊界）",type:"A+",plus:"兩年排放量皆取得外部驗證（+1）"},
+{id:"E-3",c:"E",g:"溫室氣體",t:"揭露過去一年溫室氣體範疇三類別及年排放量",type:"A"},
+{id:"E-4",c:"E",g:"水資源",t:"制定並揭露減少用水管理政策，包含減量目標、推動措施及達成情形",type:"A",badge:"mod"},
+{id:"E-5",c:"E",g:"水資源",t:"揭露過去兩年用水量（含資料涵蓋範圍）",type:"A",badge:"mod"},
+{id:"E-6",c:"E",g:"廢棄物／循環經濟",t:"制定並揭露推動循環經濟或廢棄物管理之政策及相關作為",type:"A",badge:"new"},
+{id:"E-7",c:"E",g:"廢棄物／循環經濟",t:"揭露過去兩年廢棄物總重量（製造業需區分有害／非有害）",type:"A",badge:"new"},
+{id:"E-8",c:"E",g:"能源管理",t:"制定並揭露能源管理計畫及其執行情形",type:"A+",plus:"導入 ISO 50001 等能源管理系統並取得第三方驗證（+1）"},
+{id:"E-9",c:"E",g:"能源管理",t:"揭露過去兩年能源使用狀況（總能耗、再生能源占比）",type:"A",badge:"new"},
+{id:"E-10",c:"E",g:"能源管理",t:"揭露發行或投資經櫃買中心認可之永續發展債券情形",type:"A",badge:"mod"},
+{id:"E-11",c:"E",g:"氣候變遷",t:"參考 IFRS S2 架構揭露氣候相關風險與機會之治理、策略、風險管理、指標和目標",type:"A",badge:"mod"},
+{id:"E-12",c:"E",g:"氣候變遷",t:"導入內部碳定價，並揭露價格制定基礎",type:"A"},
+{id:"E-13",c:"E",g:"生態影響",t:"制定並揭露環境管理制度及其執行情形",type:"A+",plus:"導入 ISO 14001 或類似環境管理系統並經第三方驗證（+1）"},
+{id:"E-14",c:"E",g:"生態影響",t:"訂定並揭露生物多樣性政策或承諾，並說明實施情形",type:"A",badge:"new"},
+{id:"E-15",c:"E",g:"生態影響",t:"訂定並揭露推動自然碳匯之策略與措施（對照 2050 淨零自然碳匯關鍵戰略），並說明實施情形",type:"A",badge:"new"},
+{id:"E-16",c:"E",g:"供應鏈管理",t:"揭露供應商管理政策在環保等議題上要求供應商遵循之規範與實施情形",type:"A",badge:"new"},
+/* --- 社會面 S（23項，31%）--- */
+{id:"S-1",c:"S",g:"人權與社區",t:"參考國際人權公約制定保障人權政策，揭露政策內容、適用範圍及權責單位",type:"A",badge:"mod"},
+{id:"S-2",c:"S",g:"人權與社區",t:"訂定並揭露人權盡職調查流程及其執行情形",type:"A+",badge:"new",plus:"揭露針對供應商制定之人權盡職調查流程與執行情形（+1）"},
+{id:"S-3",c:"S",g:"人權與社區",t:"推動社區發展並揭露實施情形",type:"A"},
+{id:"S-4",c:"S",g:"人權與社區",t:"支持國內文化發展並揭露實施情形",type:"A"},
+{id:"S-5",c:"S",g:"利害關係人溝通",t:"揭露所辨別之利害關係人身份、關注議題、溝通管道與回應方式",type:"A+",plus:"定期將與各利害關係人溝通情形報告至董事會（+1）"},
+{id:"S-6",c:"S",g:"利害關係人溝通",t:"揭露與投資人議合情形，及投資人提問與公司回復之重要內容",type:"A",badge:"new"},
+{id:"S-7",c:"S",g:"商業道德／法遵",t:"設置推動誠信經營專責單位並揭露其運作情形",type:"A"},
+{id:"S-8",c:"S",g:"商業道德／法遵",t:"制定誠信經營政策並揭露履行情形",type:"A"},
+{id:"S-9",c:"S",g:"商業道德／法遵",t:"建立內部與外部人員檢舉制度並揭露",type:"A"},
+{id:"S-10",c:"S",g:"商業模式韌性",t:"制訂與營運目標連結之智慧財產管理計畫，揭露執行情形且至少一年一次向董事會報告",type:"A+",badge:"mod",plus:"導入 TIPS、ISO 56001 或類似標準並經第三方驗證（+1）"},
+{id:"S-11",c:"S",g:"商業模式韌性",t:"投資國內創新型新創事業，並揭露相關投資情形",type:"A",badge:"new"},
+{id:"S-12",c:"S",g:"資安／隱私",t:"建置並揭露資通安全風險管理架構、政策、具體管理方案及投入資源",type:"A+",plus:"導入 ISO 27001／CNS 27001 等標準並取得第三方驗證（+1）"},
+{id:"S-13",c:"S",g:"資安／隱私",t:"制定個人資料保護政策並揭露施行情形",type:"A"},
+{id:"S-14",c:"S",g:"客戶權益",t:"制定保護消費者或客戶權益政策與申訴程序並揭露",type:"A"},
+{id:"S-15",c:"S",g:"供應鏈管理",t:"揭露供應商管理政策在職安衛、勞動人權、資通安全或隱私權保護等議題之規範與實施情形",type:"A",badge:"mod"},
+{id:"S-16",c:"S",g:"勞動待遇及福祉",t:"揭露各項員工福利措施、退休制度與其實施情形",type:"A+",badge:"mod",plus:"平均每月勞退新制雇主提繳率超過 6% 人數占比超過 10%（+1）"},
+{id:"S-17",c:"S",g:"勞動待遇及福祉",t:"提供友善婚育或家庭照顧之職場環境與措施，並說明實施情形與成效",type:"A",badge:"new"},
+{id:"S-18",c:"S",g:"勞動待遇及福祉",t:"將經營績效或成果反映於員工薪酬並揭露",type:"A"},
+{id:"S-19",c:"S",g:"員工健康與安全",t:"揭露員工人身安全與工作環境保護措施及實施情形",type:"A"},
+{id:"S-20",c:"S",g:"多元化及包容性",t:"制定職場多元化或推動性別平等政策並揭露實施情形",type:"A"},
+{id:"S-21",c:"S",g:"多元化及包容性",t:"制定員工職涯能力培訓發展計畫並揭露實施情形",type:"A"},
+{id:"S-22",c:"S",g:"多元化及包容性",t:"定期進行員工意見調查，並揭露實施情形及改善計畫",type:"A",badge:"mod"},
+{id:"S-23",c:"S",g:"多元化及包容性",t:"依性別及年齡揭露過去兩年員工離職率，並說明變化趨勢與原因",type:"A",badge:"new"},
+/* --- 治理面 G（36項，48%）--- */
+{id:"G-1",c:"G",g:"維護股東權益",t:"股東常會報告董事領取之酬金（政策、個別酬金內容、數額及與績效評估之關聯）",type:"A",badge:"mod"},
+{id:"G-2",c:"G",g:"維護股東權益",t:"於五月底前召開股東常會",type:"A"},
+{id:"G-3",c:"G",g:"維護股東權益",t:"董事長、審計委員會召集人及過半董事親自出席股東常會",type:"A"},
+{id:"G-4",c:"G",g:"維護股東權益",t:"提前上傳中、英文版股東會議事手冊及年報",type:"A"},
+{id:"G-5",c:"G",g:"維護股東權益",t:"股東常會採線上直播或會後上傳全程錄音錄影，並於議事錄記載提問及回復重要內容",type:"A",badge:"mod"},
+{id:"G-6",c:"G",g:"維護股東權益",t:"發放現金股利於除息基準日後 30 日內完成（受評年度未發放者不適用）",type:"B"},
+{id:"G-7",c:"G",g:"維護股東權益",t:"制定提升企業價值計畫並提報董事會",type:"A"},
+{id:"G-8",c:"G",g:"維護股東權益",t:"重大關係人進銷貨與取得或處分資產交易提報董事會及股東會",type:"A"},
+{id:"G-9",c:"G",g:"維護股東權益",t:"禁止內部人於財報公告前封閉期間交易股票",type:"A"},
+{id:"G-10",c:"G",g:"維護股東權益",t:"未有單一法人組織及其子公司占董事會席次達三分之一以上（政府機關派任不在此限）",type:"A+",badge:"mod",plus:"未有以法人或其代表人擔任董事（+1）"},
+{id:"G-11",c:"G",g:"董事會結構與運作",t:"訂定並揭露董事會成員多元化政策、具體管理目標與落實情形",type:"A+",badge:"mod",plus:"董事單一性別皆不少於董事會席次三分之一（+1）"},
+{id:"G-12",c:"G",g:"董事會結構與運作",t:"董事長與總經理非為同一人、配偶或一親等親屬",type:"A"},
+{id:"G-13",c:"G",g:"董事會結構與運作",t:"董事間不超過二人具配偶或二親等關係，且具本公司／母子兄弟公司員工身分者不超過席次三分之一",type:"A",badge:"mod"},
+{id:"G-14",c:"G",g:"董事會結構與運作",t:"獨立董事席次達董事席次三分之一以上",type:"A+",plus:"獨立董事席次達二分之一以上（+1）"},
+{id:"G-15",c:"G",g:"董事會結構與運作",t:"獨立董事之連續任期皆不超過三屆",type:"A",badge:"mod"},
+{id:"G-16",c:"G",g:"董事會結構與運作",t:"審計委員會及薪資報酬委員會之組成與運作情形",type:"A"},
+{id:"G-17",c:"G",g:"董事會結構與運作",t:"設置提名委員會並揭露成員組成與運作情形",type:"A"},
+{id:"G-18",c:"G",g:"董事會結構與運作",t:"由審計委員會或董事會層級功能性委員會督導風險管理，訂定風險管理政策與程序並至少一年一次向董事會報告",type:"AA"},
+{id:"G-19",c:"G",g:"董事會結構與運作",t:"董事會績效評估辦法明定至少每三年執行外部評估一次，且已於近三年執行並揭露結果",type:"AA"},
+{id:"G-20",c:"G",g:"董事會結構與運作",t:"獨立董事與內部稽核主管及會計師之單獨溝通",type:"A"},
+{id:"G-21",c:"G",g:"董事會結構與運作",t:"參考 AQI 評估會計師獨立性與適任性",type:"A"},
+{id:"G-22",c:"G",g:"董事會結構與運作",t:"獨立董事均依「上市上櫃公司董事進修推行要點」完成進修時數",type:"A+",plus:"全體董事均依規範完成進修（+1）"},
+{id:"G-23",c:"G",g:"資訊透明度",t:"股東常會開會 18 日前上傳英文版年度財務報告",type:"A+",plus:"中文版期中財報申報期限後兩個月內以英文揭露期中財報（+1）"},
+{id:"G-24",c:"G",g:"資訊透明度",t:"提前申報內部人持股變動情形",type:"A"},
+{id:"G-25",c:"G",g:"資訊透明度",t:"買回庫藏股目的為轉讓員工且平均執行率達 90% 以上，或揭露買回期間每日實際執行情形（未買回者不適用；執行率低於 50% 不予給分）",type:"B",badge:"new"},
+{id:"G-26",c:"G",g:"資訊透明度",t:"年報自願揭露董事之個別酬金",type:"AA"},
+{id:"G-27",c:"G",g:"資訊透明度",t:"自願揭露總經理及副總經理之個別酬金",type:"A"},
+{id:"G-28",c:"G",g:"資訊透明度",t:"充實中、英文公司網站揭露內容",type:"A"},
+{id:"G-29",c:"G",g:"資訊透明度",t:"至少召開二次法人說明會並揭露完整影音連結，首尾兩次間隔三個月以上",type:"A+",plus:"每季至少召開一次法人說明會（+1）"},
+{id:"G-30",c:"G",g:"推動永續發展",t:"設置董事會層級永續發展委員會（三人以上、具永續專業、至少一名董事督導）並揭露組成、職責及運作",type:"A+",badge:"mod",plus:"設有永續長執行永續事務並定期向董事會報告（+1）"},
+{id:"G-31",c:"G",g:"推動永續發展",t:"制定高階經理人薪酬與 ESG 績效評估連結之政策並揭露",type:"A"},
+{id:"G-32",c:"G",g:"推動永續發展",t:"揭露永續發展（ESG）具體推動計畫與實施成效",type:"A"},
+{id:"G-33",c:"G",g:"推動永續發展",t:"永續報告書參考 SASB 準則揭露行業指標資訊",type:"A+",badge:"mod",plus:"SASB 行業指標資訊取得第三方確信或保證（+1）"},
+{id:"G-34",c:"G",g:"推動永續發展",t:"永續報告書提報董事會通過",type:"A"},
+{id:"G-35",c:"G",g:"推動永續發展",t:"永續報告書取得第三方驗證",type:"A"},
+{id:"G-36",c:"G",g:"推動永續發展",t:"上傳英文版永續報告書",type:"A"}
+];
+const CATNAME={E:"環境面（E）｜16 項｜權重 21%",S:"社會面（S）｜23 項｜權重 31%",G:"治理面（G）｜36 項｜權重 48%"};
+const WEIGHT={E:.21,S:.31,G:.48};
+let ans={};   // id -> {v:'y'|'n'|'na', plus:bool}
+
+function renderInd(){
+  const box=document.getElementById('indList');
+  let html='',lastC='',lastG='';
+  IND.forEach(it=>{
+    if(it.c!==lastC){html+=`<div class="groupHead gh-${it.c}"><span>${CATNAME[it.c]}</span><span id="gcount-${it.c}"></span></div>`;lastC=it.c;lastG='';}
+    if(it.g!==lastG){html+=`<div class="subcat">▸ ${it.g}</div>`;lastG=it.g;}
+    const b=it.badge==='new'?'<span class="badge b-new">115新增</span>':it.badge==='mod'?'<span class="badge b-mod">115修正</span>':'';
+    const naBtn=it.type==='B'?`<button class="opt na" onclick="setAns('${it.id}','na')">不適用</button>`:'';
+    const plusBtn=(it.type==='A+')?`<button class="opt plus" onclick="togglePlus('${it.id}')">進階＋1</button>`:'';
+    html+=`<div class="ind" id="row-${it.id}">
+      <div class="top"><span class="id">${it.id}</span>
+        <div class="txt">${it.t}<div class="meta"><span class="badge b-type">${it.type}題</span>${b}</div>
+        ${it.plus?`<div class="bonus">進階加分：${it.plus}</div>`:''}</div></div>
+      <div class="opts">
+        <button class="opt y" onclick="setAns('${it.id}','y')">符合</button>
+        <button class="opt n" onclick="setAns('${it.id}','n')">不符合</button>
+        ${naBtn}${plusBtn}
+      </div></div>`;
+  });
+  box.innerHTML=html;
+}
+function setAns(id,v){
+  ans[id]=ans[id]||{};
+  ans[id].v=(ans[id].v===v)?null:v;
+  if(ans[id].v!=='y')ans[id].plus=false;
+  paint(id);calc();saveAll();
+}
+function togglePlus(id){
+  ans[id]=ans[id]||{};
+  if(ans[id].v!=='y'){ans[id].v='y';}
+  ans[id].plus=!ans[id].plus;
+  paint(id);calc();saveAll();
+}
+function paint(id){
+  const row=document.getElementById('row-'+id);if(!row)return;
+  const a=ans[id]||{};
+  row.querySelectorAll('.opt').forEach(o=>o.classList.remove('on'));
+  if(a.v==='y')row.querySelector('.opt.y').classList.add('on');
+  if(a.v==='n')row.querySelector('.opt.n').classList.add('on');
+  if(a.v==='na'&&row.querySelector('.opt.na'))row.querySelector('.opt.na').classList.add('on');
+  if(a.plus&&row.querySelector('.opt.plus'))row.querySelector('.opt.plus').classList.add('on');
+}
+function bulkSet(v){
+  IND.forEach(it=>{ans[it.id]={v:v,plus:false};paint(it.id);});
+  calc();saveAll();
+}
+function calc(){
+  let base=0,plusPts=0;
+  ['E','S','G'].forEach(c=>{
+    const items=IND.filter(i=>i.c===c);
+    let ok=0,na=0;
+    items.forEach(i=>{
+      const a=ans[i.id]||{};
+      if(a.v==='y'){ok++;if(i.type==='AA')plusPts++;if(i.type==='A+'&&a.plus)plusPts++;}
+      if(a.v==='na')na++;
+    });
+    const denom=items.length-na;
+    base+= denom>0 ? (ok/denom)*WEIGHT[c] : 0;
+    const el=document.getElementById('gcount-'+c);
+    if(el)el.textContent=`符合 ${ok}/${denom}`;
+    document.getElementById('sc-'+c.toLowerCase()).textContent=`${ok}/${denom}`;
+  });
+  const b100=Math.round(base*10000)/100;
+  const ep=parseFloat(document.getElementById('extraPlus').value)||0;
+  const em=parseFloat(document.getElementById('extraMinus').value)||0;
+  const total=Math.max(0,Math.round((b100+plusPts+ep-em)*100)/100);
+  document.getElementById('sc-base').textContent=b100;
+  document.getElementById('sc-total').textContent=total;
+}
+
+/* ====== 現況診斷（中小製造業 ESG 成熟度）====== */
+const DIAG=[
+{d:"E",q:"是否掌握全年用電量、用水量與燃料使用量（有帳單彙整或量測紀錄）？"},
+{d:"E",q:"是否做過溫室氣體盤查（範疇一、二），或至少估算過碳排放量？"},
+{d:"E",q:"廢棄物是否分類管理並有清運／再利用紀錄？"},
+{d:"E",q:"是否有節能、節水或製程改善的具體措施與成效紀錄？"},
+{d:"E",q:"是否取得環境相關認證（ISO 14001、ISO 50001）或正在導入？"},
+{d:"S",q:"是否有職業安全衛生管理制度與教育訓練紀錄（ISO 45001 尤佳）？"},
+{d:"S",q:"員工薪酬福利、退休金提繳是否合規且有制度文件？"},
+{d:"S",q:"是否有員工申訴或溝通管道（意見箱、定期會議）？"},
+{d:"S",q:"是否曾因勞安、環保受主管機關處分？（無處分＝3 分）"},
+{d:"S",q:"是否有回應客戶（品牌商）ESG 問卷或稽核的經驗？"},
+{d:"G",q:"公司是否有明確的組織章程、內部管理辦法與權責分工？"},
+{d:"G",q:"是否指定專人或小組負責 ESG／永續相關事務？"},
+{d:"G",q:"是否有誠信經營、反貪腐相關規範或聲明？"},
+{d:"G",q:"財務報表是否經會計師查核簽證？"},
+{d:"G",q:"經營層是否曾討論 ESG 議題（客戶要求、碳費、CBAM 等）並有因應規劃？"}
+];
+const LVLTXT=["0 完全沒有","1 部分做到","2 大致做到","3 完整到位"];
+let dAns={};
+function renderDiag(){
+  let html='',last='';
+  const DNAME={E:"環境（E）",S:"社會（S）",G:"治理（G）"};
+  DIAG.forEach((it,i)=>{
+    if(it.d!==last){html+=`<div class="groupHead gh-${it.d}"><span>${DNAME[it.d]}</span></div>`;last=it.d;}
+    html+=`<div class="dq"><div class="q">${i+1}. ${it.q}</div><div class="lvl" id="dq-${i}">`+
+      LVLTXT.map((t,v)=>`<button onclick="setDiag(${i},${v})" data-v="${v}">${t}</button>`).join('')+`</div></div>`;
+  });
+  document.getElementById('diagList').innerHTML=html;
+}
+function setDiag(i,v){
+  dAns[i]=(dAns[i]===v)?undefined:v;
+  document.querySelectorAll(`#dq-${i} button`).forEach(b=>b.classList.toggle('on',+b.dataset.v===dAns[i]));
+  saveAll();
+}
+function diagResult(){
+  const dims={E:[0,0],S:[0,0],G:[0,0]};
+  DIAG.forEach((it,i)=>{dims[it.d][1]+=3;if(dAns[i]!=null)dims[it.d][0]+=dAns[i];});
+  const tot=Object.values(dims).reduce((a,x)=>a+x[0],0);
+  const max=45;
+  const pct=Math.round(tot/max*100);
+  let lv,advice;
+  if(pct>=80){lv="Ａ級：具備報告書基礎";advice="資料基礎完整，可直接啟動永續報告書草稿編製（參考 GRI＋作業辦法架構），並評估對照 115 年 ESG 評鑑指標做進階揭露，強化供應鏈競爭力。";}
+  else if(pct>=60){lv="Ｂ級：制度已具雛形";advice="建議 3–6 個月內補齊弱項數據（尤其能資源與碳盤查），同步可先產出精簡版永續報告書，逐年擴充。";}
+  else if(pct>=40){lv="Ｃ級：起步階段";advice="優先建立能源／用水／廢棄物數據收集機制與 ESG 權責窗口，第一年以「重點揭露」型報告或永續承諾書切入。";}
+  else{lv="Ｄ級：尚未起步";advice="從法遵體檢與基礎數據盤點開始，建議先進行輔導型診斷案，暫不急於產出完整報告書。";}
+  const name=document.getElementById('c-name').value||"（未填公司名）";
+  const weak=Object.entries(dims).filter(([k,v])=>v[0]/v[1]<0.5).map(([k])=>({E:"環境",S:"社會",G:"治理"})[k]);
+  document.getElementById('diagOut').innerHTML=
+    `<div class="result"><b>${name}｜ESG 成熟度診斷結果</b><br>
+     總分：${tot}/${max}（${pct}%）｜評等：<b>${lv}</b><br>
+     構面得分：環境 ${dims.E[0]}/${dims.E[1]}、社會 ${dims.S[0]}/${dims.S[1]}、治理 ${dims.G[0]}/${dims.G[1]}
+     ${weak.length?`<br>優先補強構面：<b>${weak.join('、')}</b>`:''}<br><br>
+     <b>建議：</b>${advice}<br><br>
+     <span class="hint">Charlotte Chang 張雅雯｜${new Date().toLocaleDateString('zh-TW')}</span></div>`;
+  saveAll();
+}
+
+/* ====== 報告書架構指引 ====== */
+const GUIDE=[
+{t:"編製依據與適用對象",h:`<ul class="tight">
+<li><span class="tag-must">全體上市櫃公司</span>每年應依 GRI 通用準則、行業準則及重大主題準則，編製前一年度中文版永續報告書，<b>每年 8 月 31 日前</b>申報，並宜經董事會決議通過（作業辦法第 2、3、5 條）。</li>
+<li>報告書應涵蓋環境、社會及公司治理之<b>風險評估</b>，並訂定績效指標管理重大主題。</li>
+<li>應揭露 GRI 內容索引，並註明各揭露項目是否取得第三方確信或保證。</li>
+<li><span class="tag-opt">未上市櫃企業</span>無申報義務，建議以同一架構編製精簡版，用於供應鏈問卷回覆、金融往來與品牌溝通。</li></ul>`},
+{t:"建議章節架構（草稿範本）",h:`<table>
+<tr><th>章節</th><th>核心內容</th><th>對應依據</th></tr>
+<tr><td>1. 關於本報告書</td><td>報導期間、範疇與邊界、編製準則（GRI）、確信情形、聯絡窗口</td><td>GRI 1</td></tr>
+<tr><td>2. 經營者的話</td><td>永續承諾、年度亮點、目標展望</td><td>GRI 2-22</td></tr>
+<tr><td>3. 公司概況與治理</td><td>組織、營運據點、治理架構、誠信經營、風險管理</td><td>GRI 2；評鑑 G 構面</td></tr>
+<tr><td>4. 利害關係人與重大主題</td><td>利害關係人鑑別與溝通、重大性分析矩陣、重大主題清單與管理方針</td><td>GRI 3；評鑑 S-5、S-6</td></tr>
+<tr><td>5. 環境永續</td><td>能資源使用、溫室氣體盤查、減碳目標、水資源、廢棄物／循環經濟、生物多樣性</td><td>GRI 300 系列；評鑑 E 構面</td></tr>
+<tr><td>6. 氣候相關資訊專章</td><td>治理、策略、風險管理、指標與目標（TCFD 四支柱／IFRS S2 架構）</td><td>作業辦法第 4-1 條附表二</td></tr>
+<tr><td>7. 社會共融</td><td>人權政策、勞動條件、職安衛、人才培育、多元共融、社區參與</td><td>GRI 400 系列；評鑑 S 構面</td></tr>
+<tr><td>8. 產品與供應鏈</td><td>品質與客戶權益、資安隱私、供應商管理（環境＋社會要求）</td><td>評鑑 E-16、S-12～S-15</td></tr>
+<tr><td>9. 附錄</td><td>GRI 內容索引、SASB 指標對照、數據彙總表、確信聲明書</td><td>作業辦法第 3 條</td></tr></table>
+<p class="hint">未上市中小企業精簡版：可合併為 5–6 章，重點放在第 4、5、7 章與基礎數據表。</p>`},
+{t:"氣候相關資訊專章（附表二）與溫室氣體時程",h:`<ul class="tight">
+<li><span class="tag-must">上市公司應以專章揭露氣候相關資訊</span>（作業辦法第 4-1 條附表二）。已適用 IFRS 永續揭露準則、於年報揭露永續相關財務資訊專章者，得免適用（115.05.18 修正重點）。</li></ul>
+<table>
+<tr><th>對象</th><th>範疇一、二盤查</th><th>確信</th><th>減碳目標揭露</th></tr>
+<tr><td>鋼鐵、水泥、資本額 100 億以上</td><td>112 個體／114 合併</td><td>113 個體／116 合併</td><td>114 年起</td></tr>
+<tr><td>資本額 50–100 億</td><td>114 個體／115 合併</td><td>116 個體／117 合併</td><td>115 年起</td></tr>
+<tr><td>資本額未達 50 億</td><td>115 個體／116 合併</td><td>117 個體／118 合併</td><td>116 年起</td></tr></table>
+<p class="hint">對未上市客戶的話術：其上市櫃客戶正被這張時程表追著跑，範疇三數據需求會往供應鏈（也就是客戶的公司）傳導——提早盤查就是接單競爭力。</p>`},
+{t:"產業別加強揭露與 SASB（第 4 條）",h:`<ul class="tight">
+<li><span class="tag-must">食品、化學、金融保險業</span>及餐飲收入占比 50% 以上者：應依附表一加強揭露永續指標，且應取得<b>會計師確信報告</b>。</li>
+<li><span class="tag-must">資本額 20 億以上</span>之水泥、塑膠、鋼鐵、油電燃氣、半導體、電腦週邊、光電、通信網路、電子零組件、電子通路、其他電子業：應依產業別加強揭露（附表一之四～一之十四）。</li>
+<li>已適用 IFRS 永續揭露準則、於年報揭露 SASB 行業指標者，得免適用上述規定。</li>
+<li><span class="tag-opt">評鑑連動</span>：G-33 參考 SASB 揭露行業指標可得分，取得第三方確信再 +1。</li></ul>`},
+{t:"其他必揭事項與確信規範",h:`<ul class="tight">
+<li><span class="tag-must">員工薪資資訊</span>：揭露非主管職全時員工薪資平均數、中位數及與前一年度變動（第 4-2 條）。</li>
+<li><span class="tag-must">內控</span>：永續報告書編製及確信作業程序應納入內部控制制度（第 5 條）。</li>
+<li>確信機構應符合「上市上櫃公司永續資訊確信機構管理要點」。</li>
+<li><span class="tag-opt">評鑑連動</span>：報告書提報董事會（G-34）、取得第三方驗證（G-35）、上傳英文版（G-36）皆為治理面得分項。</li></ul>`},
+{t:"IFRS S1／S2 接軌時程（金管會藍圖）",h:`<table>
+<tr><th>階段</th><th>對象</th><th>適用年度</th><th>首次公告</th></tr>
+<tr><td>第一階段</td><td>資本額 100 億以上上市櫃</td><td>115（2026）會計年度</td><td>2027 年</td></tr>
+<tr><td>第二階段</td><td>資本額 50 億以上</td><td>116（2027）會計年度</td><td>2028 年</td></tr>
+<tr><td>第三階段</td><td>其餘全體上市櫃</td><td>117（2028）會計年度</td><td>2029 年</td></tr></table>
+<p class="hint">接軌後行業指標與氣候資訊改揭露於年報「永續相關財務資訊專章」，永續報告書相應條文得免適用——輔導上市櫃客戶時需確認其適用階段。</p>`},
+{t:"資料來源（官方連結）",h:`<div class="src">
+・<a href="https://cgc.twse.com.tw/esgEvaluation/listCh">證交所公司治理中心｜第 1 屆（115 年）ESG 評鑑專區</a>（指標、作業手冊、評分指南、參考範例）<br>
+・<a href="https://twse-regulation.twse.com.tw/m/LawContent.aspx?FID=FL075209">上市公司編製與申報永續報告書作業辦法（115.05.18）</a><br>
+・<a href="https://cgc.twse.com.tw/pressReleases/promoteNewsArticleCh/4537">證交所新聞稿｜發布 115 年度（第一屆）ESG 評鑑指標</a><br>
+・<a href="https://isds.tpex.org.tw/IFRS/front/#/main/home">接軌 IFRS 永續揭露準則專區</a></div>`}
+];
+function renderGuide(){
+  document.getElementById('guideList').innerHTML=
+    GUIDE.map((g,i)=>`<details ${i===0?'open':''}><summary>${g.t}</summary><div class="body">${g.h}</div></details>`).join('');
+}
+
+/* ====== 重大議題鑑別（GRI 3）====== */
+const SH=["員工","客戶／品牌商","供應商／外包商","股東／出資者","往來銀行","社區居民","政府機關","同業公會","媒體","NGO／環保團體"];
+const TOPICS=[
+{n:"經濟績效與營運韌性",g:"GRI 201",c:"G"},
+{n:"誠信經營與反貪腐",g:"GRI 205",c:"G"},
+{n:"法規遵循",g:"GRI 2-27",c:"G"},
+{n:"永續供應鏈管理",g:"GRI 308／414",c:"G"},
+{n:"資訊安全與個資保護",g:"GRI 418",c:"G"},
+{n:"原物料使用",g:"GRI 301",c:"E"},
+{n:"能源管理",g:"GRI 302",c:"E"},
+{n:"水資源管理",g:"GRI 303",c:"E"},
+{n:"溫室氣體排放與氣候變遷",g:"GRI 305",c:"E"},
+{n:"空污與其他排放",g:"GRI 305",c:"E"},
+{n:"廢棄物與循環經濟",g:"GRI 306",c:"E"},
+{n:"勞雇關係與薪酬福利",g:"GRI 401",c:"S"},
+{n:"職業安全衛生",g:"GRI 403",c:"S"},
+{n:"人才培育與訓練",g:"GRI 404",c:"S"},
+{n:"多元、平等與不歧視",g:"GRI 405／406",c:"S"},
+{n:"人權保障",g:"GRI 407–412",c:"S"},
+{n:"社區參與",g:"GRI 413",c:"S"},
+{n:"產品品質與客戶健康安全",g:"GRI 416",c:"S"}
+];
+let shSel={},mat={}; // mat[i]={i:衝擊1-5,l:可能性1-5}
+function renderMat(){
+  document.getElementById('shList').innerHTML=SH.map((s,i)=>
+    `<button onclick="toggleSH(${i})" data-i="${i}" style="min-width:31%">${s}</button>`).join('');
+  const CN={E:"環境",S:"社會",G:"治理／經濟"};
+  let html='',last='';
+  TOPICS.forEach((t,i)=>{
+    if(t.c!==last){html+=`<div class="groupHead gh-${t.c}"><span>${CN[t.c]}議題</span></div>`;last=t.c;}
+    html+=`<div class="dq"><div class="q">${t.n} <span class="badge b-cat">${t.g}</span></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:210px"><span class="hint">衝擊嚴重度</span><div class="lvl" id="mi-${i}">${[1,2,3,4,5].map(v=>`<button onclick="setMat(${i},'i',${v})" data-v="${v}">${v}</button>`).join('')}</div></div>
+      <div style="flex:1;min-width:210px"><span class="hint">發生可能性</span><div class="lvl" id="ml-${i}">${[1,2,3,4,5].map(v=>`<button onclick="setMat(${i},'l',${v})" data-v="${v}">${v}</button>`).join('')}</div></div>
+    </div></div>`;
+  });
+  document.getElementById('matList').innerHTML=html;
+}
+function toggleSH(i){shSel[i]=!shSel[i];paintSH();saveAll();}
+function paintSH(){document.querySelectorAll('#shList button').forEach(b=>b.classList.toggle('on',!!shSel[b.dataset.i]));}
+function setMat(i,k,v){
+  mat[i]=mat[i]||{};
+  mat[i][k]=(mat[i][k]===v)?undefined:v;
+  paintMat(i);saveAll();
+}
+function paintMat(i){
+  ['i','l'].forEach(k=>{
+    document.querySelectorAll(`#m${k}-${i} button`).forEach(b=>b.classList.toggle('on',mat[i]&&+b.dataset.v===mat[i][k]));
+  });
+}
+function matResult(){
+  const rated=TOPICS.map((t,i)=>({...t,idx:i,iv:mat[i]&&mat[i].i,lv:mat[i]&&mat[i].l}))
+    .filter(t=>t.iv&&t.lv).map(t=>({...t,score:t.iv*t.lv}));
+  if(!rated.length){document.getElementById('matOut').innerHTML='<p class="hint" style="margin-top:8px">請先完成議題評分。</p>';return;}
+  const major=rated.filter(t=>t.score>=12).sort((a,b)=>b.score-a.score);
+  const minor=rated.filter(t=>t.score<12).sort((a,b)=>b.score-a.score);
+  const CC={E:"var(--green)",S:"var(--amber)",G:"var(--blue)"};
+  // SVG 矩陣
+  let dots='';
+  rated.forEach(t=>{
+    const x=60+(t.lv-1)*95+(t.idx%3)*7, y=320-(t.iv-1)*70-(Math.floor(t.idx/3)%3)*6;
+    dots+=`<circle cx="${x}" cy="${y}" r="11" fill="${CC[t.c]}" opacity=".85"/><text x="${x}" y="${y+4}" font-size="10" fill="#fff" text-anchor="middle">${t.idx+1}</text>`;
+  });
+  const svg=`<svg viewBox="0 0 520 380" style="width:100%;max-width:560px;background:#fff;border:1px solid var(--line);border-radius:8px">
+    <polygon points="250,40 500,40 500,180" fill="#fdeceb" opacity=".6"/>
+    <polygon points="60,40 250,40 500,180 500,320 345,320" fill="#fdf3e0" opacity=".5"/>
+    ${[0,1,2,3,4].map(v=>`<line x1="${60+v*95}" y1="40" x2="${60+v*95}" y2="320" stroke="#eee"/><line x1="60" y1="${320-v*70}" x2="500" y2="${320-v*70}" stroke="#eee"/>`).join('')}
+    <line x1="60" y1="320" x2="500" y2="320" stroke="#888"/><line x1="60" y1="320" x2="60" y2="40" stroke="#888"/>
+    ${[1,2,3,4,5].map(v=>`<text x="${60+(v-1)*95}" y="338" font-size="11" text-anchor="middle" fill="#666">${v}</text><text x="46" y="${324-(v-1)*70}" font-size="11" text-anchor="end" fill="#666">${v}</text>`).join('')}
+    <text x="280" y="362" font-size="12" text-anchor="middle" fill="#444">發生可能性 →</text>
+    <text x="20" y="180" font-size="12" fill="#444" transform="rotate(-90 20 180)" text-anchor="middle">衝擊嚴重度 →</text>
+    ${dots}</svg>`;
+  const name=document.getElementById('c-name').value||"（未填公司名）";
+  const shNames=SH.filter((s,i)=>shSel[i]).join('、')||"（未勾選）";
+  document.getElementById('matOut').innerHTML=`<div class="result" style="margin-top:12px">
+    <b>${name}｜重大議題鑑別結果</b>（GRI 3 方法論）<br>
+    主要利害關係人：${shNames}<br><br>${svg}
+    <p class="hint" style="margin:4px 0 8px">圓點編號＝下表議題序號；紅色區（分數≥12）建議列為重大主題。</p>
+    <b>重大主題（${major.length} 項，建議納入報告書管理方針揭露）：</b>
+    <table><tr><th>#</th><th>議題</th><th>對應準則</th><th>衝擊</th><th>可能性</th><th>分數</th></tr>
+    ${major.map(t=>`<tr><td>${t.idx+1}</td><td><b>${t.n}</b></td><td>${t.g}</td><td>${t.iv}</td><td>${t.lv}</td><td><b>${t.score}</b></td></tr>`).join('')}</table>
+    ${minor.length?`<b>次要議題（持續關注）：</b>${minor.map(t=>`${t.idx+1}.${t.n}(${t.score})`).join('、')}`:''}
+    <br><span class="hint">Charlotte Chang 張雅雯｜${new Date().toLocaleDateString('zh-TW')}｜門檻值 12 分可依客戶脈絡調整</span></div>`;
+  saveAll();
+}
+
+/* ====== 儲存／載入 ====== */
+const FIELDS=['c-name','c-date','c-area','c-ind','c-listed','c-contact','c-note','extraPlus','extraMinus'];
+function saveAll(){
+  try{
+    const o={f:{},a:ans,d:dAns,m:mat,sh:shSel};
+    FIELDS.forEach(id=>o.f[id]=document.getElementById(id).value);
+    localStorage.setItem('esgTool',JSON.stringify(o));
+  }catch(e){}
+}
+function loadAll(){
+  try{
+    const o=JSON.parse(localStorage.getItem('esgTool')||'{}');
+    if(o.f)FIELDS.forEach(id=>{if(o.f[id]!=null)document.getElementById(id).value=o.f[id];});
+    ans=o.a||{};dAns=o.d||{};mat=o.m||{};shSel=o.sh||{};
+    IND.forEach(it=>paint(it.id));
+    TOPICS.forEach((t,i)=>paintMat(i));paintSH();
+    Object.keys(dAns).forEach(i=>{if(dAns[i]!=null)document.querySelectorAll(`#dq-${i} button`).forEach(b=>b.classList.toggle('on',+b.dataset.v===dAns[i]));});
+  }catch(e){}
+}
+function resetAll(){
+  if(!confirm('確定清除本機所有已填資料？'))return;
+  localStorage.removeItem('esgTool');location.reload();
+}
+document.addEventListener('input',e=>{if(FIELDS.includes(e.target.id))saveAll();});
+
+renderInd();renderDiag();renderGuide();renderMat();loadAll();calc();
+/* v2.0 含重大議題鑑別模組 */
+</script>
+</body>
+</html>
