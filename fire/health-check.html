@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="消防高壓充填機健康檢查平台（免費版）：呼吸空氣品質、設備健康、效率節能、預防保養四層次自主檢查，適用各縣市消防局 SCBA 充填站。">
+<title>消防高壓充填機健康檢查平台（免費版）｜Charlotte Chang 張雅雯</title>
+<style>
+:root{
+  --red:#b3261e; --red-dark:#7f1a14; --red-light:#fdecea;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --green:#1a7a4f; --green-light:#e8f5ee;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f6f7f9; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.65}
+header{background:linear-gradient(135deg,var(--red-dark),var(--red));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.12rem}
+header .sub{font-size:.72rem;opacity:.88;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:49;overflow-x:auto}
+nav button{flex:1;min-width:88px;padding:11px 6px;border:none;background:none;font-size:.88rem;font-family:inherit;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--red);border-bottom-color:var(--red);font-weight:700}
+main{max-width:960px;margin:0 auto;padding:14px 12px 90px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:1.02rem;color:var(--red);margin-bottom:8px}
+.card h3{font-size:.94rem;margin:10px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+input,select,textarea{padding:8px;border:1px solid var(--line);border-radius:7px;font-family:inherit;font-size:.88rem;background:#fff;width:100%}
+label.f{display:block;font-size:.78rem;color:var(--gray);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;cursor:pointer;background:var(--red);color:#fff;text-decoration:none}
+.btn.sec{background:#fff;color:var(--red);border:1px solid var(--red)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+/* 檢查項 */
+.groupHead{margin:16px 0 8px;padding:9px 12px;border-radius:8px;font-weight:700;font-size:.95rem;display:flex;justify-content:space-between;align-items:center}
+.gh-A{background:var(--blue-light);color:var(--blue)}
+.gh-B{background:var(--amber-light);color:var(--amber)}
+.gh-C{background:var(--green-light);color:var(--green)}
+.gh-D{background:#f0eaf8;color:#6b46a8}
+.groupHead small{font-weight:400;font-size:.72rem;opacity:.85}
+.chk{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.chk .q{font-size:.88rem;margin-bottom:3px}
+.chk .why{font-size:.75rem;color:var(--gray);margin-bottom:8px}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opt{padding:5px 14px;border:1px solid var(--line);border-radius:16px;font-size:.8rem;cursor:pointer;background:#fff;color:var(--gray);font-family:inherit}
+.opt.ok.on{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.warn.on{background:var(--amber);color:#fff;border-color:var(--amber)}
+.opt.bad.on{background:var(--red);color:#fff;border-color:var(--red)}
+.opt.na.on{background:var(--gray);color:#fff;border-color:var(--gray)}
+/* 結果 */
+.scorebox{text-align:center;padding:18px;border-radius:12px;margin-bottom:12px;color:#fff}
+.scorebox b{font-size:2.2rem}
+.s-green{background:linear-gradient(135deg,#0e5537,var(--green))}
+.s-amber{background:linear-gradient(135deg,#8a5a12,var(--amber))}
+.s-red{background:linear-gradient(135deg,var(--red-dark),var(--red))}
+.bar{height:14px;border-radius:7px;background:#e8edf2;overflow:hidden;margin:3px 0 10px}
+.bar>div{height:100%}
+.result{border-left:4px solid var(--red);background:var(--red-light);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.86rem}
+.alert{background:var(--red-light);border:1px solid var(--red);color:var(--red-dark);border-radius:9px;padding:10px 12px;font-size:.84rem;margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#faf1f0;font-weight:700}
+details{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+summary{padding:11px 12px;cursor:pointer;font-weight:700;font-size:.9rem;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"＋";color:var(--gray)}
+details[open] summary::after{content:"－"}
+details .body{padding:0 12px 12px;font-size:.86rem}
+ul.tight{padding-left:18px}ul.tight li{margin-bottom:4px}
+.cta{background:linear-gradient(135deg,#16324a,var(--blue));color:#fff;border-radius:12px;padding:18px;margin-top:12px}
+.cta h3{color:#fff;margin:0 0 6px}
+.cta p{font-size:.83rem;opacity:.9;margin-bottom:10px}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
+@media print{header,nav,.btnrow,footer,.noprint{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>消防高壓充填機健康檢查平台<span style="font-size:.75rem;background:#fff;color:var(--red);border-radius:10px;padding:1px 8px;margin-left:6px;vertical-align:2px">免費版</span></h1>
+    <a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜消防呼吸空氣安全與設備健康管理｜EN 12021・NFPA 1901</div>
+</header>
+<nav>
+  <button class="active" data-p="base" onclick="go('base',this)">設備資料</button>
+  <button data-p="chk" onclick="go('chk',this)">健康檢查</button>
+  <button data-p="rep" onclick="go('rep',this)">診斷結果</button>
+  <button data-p="ref" onclick="go('ref',this)">知識與服務</button>
+</nav>
+<main>
+
+<!-- ===== 設備資料 ===== -->
+<section class="page active" id="p-base">
+  <div class="card">
+    <h2>Step 1｜單位與設備基本資料</h2>
+    <div class="grid2">
+      <div><label class="f">單位名稱</label><input type="text" id="b-unit" placeholder="例：○○市消防局 第○大隊 ○○分隊"></div>
+      <div><label class="f">聯絡人／職稱</label><input type="text" id="b-name" placeholder="例：裝備管理 ○班長"></div>
+      <div><label class="f">充填機品牌型號</label>
+        <select id="b-model">
+          <option>ALKIN W32 Canopy（300 L/min）</option>
+          <option>ALKIN W4 Canopy（600 L/min）</option>
+          <option>ALKIN 其他型號</option>
+          <option>Bauer</option>
+          <option>Coltri</option>
+          <option>其他品牌</option>
+        </select></div>
+      <div><label class="f">使用年數</label>
+        <select id="b-age">
+          <option>未滿 3 年</option>
+          <option>3–5 年</option>
+          <option>6–10 年</option>
+          <option>10 年以上</option>
+        </select></div>
+      <div><label class="f">每月充填瓶數（約）</label>
+        <select id="b-usage">
+          <option>50 瓶以下（低度使用）</option>
+          <option>50–150 瓶（中度使用）</option>
+          <option>150 瓶以上（高度使用）</option>
+        </select></div>
+      <div><label class="f">上次專業保養時間</label>
+        <select id="b-maint">
+          <option>一年內</option>
+          <option>1–2 年前</option>
+          <option>2 年以上</option>
+          <option>不確定／無紀錄</option>
+        </select></div>
+    </div>
+    <label class="f">備註（異常狀況描述、設置環境等）</label>
+    <textarea id="b-note" rows="2" placeholder="例：夏天高溫時充填變慢；機房通風不佳"></textarea>
+    <div class="btnrow">
+      <button class="btn" onclick="go2('chk')">開始健康檢查 →</button>
+      <button class="btn sec" onclick="resetAll()">清除資料</button>
+    </div>
+    <p class="hint" style="margin-top:6px">免費自主檢查工具，約 8 分鐘完成。資料存於本機瀏覽器，不會上傳。</p>
+  </div>
+  <div class="card">
+    <h2>為什麼要做充填機健康檢查？</h2>
+    <p style="font-size:.87rem">SCBA 充填機灌的是<b>消防同仁進火場要呼吸的空氣</b>。空氣品質不合格（油氣、CO、水分超標）不會有明顯外觀徵兆，設備效率衰退也是漸進的——等到充填明顯變慢或出現異味，通常已影響運作一段時間。定期健康檢查的目的：<b>在故障與品質風險發生前抓到徵兆</b>。</p>
+  </div>
+</section>
+
+<!-- ===== 健康檢查 ===== -->
+<section class="page" id="p-chk">
+  <div class="card">
+    <h2>Step 2｜四層次健康檢查（20 項）</h2>
+    <p class="hint">依現場實際狀況逐項點選：<b style="color:var(--green)">正常</b>／<b style="color:var(--amber)">注意</b>（有徵兆或不確定）／<b style="color:var(--red)">異常</b>（明確問題）。不適用項目選「不適用」。</p>
+  </div>
+  <div id="chkList"></div>
+  <div class="card">
+    <div class="btnrow">
+      <button class="btn" onclick="buildReport();go2('rep')">產出診斷結果 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 診斷結果 ===== -->
+<section class="page" id="p-rep">
+  <div class="card">
+    <h2>Step 3｜健康診斷結果</h2>
+    <div class="btnrow noprint">
+      <button class="btn" onclick="buildReport()">重新計算</button>
+      <button class="btn sec" onclick="window.print()">列印／存 PDF</button>
+    </div>
+    <div id="repOut"><p class="hint" style="margin-top:8px">請先完成「健康檢查」頁的勾選。</p></div>
+  </div>
+</section>
+
+<!-- ===== 知識與服務 ===== -->
+<section class="page" id="p-ref">
+  <div class="card"><h2>知識庫與專業服務</h2></div>
+  <div id="refList"></div>
+</section>
+
+</main>
+<footer>
+  Charlotte Chang 張雅雯 製作｜消防呼吸空氣安全與設備健康管理<br>
+  本工具為免費自主檢查，不取代原廠保養與法定檢測；空氣品質確認請以第三方檢測報告為準。
+</footer>
+
+<script>
+function go(p,btn){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.getElementById('p-'+p).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');window.scrollTo(0,0);saveAll();
+}
+function go2(p){
+  const btn=document.querySelector(`nav button[data-p="${p}"]`);
+  if(btn)go(p,btn);
+}
+
+/* ====== 檢查項目（四層次 × 5 項）======
+   cat: A 空氣品質 / B 設備健康 / C 效率 / D 預防保養
+   critical: 異常時列為安全紅旗 */
+const CHK=[
+{c:"A",q:"濾芯（純化器濾罐）在建議時數／期限內更換",why:"濾芯逾期＝油氣、水分、CO 可能進入氣瓶，是空氣品質第一道防線",critical:true},
+{c:"A",q:"最近一年內做過呼吸空氣品質檢測（第三方，依 EN 12021）",why:"O₂、CO、CO₂、油霧、水分需實測確認，感官無法判斷",critical:true},
+{c:"A",q:"充填後氣瓶空氣無異味（油味、焦味、霉味）",why:"異味是污染的晚期訊號，出現時濾芯通常已失效",critical:true},
+{c:"A",q:"自動冷凝水排放正常（定時排水有動作、排出物無過多油分）",why:"排水失效會讓水分與油氣負荷全部落在濾芯上",critical:false},
+{c:"A",q:"進氣口位置遠離廢氣源（發電機、車輛排氣、油庫）且通風良好",why:"進氣品質決定一切——CO 中毒案例多源自進氣口吸入廢氣",critical:true},
+{c:"B",q:"運轉溫度正常（機體不燙手、無過熱警報或跳機）",why:"高溫是潤滑不良、通風不足或閥件磨損的綜合警訊",critical:false},
+{c:"B",q:"無異常振動或異音（敲擊聲、金屬摩擦聲、皮帶嘯叫）",why:"振動異音通常領先零件故障 1–3 個月出現",critical:false},
+{c:"B",q:"各級壓力表讀值正常且穩定（無異常波動）",why:"級間壓力異常可定位到特定級的閥片或活塞環磨損",critical:false},
+{c:"B",q:"管路、接頭、充填鞭管無漏氣（肥皂水測試或聽檢）",why:"漏氣＝效率損失＋高壓安全風險",critical:false},
+{c:"B",q:"安全閥、壓力開關動作正常（到達設定壓力正常停機）",why:"超壓保護失效是最嚴重的設備安全風險",critical:true},
+{c:"C",q:"充填時間與新機（或出廠基準）相比未明顯變長",why:"充填時間變長 20% 以上＝壓縮效率明顯衰退",critical:false},
+{c:"C",q:"達到設定壓力（300 bar）順暢，無需反覆啟停",why:"反覆啟停代表產氣量不足或洩漏，加速機件疲勞",critical:false},
+{c:"C",q:"運轉時數與充填量比例合理（無空轉、閒置運轉）",why:"每運轉小時的產氣量是效率追蹤的核心指標",critical:false},
+{c:"C",q:"馬達啟動與運轉電流正常（無跳電、無明顯升高）",why:"電流升高反映機械阻力增加——軸承、活塞環或潤滑問題",critical:false},
+{c:"C",q:"機房通風散熱良好（進排風順暢、室溫不悶熱）",why:"環境溫度每高 5°C，壓縮效率與零件壽命同步下降",critical:false},
+{c:"D",q:"有年度專業巡檢／保養（原廠或授權技師）",why:"高壓設備的隱性磨損需專業儀器與經驗判讀",critical:false},
+{c:"D",q:"依運轉時數執行保養（換油、濾芯、進氣濾網有紀錄）",why:"依時數保養比依日曆保養更符合實際磨損",critical:false},
+{c:"D",q:"常備耗材庫存（濾芯、O-ring、進氣濾網至少一套）",why:"缺料等貨期間充填站停擺，影響勤務整備",critical:false},
+{c:"D",q:"零件更換與大修有規劃（依時數預測，非壞了才修）",why:"計畫性維修成本約為故障搶修的 1/3，且不影響勤務",critical:false},
+{c:"D",q:"操作人員受過訓練（開關機程序、日常點檢、異常判斷）",why:"多數早期故障徵兆是由日常操作者最先發現的",critical:false}
+];
+const CATS={A:["呼吸空氣品質管理","EN 12021・濾芯・空氣品質檢測"],B:["設備健康診斷","溫度・振動・壓力・漏氣"],C:["效率與節能分析","以效率提升為主，而非單純省電"],D:["預防保養與生命週期管理","年度巡檢・零件預測・大修規劃"]};
+const OPTS=[["ok","正常",2],["warn","注意",1],["bad","異常",0],["na","不適用",null]];
+let ans={};
+
+function renderChk(){
+  let html='',last='';
+  CHK.forEach((it,i)=>{
+    if(it.c!==last){
+      html+=`<div class="groupHead gh-${it.c}"><span>層次${{A:"一",B:"二",C:"三",D:"四"}[it.c]}｜${CATS[it.c][0]}</span><small>${CATS[it.c][1]}</small></div>`;
+      last=it.c;
+    }
+    html+=`<div class="chk"><div class="q">${i+1}. ${it.q}${it.critical?' <span style="color:var(--red);font-size:.72rem;font-weight:700">◆安全關鍵</span>':''}</div>
+    <div class="why">${it.why}</div>
+    <div class="opts">${OPTS.map(([k,t])=>`<button class="opt ${k}" onclick="setAns(${i},'${k}')">${t}</button>`).join('')}</div></div>`;
+  });
+  document.getElementById('chkList').innerHTML=html;
+}
+function setAns(i,k){
+  ans[i]=(ans[i]===k)?undefined:k;
+  paint(i);saveAll();
+}
+function paint(i){
+  document.querySelectorAll(`#chkList .chk:nth-of-type(${0}) .opt`);
+  const rows=document.querySelectorAll('#chkList .chk');
+  const row=rows[i];if(!row)return;
+  row.querySelectorAll('.opt').forEach(o=>o.classList.remove('on'));
+  if(ans[i]){const el=row.querySelector('.opt.'+ans[i]);if(el)el.classList.add('on');}
+}
+function buildReport(){
+  const cats={A:[0,0],B:[0,0],C:[0,0],D:[0,0]}; // [得分, 滿分]
+  const flags=[],warns=[];
+  CHK.forEach((it,i)=>{
+    const a=ans[i];
+    if(a==='na'||a==null)return;
+    const val=OPTS.find(o=>o[0]===a)[2];
+    cats[it.c][0]+=val;cats[it.c][1]+=2;
+    if(a==='bad')(it.critical?flags:warns).push(`${i+1}. ${it.q}`);
+    else if(a==='warn'&&it.critical)warns.push(`${i+1}. ${it.q}（注意）`);
+  });
+  const tot=Object.values(cats).reduce((s,c)=>s+c[0],0);
+  const max=Object.values(cats).reduce((s,c)=>s+c[1],0);
+  if(max===0){document.getElementById('repOut').innerHTML='<p class="hint" style="margin-top:8px">請先完成「健康檢查」頁的勾選。</p>';return;}
+  const pct=Math.round(tot/max*100);
+  let cls,grade,advice;
+  if(flags.length>0){cls='s-red';grade='紅色警示：有安全關鍵項異常';advice='空氣品質或超壓保護相關項目出現異常，建議暫停充填作業並立即安排專業檢查，優先確認氣瓶空氣品質。';}
+  else if(pct>=85){cls='s-green';grade='綠色：健康狀況良好';advice='維持現有保養節奏即可，建議每季重做一次本檢查，並保留紀錄追蹤趨勢。';}
+  else if(pct>=65){cls='s-amber';grade='黃色：有衰退徵兆';advice='注意項目已出現，屬「故障前 1–6 個月」的典型窗口。建議 1 個月內安排一次專業健康診斷，把注意項逐一儀器確認。';}
+  else{cls='s-red';grade='紅色：健康狀況不佳';advice='多項目異常或注意，設備可靠度與空氣品質風險偏高，建議儘速安排完整專業檢測與保養規劃。';}
+  const CN={A:"空氣品質",B:"設備健康",C:"效率",D:"預防保養"};
+  const CB={A:"var(--blue)",B:"var(--amber)",C:"var(--green)",D:"#6b46a8"};
+  const bars=Object.keys(cats).map(k=>{
+    const[s,m]=cats[k];const p=m>0?Math.round(s/m*100):0;
+    return `${CN[k]}：${s}/${m}（${p}%）<div class="bar"><div style="width:${p}%;background:${CB[k]}"></div></div>`;
+  }).join('');
+  const unit=document.getElementById('b-unit').value||'（未填單位）';
+  document.getElementById('repOut').innerHTML=`
+  <div class="scorebox ${cls}"><div style="font-size:.85rem;opacity:.9">${unit}｜充填機健康分數</div><b>${pct}</b><span style="font-size:1rem">/100</span><div style="font-size:.95rem;font-weight:700;margin-top:4px">${grade}</div></div>
+  ${flags.length?`<div class="alert"><b>◆ 安全關鍵異常（優先處理）：</b><br>${flags.join('<br>')}</div>`:''}
+  ${bars}
+  ${warns.length?`<div class="result"><b>需注意項目：</b><br>${warns.join('<br>')}</div>`:''}
+  <div class="result" style="border-color:var(--blue);background:var(--blue-light)"><b>建議行動：</b>${advice}</div>
+  <table><tr><th>設備</th><th>使用年數</th><th>使用強度</th><th>上次專業保養</th></tr>
+  <tr><td>${document.getElementById('b-model').value}</td><td>${document.getElementById('b-age').value}</td><td>${document.getElementById('b-usage').value}</td><td>${document.getElementById('b-maint').value}</td></tr></table>
+  <div class="cta noprint">
+    <h3>需要專業複檢？免費為您安排</h3>
+    <p>本檢查是初步篩檢。黃色或紅色結果建議由專業技師以儀器實測確認（空氣品質採樣、振動量測、級間壓力診斷）。我們服務全台 22 縣市消防局，到府檢測免費評估。</p>
+    <div class="btnrow">
+      <a class="btn" style="background:#fff;color:var(--blue)" href="mailto:chalotte@gmail.com?subject=充填機健康檢查複檢申請－${encodeURIComponent(unit)}&body=健康分數：${pct}/100（${grade}）%0D%0A設備：${encodeURIComponent(document.getElementById('b-model').value)}%0D%0A聯絡人：${encodeURIComponent(document.getElementById('b-name').value)}">Email 申請複檢</a>
+      <a class="btn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.6)" href="tel:+886952107040">電話 0952-107-040</a>
+    </div>
+  </div>
+  <p class="hint" style="margin-top:8px">Charlotte Chang 張雅雯｜${new Date().toLocaleDateString('zh-TW')}｜本結果為自主檢查參考，不取代法定檢測</p>`;
+  saveAll();
+}
+
+/* ====== 知識與服務 ====== */
+const REF=[
+{t:"EN 12021 呼吸空氣品質重點（充填站必知）",h:`<ul class="tight">
+<li>SCBA 氣瓶空氣須符合 EN 12021：氧氣 21±1%、CO ≤ 5 ppm、CO₂ ≤ 500 ppm、油霧 ≤ 0.5 mg/m³，及水分露點要求（防止調節器結冰）。</li>
+<li>污染<b>無法用感官確認</b>——CO 無色無味，水分超標要到冬天才出事。年度第三方採樣檢測是唯一的確認方式。</li>
+<li>濾芯是最後防線：依「運轉時數×環境溫度」計算壽命，高溫環境壽命可能砍半，逾期使用等於沒有防線。</li></ul>`},
+{t:"故障前兆對照表（值班人員速查）",h:`<table>
+<tr><th>徵兆</th><th>可能原因</th><th>風險等級</th></tr>
+<tr><td>充填時間變長</td><td>閥片／活塞環磨損、漏氣</td><td>中｜效率衰退</td></tr>
+<tr><td>機體過熱、跳機</td><td>通風不足、潤滑不良</td><td>中高｜加速磨損</td></tr>
+<tr><td>異音、異常振動</td><td>軸承、皮帶、地腳鬆動</td><td>中高｜零件故障前 1–3 個月</td></tr>
+<tr><td>氣瓶空氣異味</td><td>濾芯失效、進氣污染</td><td><b style="color:#b3261e">高｜立即停用檢測</b></td></tr>
+<tr><td>到壓不停機</td><td>壓力開關／安全閥異常</td><td><b style="color:#b3261e">高｜超壓風險</b></td></tr>
+<tr><td>冷凝水含油量高</td><td>壓縮機油環磨損</td><td>中｜濾芯負荷加重</td></tr></table>`},
+{t:"我們的四層次專業服務",h:`<table>
+<tr><th>層次</th><th>服務內容</th><th>頻率建議</th></tr>
+<tr><td><b>1. 呼吸空氣品質管理</b></td><td>EN 12021 採樣檢測、濾芯壽命管理制度、進氣環境評估</td><td>檢測每年、濾芯依時數</td></tr>
+<tr><td><b>2. 設備健康診斷</b></td><td>級間壓力診斷、振動量測、熱像檢查、漏氣定位</td><td>每年 1–2 次</td></tr>
+<tr><td><b>3. 效率與節能分析</b></td><td>充填效率基準比對、能耗分析、機房通風改善建議</td><td>每年 1 次</td></tr>
+<tr><td><b>4. 預防保養與生命週期管理</b></td><td>年度巡檢合約、零件更換預測、大修與汰換規劃、操作訓練</td><td>年度合約</td></tr></table>
+<p class="hint">ALKIN 台灣授權合夥人｜5 年保固・24hr 快速維修・全台 22 縣市服務</p>`},
+{t:"新設充填站規劃（ALKIN 系列）",h:`<ul class="tight">
+<li><b>ALKIN W32 Canopy</b>（300 L/min／7.5 kW）：中型分隊日常訓練後例行充填。</li>
+<li><b>ALKIN W4 Canopy</b>（600 L/min／11 kW）：大型大隊高頻率、多瓶同步快速灌充。</li>
+<li>標配建議：<b>FS-C-3-300 防爆充氣櫃</b>（同時充填 3 支，NFPA 1901 認證）。</li>
+<li>依政府採購法提供規格建議、空間配置、電力通風規劃與提案文件。</li></ul>`}
+];
+function renderRef(){
+  document.getElementById('refList').innerHTML=REF.map((g,i)=>`<details ${i===0?'open':''}><summary>${g.t}</summary><div class="body">${g.h}</div></details>`).join('');
+}
+
+/* ====== 儲存 ====== */
+const BF=['b-unit','b-name','b-model','b-age','b-usage','b-maint','b-note'];
+function saveAll(){
+  try{
+    const o={f:{},a:ans};
+    BF.forEach(id=>o.f[id]=document.getElementById(id).value);
+    localStorage.setItem('fireHealthTool',JSON.stringify(o));
+  }catch(e){}
+}
+function loadAll(){
+  try{
+    const o=JSON.parse(localStorage.getItem('fireHealthTool')||'{}');
+    if(o.f)BF.forEach(id=>{if(o.f[id]!=null)document.getElementById(id).value=o.f[id];});
+    ans=o.a||{};
+    CHK.forEach((c,i)=>paint(i));
+  }catch(e){}
+}
+function resetAll(){
+  if(!confirm('確定清除本機所有已填資料？'))return;
+  localStorage.removeItem('fireHealthTool');location.reload();
+}
+document.addEventListener('input',e=>{if(BF.includes(e.target.id))saveAll();});
+renderChk();renderRef();loadAll();
+</script>
+</body>
+</html>
