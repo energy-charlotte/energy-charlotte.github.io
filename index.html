@@ -78,7 +78,7 @@ h2.sec-title{font-size:1.42rem;margin:6px 0 6px}
 .svc .go.tool{background:#fff;color:var(--navy);border:1px solid var(--navy)}
 /* 免費工具帶 */
 .toolstrip{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.toolgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
 @media(max-width:760px){.toolgrid{grid-template-columns:1fr 1fr}}
 .tool{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg);display:block;transition:transform .15s}
 .tool:hover{transform:translateY(-2px)}
@@ -143,7 +143,7 @@ footer{text-align:center;font-size:.74rem;color:var(--gray);padding:20px 12px}
     <div class="stats" style="grid-template-columns:repeat(3,1fr)">
       <div><b>20+</b><span>年工業能源經驗</span></div>
       <div><b>ISO</b><span>14064-1 碳盤查認證</span></div>
-      <div><b>4 套</b><span>自製免費評估工具</span></div>
+      <div><b>5 套</b><span>自製免費評估工具</span></div>
     </div>
   </div>
 </div>
@@ -201,7 +201,7 @@ footer{text-align:center;font-size:.74rem;color:var(--gray);padding:20px 12px}
         <div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:.8rem;color:var(--gray)">
           ▶ <b style="color:var(--ink)">影音介紹：消防局 SCBA 充填站</b>　想了解充填站規劃流程與實際案例，歡迎來電或 LINE 索取完整影音說明。
         </div>
-        <div class="row"><a class="go" href="#contact">索取規劃說明</a></div>
+        <div class="row"><a class="go" href="#contact">索取規劃說明</a><a class="go tool" href="fire/health-check.html">免費：充填機健康檢查</a></div>
       </div>
       <div class="svc">
         <span class="cat carbon">低碳</span>
@@ -252,12 +252,13 @@ footer{text-align:center;font-size:.74rem;color:var(--gray);padding:20px 12px}
   <div class="wrap">
     <span class="sec-tag">FREE TOOLS</span>
     <h2 class="sec-title">免費自助工具<span class="en">Try before you engage</span></h2>
-    <p class="sec-sub">四套自製工具，手機離線可用、資料存在你的裝置。先自己試算，需要深入再找我。</p>
+    <p class="sec-sub">五套自製工具，手機離線可用、資料存在你的裝置。先自己試算，需要深入再找我。</p>
     <div class="toolgrid">
       <a class="tool" href="https://energy-charlotte.github.io/compressors"><span class="ic">⚡</span><b>空壓節能評估</b><span>節能潛力・回收年限</span></a>
       <a class="tool" href="esg/esg-platform.html"><span class="ic">📋</span><b>ESG 行動平台</b><span>診斷・重大議題・評鑑自評</span></a>
       <a class="tool" href="esg/carbon-inventory.html"><span class="ic">🏭</span><b>碳盤查平台</b><span>範疇一＋二排放清冊</span></a>
       <a class="tool" href="esg/carbon-footprint.html"><span class="ic">📦</span><b>產品碳足跡平台</b><span>搖籃到大門估算</span></a>
+      <a class="tool" href="fire/health-check.html"><span class="ic">🚒</span><b>充填機健康檢查</b><span>SCBA 四層次 20 項體檢</span></a>
     </div>
   </div>
 </section>
