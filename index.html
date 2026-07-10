@@ -3,376 +3,325 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Charlotte Chang 張雅雯 | 工業能源顧問 Industrial Energy Consultant</title>
-<meta name="description" content="20年工業能源與自動化經驗，提供製程廠空壓節能評估、ISO 14064碳盤查、ESG輔導及市場開發顧問服務。">
+<meta name="description" content="Charlotte Chang 張雅雯｜工業能源與永續顧問：空壓節能評估、消防 SCBA 充填站規劃、ISO 14064 碳盤查、ISO 14067 產品碳足跡、ESG 報告與評鑑輔導。">
+<title>Charlotte Chang 張雅雯｜工業能源與永續顧問</title>
 <style>
-  :root{
-    --green:#0F6E56; --green-bg:#E1F5EE; --green-dark:#085041;
-    --text1:#1a1a1a; --text2:#5a5a5a; --text3:#9a9a9a;
-    --border:#e5e5e5; --bg2:#f7f7f5;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;background:#fdfdfc;color:var(--text1);line-height:1.6}
-
-  /* ===== Header ===== */
-  .site-header{border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:50}
-  .site-header-inner{max-width:800px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
-  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text1)}
-  .brand-mark{width:32px;height:32px;border-radius:8px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
-  .brand-name{font-size:14px;font-weight:600;line-height:1.2}
-  .brand-role{font-size:10.5px;color:var(--text3)}
-  nav{display:flex;gap:20px;align-items:center}
-  nav a{font-size:12.5px;color:var(--text2);text-decoration:none;transition:color .15s}
-  nav a:hover{color:var(--green)}
-  .nav-cta{font-size:12.5px;padding:6px 14px;background:var(--green);color:#fff;border-radius:7px;text-decoration:none}
-  .nav-cta:hover{background:var(--green-dark);color:#fff}
-  @media(max-width:560px){nav .hide-sm{display:none}}
-
-  /* ===== Sections ===== */
-  section{max-width:800px;margin:0 auto;padding:64px 20px}
-  section+section{border-top:1px solid var(--border)}
-
-  /* ===== Hero ===== */
-  .hero{padding-top:72px;padding-bottom:72px}
-  .hero-eyebrow{font-size:11px;font-weight:700;color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-  .hero-eyebrow span{font-weight:400;color:var(--text3);margin-left:6px;letter-spacing:0;text-transform:none}
-  .hero h1{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:10px}
-  .hero h1 em{font-style:normal;color:var(--green)}
-  .hero-sub{font-size:15px;color:var(--text2);max-width:520px;line-height:1.8;margin-bottom:28px}
-  .hero-sub-en{font-size:12px;color:var(--text3);max-width:520px;line-height:1.7;margin-bottom:32px;font-style:italic}
-  .hero-btns{display:flex;gap:10px;flex-wrap:wrap}
-  .btn-pri{font-size:13.5px;padding:10px 22px;background:var(--green);color:#fff;border-radius:8px;text-decoration:none;font-weight:600}
-  .btn-pri:hover{background:var(--green-dark)}
-  .btn-sec{font-size:13.5px;padding:10px 22px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text1)}
-  .btn-sec:hover{background:var(--bg2)}
-  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:48px;border-top:1px solid var(--border);border-left:1px solid var(--border)}
-  .hero-stat{padding:20px 16px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
-  .hero-stat-num{font-size:24px;font-weight:700;color:var(--text1)}
-  .hero-stat-label{font-size:12px;color:var(--text2);margin-top:3px}
-  .hero-stat-label-en{font-size:10.5px;color:var(--text3);font-style:italic}
-  @media(max-width:480px){.hero h1{font-size:24px}.hero-stats{grid-template-columns:1fr 1fr}}
-
-  /* ===== About ===== */
-  .sec-eyebrow{font-size:11px;font-weight:700;color:var(--green);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
-  .sec-eyebrow-en{font-size:10.5px;color:var(--text3);font-style:italic;margin-bottom:18px}
-  .sec-title{font-size:22px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
-  .sec-title-en{font-size:13px;color:var(--text3);font-style:italic;margin-bottom:24px}
-  .about-body{font-size:14.5px;color:var(--text2);line-height:1.9;max-width:600px;margin-bottom:28px}
-  .about-body-en{font-size:12.5px;color:var(--text3);line-height:1.8;max-width:600px;font-style:italic;margin-bottom:32px}
-  .career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
-  .career-card{background:var(--bg2);border-radius:10px;padding:14px 16px;border:1px solid var(--border)}
-  .career-period{font-size:11px;color:var(--green);font-weight:600;margin-bottom:4px}
-  .career-company{font-size:13.5px;font-weight:600;color:var(--text1)}
-  .career-role{font-size:12px;color:var(--text2);margin-top:2px}
-
-  /* ===== Services ===== */
-  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:28px}
-  @media(max-width:560px){.services-grid [style*="grid-column:span 2"]{grid-column:span 1!important}}
-  .svc-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px}
-  .svc-icon{width:36px;height:36px;border-radius:9px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-  .svc-icon svg{width:18px;height:18px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .svc-title{font-size:14px;font-weight:600;color:var(--text1);margin-bottom:3px}
-  .svc-title-en{font-size:11px;color:var(--text3);font-style:italic;margin-bottom:10px}
-  .svc-desc{font-size:12.5px;color:var(--text2);line-height:1.7}
-  .svc-tag{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:5px;background:var(--green-bg);color:var(--green-dark);margin-top:10px;font-weight:500}
-
-  /* ===== Tool CTA ===== */
-  .tool-cta{background:var(--green);border-radius:16px;padding:36px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:28px}
-  .tool-cta-text h3{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px}
-  .tool-cta-text p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6}
-  .tool-cta a{font-size:13.5px;padding:10px 22px;background:#fff;color:var(--green-dark);border-radius:8px;text-decoration:none;font-weight:700;white-space:nowrap;flex-shrink:0}
-  .tool-cta a:hover{background:var(--green-bg)}
-
-  /* ===== Certs ===== */
-  .certs{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-  .cert-badge{font-size:12px;padding:5px 12px;border:1px solid var(--border);border-radius:20px;color:var(--text2);background:#fff}
-
-  /* ===== Contact ===== */
-  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:28px}
-  .contact-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text1);transition:border-color .15s,box-shadow .15s}
-  .contact-card:hover{border-color:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
-  .contact-icon{width:36px;height:36px;border-radius:9px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .contact-icon svg{width:17px;height:17px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .contact-label{font-size:11px;color:var(--text3);margin-bottom:2px}
-  .contact-value{font-size:13.5px;font-weight:500;color:var(--text1)}
-  .contact-note{font-size:13px;color:var(--text2);line-height:1.8;margin-top:24px;max-width:480px}
-
-  /* ===== Footer ===== */
-  .site-footer{border-top:1px solid var(--border);background:#fff}
-  .site-footer-inner{max-width:800px;margin:0 auto;padding:24px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-  .footer-copy{font-size:12px;color:var(--text3)}
-  .footer-links{display:flex;gap:16px}
-  .footer-links a{font-size:12px;color:var(--text2);text-decoration:none}
-  .footer-links a:hover{color:var(--green)}
+:root{
+  --navy:#16324a; --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --purple:#6b46a8; --purple-light:#f0eaf8;
+  --amber:#e8b04b; --amber-dark:#b7791f;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f6f8fa; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;color:var(--ink);background:var(--bg);line-height:1.75}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1020px;margin:0 auto;padding:0 20px}
+.en{font-size:.76em;opacity:.6;display:block;letter-spacing:.5px}
+/* topbar */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding:12px 20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo .cc{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.logo small{display:block;font-weight:400;font-size:.7rem;color:var(--gray)}
+.topbar nav{display:flex;gap:16px;font-size:.86rem;color:var(--gray);align-items:center}
+.topbar nav a:hover{color:var(--navy)}
+.topbar nav a.pill{background:var(--navy);color:#fff;padding:6px 16px;border-radius:18px}
+@media(max-width:720px){.topbar nav{display:none}}
+/* hero：單一品牌 */
+.hero{background:linear-gradient(150deg,var(--navy) 0%,var(--blue) 70%,#2e7d9a 100%);color:#fff;padding:56px 0 48px}
+.hero .tag{font-size:.78rem;letter-spacing:2px;opacity:.85}
+.hero h1{font-size:2rem;line-height:1.4;margin:10px 0 14px}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero p{max-width:660px;font-size:.94rem;opacity:.92;margin-bottom:8px}
+.hero p.en2{font-size:.8rem;opacity:.7;max-width:660px;margin-bottom:20px}
+.hero .btns{display:flex;gap:10px;flex-wrap:wrap}
+.hero .btns a{padding:11px 20px;border-radius:9px;font-size:.9rem;font-weight:700}
+.hero .btns .primary{background:#fff;color:var(--navy)}
+.hero .btns .ghost{border:1px solid rgba(255,255,255,.7);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:32px}
+@media(max-width:720px){.stats{grid-template-columns:1fr 1fr}}
+.stats div{background:rgba(255,255,255,.12);border-radius:10px;padding:12px;text-align:center}
+.stats b{font-size:1.35rem;display:block}
+.stats span{font-size:.73rem;opacity:.85}
+/* sections */
+section{padding:48px 0}
+.sec-tag{font-size:.76rem;letter-spacing:2.5px;font-weight:700;color:var(--blue)}
+h2.sec-title{font-size:1.42rem;margin:6px 0 6px}
+.sec-sub{font-size:.87rem;color:var(--gray);margin-bottom:24px;max-width:720px}
+/* 服務地圖：一條龍 */
+.chain{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px}
+@media(max-width:760px){.chain{grid-template-columns:1fr}}
+.chain .ph{border-radius:13px;padding:16px;color:#fff;position:relative}
+.chain .ph small{font-size:.72rem;letter-spacing:1.5px;opacity:.85;display:block}
+.chain .ph b{font-size:1.02rem}
+.chain .ph p{font-size:.78rem;opacity:.9;margin-top:4px}
+.ph.p1{background:linear-gradient(135deg,var(--navy),var(--blue))}
+.ph.p2{background:linear-gradient(135deg,var(--green-dark),var(--green))}
+.ph.p3{background:linear-gradient(135deg,#3d2766,var(--purple))}
+/* 服務卡片 */
+.svcgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.svcgrid{grid-template-columns:1fr}}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column}
+.svc:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(20,50,74,.10)}
+.svc .cat{font-size:.7rem;font-weight:700;letter-spacing:1px;padding:2px 10px;border-radius:12px;align-self:flex-start;margin-bottom:8px}
+.cat.energy{background:var(--blue-light);color:var(--blue)}
+.cat.carbon{background:var(--green-light);color:var(--green-dark)}
+.cat.esg{background:var(--purple-light);color:var(--purple)}
+.cat.fire{background:#fdf3e0;color:var(--amber-dark)}
+.svc h3{font-size:1.05rem;margin-bottom:6px}
+.svc p{font-size:.83rem;color:var(--gray);flex:1}
+.svc ul{font-size:.79rem;color:var(--gray);padding-left:16px;margin:8px 0 12px;flex:1}
+.svc ul li{margin-bottom:3px}
+.svc .row{display:flex;gap:8px;flex-wrap:wrap}
+.svc .go{padding:8px 16px;border-radius:8px;font-size:.82rem;font-weight:700;color:#fff;background:var(--navy)}
+.svc .go.tool{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+/* 免費工具帶 */
+.toolstrip{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.toolgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:760px){.toolgrid{grid-template-columns:1fr 1fr}}
+.tool{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg);display:block;transition:transform .15s}
+.tool:hover{transform:translateY(-2px)}
+.tool .ic{font-size:1.3rem}
+.tool b{font-size:.86rem;display:block;margin:4px 0 2px}
+.tool span{font-size:.73rem;color:var(--gray)}
+/* about */
+.about-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:start}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+.about-main{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.about-main p{font-size:.88rem;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-size:.74rem;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:3px 11px;color:var(--gray)}
+.cv{display:flex;flex-direction:column;gap:10px}
+.cv .job{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px;padding:12px 14px}
+.cv .job small{font-size:.7rem;color:var(--gray);letter-spacing:1px}
+.cv .job b{font-size:.88rem;display:block}
+.cv .job span{font-size:.78rem;color:var(--gray)}
+/* flow */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:step}
+@media(max-width:760px){.steps{grid-template-columns:1fr 1fr}}
+.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
+.step::before{counter-increment:step;content:counter(step);position:absolute;top:-12px;left:14px;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step h4{font-size:.92rem;margin:6px 0 4px}
+.step p{font-size:.78rem;color:var(--gray)}
+/* contact */
+.contact{background:var(--navy);color:#fff}
+.contact .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;padding:36px 20px}
+.contact h2{font-size:1.25rem;margin-bottom:4px}
+.contact p{font-size:.85rem;opacity:.85;max-width:560px}
+.contact .ways{display:flex;gap:10px;flex-wrap:wrap}
+.contact .ways a{background:#fff;color:var(--navy);padding:10px 18px;border-radius:9px;font-size:.88rem;font-weight:700}
+footer{text-align:center;font-size:.74rem;color:var(--gray);padding:20px 12px}
 </style>
 </head>
 <body>
 
-<!-- ===== Header ===== -->
-<header class="site-header">
-  <div class="site-header-inner">
-    <a href="index.html" class="brand">
-      <div class="brand-mark">CC</div>
-      <div>
-        <div class="brand-name">Charlotte Chang　張雅雯</div>
-        <div class="brand-role">工業能源顧問 Industrial Energy Consultant</div>
-      </div>
-    </a>
+<div class="topbar">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="cc">CC</span><span>Charlotte Chang 張雅雯<small>工業能源與永續顧問 Industrial Energy & Sustainability Consultant</small></span></a>
     <nav>
-      <a href="#about" class="hide-sm">關於我</a>
-      <a href="#services" class="hide-sm">服務項目</a>
-      <a href="#contact" class="hide-sm">聯絡</a>
-      <a href="https://energy-charlotte.github.io/compressors" class="nav-cta">節能評估工具 →</a>
+      <a href="#services">服務項目</a>
+      <a href="#tools">免費工具</a>
+      <a href="#about">關於我</a>
+      <a href="#flow">合作流程</a>
+      <a class="pill" href="#contact">預約諮詢</a>
     </nav>
   </div>
-</header>
+</div>
 
-<!-- ===== Hero ===== -->
-<section class="hero">
-  <div class="hero-eyebrow">工業能源顧問<span>Industrial Energy Consultant · Kaohsiung, Taiwan</span></div>
-  <h1>幫製程廠找到<br>被忽略的<em>節能現金流</em></h1>
-  <div class="hero-sub">
-    20 年工業自動化與能源設備經驗，整合空壓節能評估、ISO 14064 碳盤查、ESG 輔導，協助製程廠降低能源成本、落實低碳轉型。
-  </div>
-  <div class="hero-sub-en">
-    20+ years in industrial automation and energy. Helping process plants reduce energy costs through compressed air audits, ISO 14064 carbon accounting, and ESG advisory.
-  </div>
-  <div class="hero-btns">
-    <a href="https://energy-charlotte.github.io/compressors" class="btn-pri">免費節能評估工具</a>
-    <a href="#contact" class="btn-sec">預約諮詢</a>
-  </div>
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-num">20+</div>
-      <div class="hero-stat-label">年工業能源經驗</div>
-      <div class="hero-stat-label-en">Years of experience</div>
+<!-- ===== HERO：單一品牌 ===== -->
+<div class="hero">
+  <div class="wrap">
+    <div class="tag">工業能源與永續顧問 · KAOHSIUNG, TAIWAN</div>
+    <h1>從<em>節能現金流</em>到<em>低碳競爭力</em>，<br>像教練一樣<em>陪你走完全程</em></h1>
+    <p>20 年工業自動化與能源設備經驗，加上 ISO 14064-1 碳盤查認證——我不只交報告，更陪著你的團隊一步步練起來：節能評估、碳盤查、產品碳足跡、ESG 報告與評鑑，每一步都有人帶、有工具用、有成果留在你手上。</p>
+    <p class="en2">20+ years in industrial energy and automation. From compressed-air audits to carbon accounting and ESG reporting — one consultant, end to end.</p>
+    <div class="btns">
+      <a class="primary" href="#services">看我能為你做什麼 →</a>
+      <a class="ghost" href="#tools">免費自助工具</a>
     </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">22</div>
-      <div class="hero-stat-label">縣市消防局客戶布局</div>
-      <div class="hero-stat-label-en">Fire bureau clients</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">ISO</div>
-      <div class="hero-stat-label">14064-1 / ESG 認證</div>
-      <div class="hero-stat-label-en">ISO 14064-1 certified</div>
+    <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+      <div><b>20+</b><span>年工業能源經驗</span></div>
+      <div><b>ISO</b><span>14064-1 碳盤查認證</span></div>
+      <div><b>4 套</b><span>自製免費評估工具</span></div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ===== About ===== -->
-<section id="about">
-  <div class="sec-eyebrow">關於我</div>
-  <div class="sec-eyebrow-en">About</div>
-  <div class="sec-title">橫跨能源、工業自動化與 ESG 的整合型顧問</div>
-  <div class="sec-title-en">Cross-domain consultant in energy, industrial automation & ESG</div>
-  <div class="about-body">
-    我是張雅雯（Charlotte Chang），現任協中實業股份有限公司市場開發顧問，服務對象涵蓋製程廠（高壓空氣/氮氣壓縮機系統）及台灣 22 縣市消防局 SCBA 填充站規劃。擁有 ISO 14064-1 碳盤查認證，協助企業從節能診斷到 ESG 報告，提供完整的低碳轉型支援。
-  </div>
-  <div class="about-body-en">
-    Charlotte Chang is a market development consultant at SHYEH ZONG Industry. She serves process plants requiring high-pressure air/nitrogen compressor systems and all 22 county/city fire bureaus in Taiwan for SCBA filling station planning. Holding ISO 14064-1 certification in carbon accounting, she provides end-to-end support from energy audits to ESG reporting.
-  </div>
-
-  <div class="career-grid">
-    <div class="career-card">
-      <div class="career-period">現任 · Present</div>
-      <div class="career-company">協中實業</div>
-      <div class="career-role">市場開發顧問</div>
-    </div>
-    <div class="career-card">
-      <div class="career-period">前職 · Previous</div>
-      <div class="career-company">MAN Energy Solutions</div>
-      <div class="career-role">能源事業銷售</div>
-    </div>
-    <div class="career-card">
-      <div class="career-period">前職 · Previous</div>
-      <div class="career-company">Eaton Corp.</div>
-      <div class="career-role">工業自動化 B2B</div>
-    </div>
-    <div class="career-card">
-      <div class="career-period">前職 · Previous</div>
-      <div class="career-company">品洲科技</div>
-      <div class="career-role">專案管理</div>
-    </div>
-  </div>
-
-  <div class="certs" style="margin-top:24px">
-    <span class="cert-badge">ISO 14064-1 碳盤查</span>
-    <span class="cert-badge">ESG / 碳會計</span>
-    <span class="cert-badge">能源稽核</span>
-    <span class="cert-badge">工業自動化</span>
-    <span class="cert-badge">政府採購法（消防機關）</span>
-  </div>
-</section>
-
-<!-- ===== Services ===== -->
+<!-- ===== 服務項目 ===== -->
 <section id="services">
-  <div class="sec-eyebrow">服務項目</div>
-  <div class="sec-eyebrow-en">Services</div>
-  <div class="sec-title">從設備評估到節能落地</div>
-  <div class="sec-title-en">From equipment assessment to measurable energy savings</div>
+  <div class="wrap">
+    <span class="sec-tag">SERVICES</span>
+    <h2 class="sec-title">服務項目<span class="en">What I can do for you</span></h2>
+    <p class="sec-sub">六項服務、一條路徑：先幫你省電（馬上見效的錢），再幫你算碳（供應鏈要的數據），最後幫你寫進報告（客戶與銀行看的文件）。可單項委託，也可整案包辦。</p>
 
-
-  <div class="services-grid">
-    <div class="svc-card" style="grid-column:span 2">
-      <div class="svc-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      </div>
-      <div class="svc-title">消防局 SCBA 充填站規劃</div>
-      <div class="svc-title-en">Fire Bureau SCBA Filling Station Planning</div>
-      <div class="svc-desc" style="margin-bottom:16px">協助各縣市消防局依政府採購法規劃建置高壓呼吸空氣壓縮機充填站，代理 ALKIN 高壓呼吸空氣壓縮機系列，符合 EN 12021 呼吸空氣品質標準，提供設備選型、空間配置、電力通風建議與採購提案整合服務。</div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <div style="background:var(--bg2);border-radius:9px;padding:14px;border:1px solid var(--border)">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">中型分隊・日常訓練</div>
-          <div style="font-size:14px;font-weight:700;color:var(--text1);margin-bottom:8px">ALKIN W32 Canopy</div>
-          <div style="font-size:12px;color:var(--text2);line-height:1.7">輸出量 300 L/min　馬力 7.5 kW<br>三級壓縮・低噪音箱式設計<br>適合日常訓練後例行充填</div>
-        </div>
-        <div style="background:var(--bg2);border-radius:9px;padding:14px;border:1px solid var(--border)">
-          <div style="font-size:11px;color:var(--text3);margin-bottom:4px">大型大隊・高頻率</div>
-          <div style="font-size:14px;font-weight:700;color:var(--text1);margin-bottom:8px">ALKIN W4 Canopy</div>
-          <div style="font-size:12px;color:var(--text2);line-height:1.7">輸出量 600 L/min　馬力 11 kW<br>四級壓縮・大量氣瓶快速灌充<br>可支援多支氣瓶同步補充</div>
-        </div>
-      </div>
-
-      <div style="background:#FFF8E6;border:1px solid #E8C97A;border-radius:9px;padding:12px 14px;margin-bottom:14px;font-size:12.5px;color:#5C3D00">
-        <strong>安全核心配置：</strong>不論選擇 W32 或 W4，均建議搭配 <strong>FS-C-3-300 防爆充氣櫃</strong>，可同時充填 3 支 SCBA 氣瓶，符合 NFPA 1901 防爆認證，作為充填站安全防護標準配置。
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
-        <div style="text-align:center;padding:10px 6px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
-          <div style="font-size:18px;font-weight:700;color:var(--green)">20年+</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:3px">長壽命設計</div>
-        </div>
-        <div style="text-align:center;padding:10px 6px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
-          <div style="font-size:18px;font-weight:700;color:var(--green)">5年</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:3px">長期保固</div>
-        </div>
-        <div style="text-align:center;padding:10px 6px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
-          <div style="font-size:18px;font-weight:700;color:var(--green)">24hr</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:3px">快速維修</div>
-        </div>
-        <div style="text-align:center;padding:10px 6px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
-          <div style="font-size:18px;font-weight:700;color:var(--green)">6+7</div>
-          <div style="font-size:11px;color:var(--text2);margin-top:3px">後勤支援</div>
-        </div>
-      </div>
-
-      <span class="svc-tag">ALKIN 台灣授權合夥人・協中實業</span>
-      <span class="svc-tag" style="margin-left:6px">EN 12021 / NFPA 1901</span>
-      <span class="svc-tag" style="margin-left:6px">服務全台 22 縣市</span>
+    <div class="chain">
+      <div class="ph p1"><small>PHASE 1</small><b>省能源</b><p>節能評估找出浪費，先產生現金流效益</p></div>
+      <div class="ph p2"><small>PHASE 2</small><b>算碳排</b><p>碳盤查＋碳足跡，把數據基礎建起來</p></div>
+      <div class="ph p3"><small>PHASE 3</small><b>寫報告</b><p>ESG 報告與評鑑對照，回應客戶與銀行</p></div>
     </div>
-    <div class="svc-card">
-      <div class="svc-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+
+    <div class="svcgrid">
+      <div class="svc">
+        <span class="cat energy">能源</span>
+        <h3>空壓系統節能評估</h3>
+        <ul>
+          <li>21 項現場點檢，量化節能潛力（%）</li>
+          <li>年節省電費、投資費用與回收年限試算</li>
+          <li>產出正式節能評估報告，適用高壓空氣／氮氣系統</li>
+        </ul>
+        <div class="row"><a class="go" href="#contact">預約現場評估</a><a class="go tool" href="https://energy-charlotte.github.io/compressors">免費線上工具</a></div>
       </div>
-      <div class="svc-title">空壓系統節能評估</div>
-      <div class="svc-title-en">Compressed Air Energy Audit</div>
-      <div class="svc-desc">21 項現場點檢，量化節能潛力（%）、年節省電費、投資費用與回收年限，產出正式節能評估報告，適用製程廠高壓空氣/氮氣壓縮機系統。</div>
-      <span class="svc-tag">線上工具免費使用</span>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <div class="svc" style="grid-column:1/-1">
+        <span class="cat fire">消防</span>
+        <h3>消防局 SCBA 充填站規劃</h3>
+        <p>協助各縣市消防局依政府採購法規劃建置高壓呼吸空氣壓縮機充填站，代理 ALKIN 高壓呼吸空氣壓縮機系列，符合 EN 12021 呼吸空氣品質標準，提供設備選型、空間配置、電力通風建議與採購提案整合服務。</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0">
+          <div style="background:var(--bg);border-radius:9px;padding:14px;border:1px solid var(--line)">
+            <div style="font-size:.72rem;color:var(--gray)">中型分隊・日常訓練</div>
+            <div style="font-size:.92rem;font-weight:700;margin:2px 0 6px">ALKIN W32 Canopy</div>
+            <div style="font-size:.78rem;color:var(--gray);line-height:1.7">輸出量 300 L/min　馬力 7.5 kW<br>三級壓縮・低噪音箱式設計<br>適合日常訓練後例行充填</div>
+          </div>
+          <div style="background:var(--bg);border-radius:9px;padding:14px;border:1px solid var(--line)">
+            <div style="font-size:.72rem;color:var(--gray)">大型大隊・高頻率</div>
+            <div style="font-size:.92rem;font-weight:700;margin:2px 0 6px">ALKIN W4 Canopy</div>
+            <div style="font-size:.78rem;color:var(--gray);line-height:1.7">輸出量 600 L/min　馬力 11 kW<br>四級壓縮・大量氣瓶快速灌充<br>可支援多支氣瓶同步補充</div>
+          </div>
+        </div>
+        <div style="background:#FFF8E6;border:1px solid #E8C97A;border-radius:9px;padding:12px 14px;margin-bottom:12px;font-size:.8rem;color:#5C3D00">
+          <b>安全核心配置：</b>不論選擇 W32 或 W4，均建議搭配 <b>FS-C-3-300 防爆充氣櫃</b>，可同時充填 3 支 SCBA 氣瓶，符合 NFPA 1901 防爆認證，作為充填站安全防護標準配置。
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:8px;border:1px solid var(--line)"><div style="font-size:1.05rem;font-weight:700;color:var(--amber-dark)">20年+</div><div style="font-size:.72rem;color:var(--gray)">長壽命設計</div></div>
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:8px;border:1px solid var(--line)"><div style="font-size:1.05rem;font-weight:700;color:var(--amber-dark)">5年</div><div style="font-size:.72rem;color:var(--gray)">長期保固</div></div>
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:8px;border:1px solid var(--line)"><div style="font-size:1.05rem;font-weight:700;color:var(--amber-dark)">24hr</div><div style="font-size:.72rem;color:var(--gray)">快速維修</div></div>
+          <div style="text-align:center;padding:10px 6px;background:var(--bg);border-radius:8px;border:1px solid var(--line)"><div style="font-size:1.05rem;font-weight:700;color:var(--amber-dark)">6+7</div><div style="font-size:.72rem;color:var(--gray)">後勤支援</div></div>
+        </div>
+        <div style="font-size:.74rem;color:var(--gray);margin-bottom:12px">ALKIN 台灣授權合夥人・協中實業｜EN 12021 / NFPA 1901｜服務全台 22 縣市</div>
+        <div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:.8rem;color:var(--gray)">
+          ▶ <b style="color:var(--ink)">影音介紹：消防局 SCBA 充填站</b>　想了解充填站規劃流程與實際案例，歡迎來電或 LINE 索取完整影音說明。
+        </div>
+        <div class="row"><a class="go" href="#contact">索取規劃說明</a></div>
       </div>
-      <div class="svc-title">ISO 14064-1 碳盤查 / ESG 輔導</div>
-      <div class="svc-title-en">Carbon Accounting & ESG Advisory</div>
-      <div class="svc-desc">協助企業建立溫室氣體盤查制度，取得 ISO 14064-1 認證，並整合碳排放數據至 ESG 報告，因應供應鏈淨零要求。</div>
-      <span class="svc-tag">ISO 14064-1 碳盤查認證</span>
-    </div>
-    <div class="svc-card">
-      <div class="svc-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="svc">
+        <span class="cat carbon">低碳</span>
+        <h3>ISO 14064-1 溫室氣體盤查</h3>
+        <ul>
+          <li>邊界設定、排放源鑑別、範疇一＋二計算</li>
+          <li>依環境部最新係數與 AR6 GWP</li>
+          <li>產出排放清冊與減碳熱點，銜接查證需求</li>
+        </ul>
+        <div class="row"><a class="go" href="#contact">預約盤查輔導</a><a class="go tool" href="esg/carbon-inventory.html">免費估算工具</a></div>
       </div>
-      <div class="svc-title">製程廠市場開發顧問</div>
-      <div class="svc-title-en">Market Development Advisory</div>
-      <div class="svc-desc">整合協中實業設備產品線，為製程廠提供設備採購評估、方案整合與節能提案，依案件需求客製 Package 與 Proposal。</div>
-      <span class="svc-tag">協中實業</span>
+      <div class="svc">
+        <span class="cat carbon">低碳</span>
+        <h3>ISO 14067 產品碳足跡</h3>
+        <ul>
+          <li>搖籃到大門：原料、製造、運輸、包裝四階段</li>
+          <li>單位產品碳足跡與熱點分析</li>
+          <li>回應品牌商詢單、CBAM 與碳標籤需求</li>
+        </ul>
+        <div class="row"><a class="go" href="#contact">預約評估</a><a class="go tool" href="esg/carbon-footprint.html">免費估算工具</a></div>
+      </div>
+      <div class="svc">
+        <span class="cat esg">ESG</span>
+        <h3>ESG 報告草擬與評鑑對照</h3>
+        <ul>
+          <li>ESG 成熟度診斷、GRI 3 重大議題鑑別</li>
+          <li>永續報告書草稿（GRI＋證交所作業辦法架構）</li>
+          <li>證交所 115 年 ESG 評鑑 75 項指標體檢</li>
+        </ul>
+        <div class="row"><a class="go" href="#contact">預約輔導</a><a class="go tool" href="esg/esg-platform.html">免費診斷工具</a></div>
+      </div>
+      <div class="svc">
+        <span class="cat energy">顧問</span>
+        <h3>製程廠市場開發顧問</h3>
+        <ul>
+          <li>設備採購評估、方案整合與節能提案</li>
+          <li>依案件需求客製 Package 與 Proposal</li>
+          <li>整合節能與低碳效益的投資決策建議</li>
+        </ul>
+        <div class="row"><a class="go" href="#contact">洽談合作</a></div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div style="margin-top:16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:16px">
-    <div style="width:44px;height:44px;border-radius:10px;background:var(--green-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+<!-- ===== 免費工具帶 ===== -->
+<section class="toolstrip" id="tools">
+  <div class="wrap">
+    <span class="sec-tag">FREE TOOLS</span>
+    <h2 class="sec-title">免費自助工具<span class="en">Try before you engage</span></h2>
+    <p class="sec-sub">四套自製工具，手機離線可用、資料存在你的裝置。先自己試算，需要深入再找我。</p>
+    <div class="toolgrid">
+      <a class="tool" href="https://energy-charlotte.github.io/compressors"><span class="ic">⚡</span><b>空壓節能評估</b><span>節能潛力・回收年限</span></a>
+      <a class="tool" href="esg/esg-platform.html"><span class="ic">📋</span><b>ESG 行動平台</b><span>診斷・重大議題・評鑑自評</span></a>
+      <a class="tool" href="esg/carbon-inventory.html"><span class="ic">🏭</span><b>碳盤查平台</b><span>範疇一＋二排放清冊</span></a>
+      <a class="tool" href="esg/carbon-footprint.html"><span class="ic">📦</span><b>產品碳足跡平台</b><span>搖籃到大門估算</span></a>
     </div>
+  </div>
+</section>
+
+<!-- ===== 關於我 ===== -->
+<section id="about">
+  <div class="wrap">
+    <span class="sec-tag">ABOUT</span>
+    <h2 class="sec-title">關於我<span class="en">Cross-domain consultant in energy, automation & sustainability</span></h2>
+    <div class="about-grid">
+      <div class="about-main">
+        <p>我是張雅雯（Charlotte Chang），現任協中實業股份有限公司市場開發顧問，服務對象涵蓋製程廠（高壓空氣／氮氣壓縮機系統）及台灣 22 縣市消防局 SCBA 填充站規劃。</p>
+        <p>擁有 ISO 14064-1 碳盤查認證。我的服務邏輯很簡單：<b>節能診斷找出的每一度電，就是碳盤查裡減下來的每一公斤碳，也是 ESG 報告裡最有說服力的那一頁</b>。從設備現場到報告文件，資料不用轉手第二個顧問。</p>
+        <div class="chips">
+          <span>ISO 14064-1 碳盤查</span><span>ISO 14067 碳足跡</span><span>ESG／碳會計</span><span>能源稽核</span><span>工業自動化</span><span>政府採購法（消防機關）</span><span>GRI 準則</span>
+        </div>
+      </div>
+      <div class="cv">
+        <div class="job"><small>現任 · PRESENT</small><b>協中實業</b><span>市場開發顧問</span></div>
+        <div class="job"><small>前職 · PREVIOUS</small><b>MAN Energy Solutions</b><span>能源事業銷售</span></div>
+        <div class="job"><small>前職 · PREVIOUS</small><b>Eaton Corp.</b><span>工業自動化 B2B</span></div>
+        <div class="job"><small>前職 · PREVIOUS</small><b>品洲科技</b><span>專案管理</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 合作流程 ===== -->
+<section id="flow" style="background:#fff;border-top:1px solid var(--line)">
+  <div class="wrap">
+    <span class="sec-tag">PROCESS</span>
+    <h2 class="sec-title">合作流程<span class="en">How we work together</span></h2>
+    <p class="sec-sub">每一步都有明確產出，你隨時可以停在夠用的地方。</p>
+    <div class="steps">
+      <div class="step"><h4>免費初診</h4><p>用線上工具現場試算，30 分鐘看出節能潛力或 ESG 成熟度。</p></div>
+      <div class="step"><h4>現場評估</h4><p>設備點檢或數據盤點，量化效益：省多少電、排多少碳。</p></div>
+      <div class="step"><h4>方案與文件</h4><p>節能投資提案、盤查清冊、碳足跡報告或 ESG 報告草稿。</p></div>
+      <div class="step"><h4>落地與追蹤</h4><p>設備導入、查證銜接、逐年評鑑對照與改善路徑。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 聯絡 ===== -->
+<section class="contact" id="contact">
+  <div class="wrap">
     <div>
-      <div style="font-size:13.5px;font-weight:600;color:var(--text1);margin-bottom:3px">影音介紹：協中實業 × 消防局 SCBA 充填站</div>
-      <div style="font-size:12px;color:var(--text2)">想了解充填站規劃流程與實際案例，歡迎來電或 LINE 索取完整影音說明。</div>
+      <h2>預約現場評估或諮詢</h2>
+      <p>服務範圍：全台製程廠與消防機關；ESG 與碳管理輔導以台南／高雄／屏東產業園區優先。歡迎來電或來信，一個工作天內回覆。</p>
     </div>
-  </div>
-
-  <div class="tool-cta">
-    <div class="tool-cta-text">
-      <h3>立即使用免費節能評估工具</h3>
-      <p>現場填入設備參數，三步驟自動產出節能潛力報告、回收年限與碳排減量，可直接列印或分享給客戶。</p>
+    <div class="ways" style="align-items:center">
+      <a href="mailto:chalotte@gmail.com">Email</a>
+      <a href="tel:+886952107040">0952-107-040</a>
+      <div style="background:#fff;border-radius:10px;padding:8px;text-align:center">
+        <img src="https://chart.googleapis.com/chart?chs=110x110&cht=qr&chl=https%3A%2F%2Fline.me%2Fti%2Fp%2Fchalotte88&choe=UTF-8" alt="LINE QR Code - chalotte88" width="110" height="110" style="border-radius:6px;display:block">
+        <div style="font-size:.7rem;color:#16324a;font-weight:700;margin-top:4px">LINE：chalotte88</div>
+      </div>
     </div>
-    <a href="https://energy-charlotte.github.io/compressors">開始評估 →</a>
   </div>
 </section>
 
-<!-- ===== Contact ===== -->
-<section id="contact">
-  <div class="sec-eyebrow">聯絡我</div>
-  <div class="sec-eyebrow-en">Contact</div>
-  <div class="sec-title">歡迎預約現場評估或諮詢</div>
-  <div class="sec-title-en">Schedule an on-site energy audit or consultation</div>
-
-  <div class="contact-grid">
-    <a href="mailto:chalotte@gmail.com" class="contact-card">
-      <div class="contact-icon">
-        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      </div>
-      <div>
-        <div class="contact-label">Email</div>
-        <div class="contact-value">chalotte@gmail.com</div>
-      </div>
-    </a>
-    <a href="tel:+886952107040" class="contact-card">
-      <div class="contact-icon">
-        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      </div>
-      <div>
-        <div class="contact-label">電話 Phone</div>
-        <div class="contact-value">0952-107-040</div>
-      </div>
-    </a>
-    <div class="contact-card" style="flex-direction:column;align-items:flex-start;gap:10px;cursor:default">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="contact-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div>
-          <div class="contact-label">LINE 掃碼加好友</div>
-          <div class="contact-value">chalotte88</div>
-        </div>
-      </div>
-      <img
-        src="https://chart.googleapis.com/chart?chs=120x120&cht=qr&chl=https%3A%2F%2Fline.me%2Fti%2Fp%2Fchalotte88&choe=UTF-8"
-        alt="LINE QR Code - chalotte88"
-        width="120" height="120"
-        style="border-radius:8px;border:1px solid var(--border)"
-      >
-    </div>
-  </div>
-
-  <div class="contact-note">
-    服務範圍：台灣各縣市製程廠、消防機關。歡迎來電或來信預約現場節能評估，將於一個工作天內回覆。<br>
-    <span style="font-size:12px;color:var(--text3);font-style:italic">Service area: Process plants and fire bureaus across Taiwan. On-site energy audit available. Response within 1 business day.</span>
-  </div>
-</section>
-
-<!-- ===== Footer ===== -->
-<footer class="site-footer">
-  <div class="site-footer-inner">
-    <div class="footer-copy">© 2026 Charlotte Chang 張雅雯　·　高雄 Kaohsiung, Taiwan</div>
-    <div class="footer-links">
-      <a href="#about">關於我</a>
-      <a href="#services">服務項目</a>
-      <a href="https://energy-charlotte.github.io/compressors">評估工具</a>
-      <a href="#contact">聯絡</a>
-    </div>
-  </div>
+<footer>
+  © 2026 Charlotte Chang 張雅雯 · 高雄 Kaohsiung, Taiwan<br>
+  工具為輔導參考用，正式申報請以主管機關最新公告為準<br>
+  網站架構：energy-charlotte.github.io ＋ /esg/ 工具區
 </footer>
 
 </body>
