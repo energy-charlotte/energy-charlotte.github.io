@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>空壓系統節能評估工具 | Charlotte Chang 工業能源顧問</title>
+<meta name="description" content="製程廠高壓空氣／氮氣壓縮機節能評估工具，現場點檢 21 項 + 參數試算，自動產出節能潛力報告。">
+<style>
+  :root{
+    --green:#0F6E56; --green-bg:#E1F5EE; --green-dark:#085041;
+    --text1:#1a1a1a; --text2:#5a5a5a; --text3:#9a9a9a;
+    --border:#e5e5e5; --bg2:#f7f7f5;
+    --red-bg:#FCEBEB; --red:#A32D2D;
+    --amber-bg:#FAEEDA; --amber:#633806;
+    --grey-bg:#EAF3DE; --grey:#27500A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Microsoft JhengHei",sans-serif;background:#fdfdfc;color:var(--text1);line-height:1.5}
+
+  /* ===== Site header ===== */
+  .site-header{border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:50}
+  .site-header-inner{max-width:760px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text1)}
+  .brand-mark{width:30px;height:30px;border-radius:8px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+  .brand-text{font-size:14px;font-weight:600;line-height:1.2}
+  .brand-sub{font-size:10.5px;color:var(--text3);font-weight:400}
+  .site-header nav{display:flex;gap:18px}
+  .site-header nav a{font-size:12.5px;color:var(--text2);text-decoration:none}
+  .site-header nav a:hover{color:var(--green)}
+  @media (max-width:520px){ .site-header nav{display:none} }
+
+  /* ===== Page wrap ===== */
+  .page{max-width:720px;margin:0 auto;padding:28px 16px 70px}
+
+  .hdr{padding-bottom:18px;border-bottom:1px solid var(--border);margin-bottom:22px}
+  .hdr-eyebrow{font-size:11px;font-weight:600;color:var(--green);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+  .hdr-title{font-size:23px;font-weight:700;letter-spacing:-.01em}
+  .hdr-sub{font-size:13.5px;color:var(--text2);margin-top:8px;line-height:1.7;max-width:560px}
+
+  .meta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+  .meta-row input{width:100%;font-size:13.5px;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit}
+  .meta-row input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+
+  .progress{display:flex;gap:4px;margin-bottom:16px}
+  .progress div{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .2s}
+  .progress div.done{background:var(--green)}
+
+  .tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:22px}
+  .tab{flex:1;text-align:center;padding:12px 6px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;transition:color .15s}
+  .tab.active{color:var(--green);border-bottom-color:var(--green)}
+  .tab:hover:not(.active){color:var(--text1)}
+
+  .step{display:none}
+  .step.active{display:block;animation:fadein .25s ease}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+  .section-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin:22px 0 11px;display:flex;align-items:center;gap:6px}
+  .section-label:first-child{margin-top:0}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:480px){ .grid2{grid-template-columns:1fr} }
+  .field{margin-bottom:14px}
+  .field label{font-size:12.5px;color:var(--text2);display:block;margin-bottom:6px;font-weight:500}
+  .field .input-wrap{position:relative}
+  .field input{width:100%;font-size:15px;padding:10px 11px;border:1px solid var(--border);border-radius:8px;font-family:inherit;color:var(--text1)}
+  .field input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px var(--green-bg)}
+  .field .unit{font-size:11px;color:var(--text3);margin-top:4px}
+
+  .item{display:flex;align-items:flex-start;gap:11px;padding:12px 13px;border:1px solid var(--border);border-radius:10px;margin-bottom:7px;cursor:pointer;transition:border-color .12s, background .12s}
+  .item:hover{border-color:#c9c9c9}
+  .item.checked{border-color:var(--green);background:var(--green-bg)}
+  .item.checked .item-saving{color:var(--green-dark)}
+  .cb{width:19px;height:19px;border:1.5px solid #cfcfcf;border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .12s}
+  .item.checked .cb{background:var(--green);border-color:var(--green)}
+  .cb svg{width:12px;height:12px;opacity:0;transition:opacity .1s}
+  .item.checked .cb svg{opacity:1}
+  .item-body{flex:1;min-width:0}
+  .item-title{font-size:13.5px;font-weight:500}
+  .item.checked .item-title{color:var(--green-dark)}
+  .item-note{font-size:11.5px;color:var(--text2);margin-top:3px;line-height:1.5}
+  .item-cost{font-size:11px;color:#8a6d1f;margin-top:4px;background:#FAF6E8;display:inline-block;padding:2px 7px;border-radius:5px}
+  .item-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+  .item-saving{font-size:12px;font-weight:700;color:var(--text3);white-space:nowrap}
+  .risk-badge{font-size:10px;padding:2.5px 8px;border-radius:6px;white-space:nowrap;font-weight:600}
+  .risk-h{background:var(--red-bg);color:var(--red)}
+  .risk-m{background:var(--amber-bg);color:var(--amber)}
+  .risk-l{background:var(--grey-bg);color:var(--grey)}
+
+  .nav-btns{display:flex;gap:10px;margin-top:26px}
+  .btn{flex:1;padding:13px;border-radius:9px;font-size:14.5px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;font-family:inherit;color:var(--text1);transition:background .12s, border-color .12s}
+  .btn:hover{background:var(--bg2)}
+  .btn.primary{background:var(--green);color:#fff;border:none}
+  .btn.primary:hover{background:var(--green-dark)}
+  .btn svg{vertical-align:-2px;margin-left:4px}
+
+  .result{background:var(--bg2);border-radius:16px;padding:22px;margin-top:4px;border:1px solid var(--border)}
+  .result-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+  .r-card{background:#fff;border-radius:11px;padding:14px;border:1px solid var(--border)}
+  .r-label{font-size:11px;color:var(--text3);margin-bottom:5px;font-weight:500}
+  .r-val{font-size:22px;font-weight:700;letter-spacing:-.01em}
+  .r-val.green{color:var(--green)}
+  .r-unit{font-size:12px;color:var(--text2);margin-left:2px;font-weight:400}
+  .breakdown{margin-top:14px}
+  .bd-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--border)}
+  .bd-name{font-size:12px;color:var(--text2);width:150px;flex-shrink:0}
+  .bd-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+  .bd-bar{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease}
+  .bd-val{font-size:12px;font-weight:700;width:56px;text-align:right;flex-shrink:0}
+  .note{font-size:11px;color:var(--text3);margin-top:18px;line-height:1.7;padding-top:16px;border-top:1px solid var(--border)}
+  .footer-actions{display:flex;gap:8px;margin-top:18px}
+  .action-btn{flex:1;font-size:13px;padding:10px;border:1px solid var(--border);border-radius:9px;background:#fff;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .12s}
+  .action-btn:hover{background:var(--bg2)}
+
+  .empty-hint{font-size:12px;color:var(--text3);padding:10px 0}
+
+  /* ===== Site footer ===== */
+  .site-footer{border-top:1px solid var(--border);background:#fff;margin-top:40px}
+  .site-footer-inner{max-width:760px;margin:0 auto;padding:24px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .footer-name{font-size:13px;font-weight:600;color:var(--text1)}
+  .footer-role{font-size:11.5px;color:var(--text3);margin-top:2px}
+  .footer-links{display:flex;gap:16px}
+  .footer-links a{font-size:12px;color:var(--text2);text-decoration:none}
+  .footer-links a:hover{color:var(--green)}
+
+  @media print{
+    .site-header,.site-footer,.tabs,.nav-btns,.footer-actions,.item .cb{display:none !important}
+    .step{display:block !important}
+    .page{padding:0;max-width:100%}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <!-- 修正1：brand logo 改為連回首頁 -->
+    <a href="https://energy-charlotte.github.io/" class="brand">
+      <div class="brand-mark">CC</div>
+      <div>
+        <div class="brand-text">Charlotte Chang</div>
+        <div class="brand-sub">工業能源顧問</div>
+      </div>
+    </a>
+    <nav>
+      <!-- 修正2：nav 連結改為連回首頁各 section -->
+      <a href="https://energy-charlotte.github.io/#about">關於我</a>
+      <a href="https://energy-charlotte.github.io/#services">服務項目</a>
+      <a href="#" style="color:var(--green)">評估工具</a>
+      <a href="https://energy-charlotte.github.io/#contact">聯絡</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <div class="hdr">
+    <div class="hdr-eyebrow">免費線上工具</div>
+    <div class="hdr-title">空壓系統節能評估</div>
+    <div class="hdr-sub">針對製程廠高壓空氣／氮氣壓縮機系統，三步驟完成現場點檢、參數試算與節能潛力報告，可直接列印或匯出文字。</div>
+  </div>
+
+  <div class="meta-row">
+    <input type="text" placeholder="廠區 / 客戶名稱" id="m-plant">
+    <input type="text" placeholder="評估人員" id="m-person">
+  </div>
+
+  <!-- 修正3：progress bar id 改為 pb1/pb2/pb3，避免與 checklist item id p1/p2/p3 衝突 -->
+  <div class="progress">
+    <div id="pb1" class="done"></div>
+    <div id="pb2"></div>
+    <div id="pb3"></div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button type="button" class="tab active" data-step="1" onclick="goStep(1)">① 現場點檢</button>
+    <button type="button" class="tab" data-step="2" onclick="goStep(2)">② 參數試算</button>
+    <button type="button" class="tab" data-step="3" onclick="goStep(3)">③ 整合報告</button>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="section-label">壓力管理</div>
+    <div id="items-pressure"></div>
+    <div class="section-label">進排氣 / 冷卻</div>
+    <div id="items-cooling"></div>
+    <div class="section-label">洩漏與管路</div>
+    <div id="items-leak"></div>
+    <div class="section-label">控制與設備</div>
+    <div id="items-control"></div>
+    <div class="section-label">廢熱與輔助系統</div>
+    <div id="items-aux"></div>
+
+    <div class="nav-btns">
+      <button type="button" class="btn primary" onclick="goStep(2)">下一步：輸入設備參數
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="section-label">設備基本資料</div>
+    <div class="grid2">
+      <div class="field"><label>壓縮機總裝置容量</label><input type="number" id="hp" value="100"><div class="unit">hp</div></div>
+      <div class="field"><label>年運轉時數</label><input type="number" id="hours" value="7000"><div class="unit">小時/年</div></div>
+      <div class="field"><label>馬達平均負載率</label><input type="number" id="loadrate" value="75"><div class="unit">%</div></div>
+      <div class="field"><label>工業電價</label><input type="number" id="price" value="3.5" step="0.1"><div class="unit">元/度</div></div>
+    </div>
+    <div class="section-label">壓力與環境條件</div>
+    <div class="grid2">
+      <div class="field"><label>出口壓力 vs 現場使用壓力差</label><input type="number" id="pdrop" value="1.5" step="0.1"><div class="unit">kg/cm²</div></div>
+      <div class="field"><label>壓縮機室內溫度</label><input type="number" id="temp" value="35"><div class="unit">℃</div></div>
+    </div>
+
+    <div class="nav-btns">
+      <button type="button" class="btn" onclick="goStep(1)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:4px"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        上一步
+      </button>
+      <button type="button" class="btn primary" onclick="calculateAndGo3()">計算並產出報告
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="result" id="result">
+      <div class="result-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        綜合評估結果
+      </div>
+      <div class="result-grid">
+        <div class="r-card"><div class="r-label">已確認改善項</div><div class="r-val" id="r-count">0<span class="r-unit">/ 21</span></div></div>
+        <div class="r-card"><div class="r-label">年耗電量（現況）</div><div class="r-val" id="r-base">-<span class="r-unit">度</span></div></div>
+        <div class="r-card"><div class="r-label">預估可節省比例</div><div class="r-val green" id="r-pct">-<span class="r-unit">%</span></div></div>
+        <div class="r-card"><div class="r-label">年節省金額</div><div class="r-val green" id="r-money">-<span class="r-unit">元</span></div></div>
+        <div class="r-card"><div class="r-label">預估投資費用</div><div class="r-val" id="r-invest">-<span class="r-unit">萬元</span></div></div>
+        <div class="r-card"><div class="r-label">簡易回收年限</div><div class="r-val" id="r-payback">-<span class="r-unit">年</span></div></div>
+        <div class="r-card" style="grid-column:span 2"><div class="r-label">溫室氣體減量</div><div class="r-val" id="r-co2" style="color:#2F6B3A">-<span class="r-unit">ton-CO2e/年</span></div></div>
+      </div>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="note">＊計算基礎：1hp ≈ 0.746kW；點檢表 21 項依高/中/低優先度賦予節能權重，與參數試算結果合併估算，並設節能上限 55% 避免失真。投資費用為粗估區間，實際應以廠商報價為準；溫室氣體減量採經濟部能源局公告 114 年度電力排碳係數 0.424 kg-CO2e/kWh 估算。本報告僅供初步評估參考，實際效益需現場量測確認。</div>
+      <div class="footer-actions">
+        <button type="button" class="action-btn" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+          列印 / 存成 PDF
+        </button>
+        <button type="button" class="action-btn" onclick="copyReport()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          複製報告文字
+        </button>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button type="button" class="btn" onclick="goStep(2)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:4px"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+        上一步
+      </button>
+      <button type="button" class="btn" onclick="resetAll()">重新開始</button>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <div class="footer-name">Charlotte Chang｜張雅雯</div>
+      <div class="footer-role">協中實業市場開發顧問 · 高雄</div>
+    </div>
+    <!-- 修正4：footer 連結請自行填入真實 URL -->
+    <div class="footer-links">
+      <a href="mailto:chalotte@gmail.com">Email</a>
+      <a href="https://line.me/ti/p/chalotte88" target="_blank">LINE</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+
+const ITEMS = [
+  {id:'p1',sec:'pressure',title:'出口壓力過高',note:'出口壓力每降 1 kg/cm²，省電 6%',saving:6,risk:'h',cost:0,costNote:'調整面板參數，無額外費用'},
+  {id:'p2',sec:'pressure',title:'高低壓未分流',note:'採高低壓分流設計，可省電 10% 以上',saving:10,risk:'h',cost:25,costNote:'管路分流改造工程'},
+  {id:'p3',sec:'pressure',title:'管路縮管造成壓力降',note:'每 0.2 kg/cm² 壓力降損失 1.2% 電能',saving:2.4,risk:'m',cost:8,costNote:'局部管徑改善'},
+  {id:'p4',sec:'pressure',title:'壓縮空氣設定壓力過高',note:'空壓機選型設計壓力偏高，長期偏離設計點',saving:4,risk:'m',cost:0,costNote:'調整運轉策略，無額外費用'},
+  {id:'p5',sec:'pressure',title:'管路系統未採環狀設計',note:'環狀管路可降低設定壓力、穩定供氣',saving:2,risk:'l',cost:15,costNote:'管路環狀化工程'},
+  {id:'c1',sec:'cooling',title:'壓縮機室內溫度超過 30℃',note:'室內溫度每降 10℃，省電 3%',saving:3,risk:'m',cost:10,costNote:'機房通風／降溫改善'},
+  {id:'c2',sec:'cooling',title:'冷卻水溫偏高',note:'冷卻水塔水溫每降 5℃，省電 1%',saving:2,risk:'l',cost:12,costNote:'水塔散熱材清洗或水量平衡'},
+  {id:'l1',sec:'leak',title:'系統存在洩漏未修繕',note:'1/2 吋 PA 管洩漏 ≈ 一台 123hp 馬達泵浦在運轉',saving:8,risk:'h',cost:5,costNote:'洩漏檢測與修繕'},
+  {id:'l2',sec:'leak',title:'配管使用塑膠管',note:'塑膠管劣化後洩漏叢生，建議更換',saving:3,risk:'m',cost:20,costNote:'局部管路更換為金屬管'},
+  {id:'l3',sec:'leak',title:'壓縮空氣不當使用（如代替攪拌）',note:'PA 替代攪拌機，浪費 4 倍能源',saving:5,risk:'h',cost:3,costNote:'教育訓練＋現場標示改善'},
+  {id:'k1',sec:'control',title:'未採多機聯鎖控制',note:'主副機聯鎖，集中空車時間到一台，減少總空載損失',saving:5,risk:'h',cost:30,costNote:'連控系統建置'},
+  {id:'k2',sec:'control',title:'未採變頻/變速控制（高變動負荷）',note:'高變動負荷場合搭配變速機，但全載時多耗 4%',saving:6,risk:'m',cost:80,costNote:'變頻空壓機更換或加裝'},
+  {id:'k3',sec:'control',title:'馬達未使用 IE3 高效率馬達',note:'IE3 較舊馬達效率提升，可減少 3~5% 電能',saving:4,risk:'m',cost:15,costNote:'馬達汰換為 IE3 等級'},
+  {id:'k4',sec:'control',title:'離心式空壓機 BOV 開啟排放',note:'現場負載低時排放壓縮空氣，直接浪費能源',saving:3,risk:'h',cost:0,costNote:'調整控制邏輯，無額外費用'},
+  {id:'k5',sec:'control',title:'未採用大型儲槽穩壓',note:'儲槽可穩壓並應付瞬間需求，減少頻繁啟停',saving:2,risk:'l',cost:18,costNote:'加裝壓縮空氣儲槽'},
+  {id:'a1',sec:'aux',title:'吸附式乾燥機使用無熱式再生',note:'無熱式再生損耗 14~25% 壓縮空氣，建議改加熱式',saving:14,risk:'h',cost:35,costNote:'乾燥機改為加熱式再生'},
+  {id:'a2',sec:'aux',title:'吸附式乾燥機未採露點控制',note:'以露點溫度控制取代定時再生，節省再生用氣',saving:4,risk:'m',cost:12,costNote:'加裝露點控制器'},
+  {id:'a3',sec:'aux',title:'過多選用精密過濾器',note:'每多一組精密過濾器損耗 1.2% 電能',saving:2.4,risk:'l',cost:0,costNote:'盤點移除多餘過濾器'},
+  {id:'a4',sec:'aux',title:'空壓機廢熱未回收利用',note:'100hp 空壓機每小時排熱 25 萬 BTU，可作熱水或製程用熱',saving:0,risk:'m',cost:40,costNote:'廢熱回收裝置建置（質化效益為主）'},
+  {id:'a5',sec:'aux',title:'進氣管未接至低溫區域或室外',note:'進氣溫度高，壓縮做功增加',saving:3,risk:'m',cost:6,costNote:'進氣管路改至室外或低溫區'},
+  {id:'a6',sec:'aux',title:'未定期記錄並分析系統壓力與用電',note:'無量測即無管理，難以發現劣化',saving:0,risk:'l',cost:8,costNote:'加裝基礎監測儀表（質化效益為主）'},
+];
+
+const CO2_FACTOR = 0.424;
+const SEC_MAP = {pressure:'items-pressure',cooling:'items-cooling',leak:'items-leak',control:'items-control',aux:'items-aux'};
+const checked = new Set();
+
+function renderChecklist(){
+  Object.values(SEC_MAP).forEach(id=>document.getElementById(id).innerHTML='');
+  ITEMS.forEach(it=>{
+    const el = document.createElement('div');
+    el.className='item'+(checked.has(it.id)?' checked':'');
+    el.dataset.id=it.id;
+    const rb = {h:'risk-h',m:'risk-m',l:'risk-l'}[it.risk];
+    const rl = {h:'高優先',m:'中',l:'低'}[it.risk];
+    const sv = it.saving>0?`省 ${it.saving}%`:'質化效益';
+    const costLabel = it.cost>0?`預估 ${it.cost} 萬元`:'無額外投資';
+    el.innerHTML=`<div class="cb">${CHECK_SVG}</div>
+<div class="item-body"><div class="item-title">${it.title}</div><div class="item-note">${it.note}</div><div class="item-cost">${costLabel}　·　${it.costNote}</div></div>
+<div class="item-right">
+  <span class="risk-badge ${rb}">${rl}</span>
+  <div class="item-saving">${sv}</div>
+</div>`;
+    el.addEventListener('click',()=>{
+      if(checked.has(it.id)) checked.delete(it.id); else checked.add(it.id);
+      el.classList.toggle('checked');
+    });
+    document.getElementById(SEC_MAP[it.sec]).appendChild(el);
+  });
+}
+renderChecklist();
+
+function goStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  document.querySelector(`.tab[data-step="${n}"]`).classList.add('active');
+  // 修正3：progress bar id 改為 pb1/pb2/pb3
+  for(let i=1;i<=3;i++){
+    document.getElementById('pb'+i).classList.toggle('done', i<=n);
+  }
+  document.querySelector('.site-header').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+let lastCalc = null;
+
+function calculateAndGo3(){
+  const hp = parseFloat(document.getElementById('hp').value)||0;
+  const hours = parseFloat(document.getElementById('hours').value)||0;
+  const loadrate = (parseFloat(document.getElementById('loadrate').value)||0)/100;
+  const price = parseFloat(document.getElementById('price').value)||0;
+  const pdrop = parseFloat(document.getElementById('pdrop').value)||0;
+  const temp = parseFloat(document.getElementById('temp').value)||0;
+
+  const baseKW = hp * 0.746 * loadrate;
+  const baseKWh = baseKW * hours;
+
+  const sel = ITEMS.filter(i=>checked.has(i.id));
+  let totalPct = sel.reduce((a,i)=>a+i.saving,0);
+
+  const extraItems = [];
+  if(pdrop > 0){
+    const v = Math.min(pdrop,3) * 6;
+    extraItems.push({name:'壓力設定過高（參數試算）',pct:v});
+    totalPct += v;
+  }
+  if(temp > 30){
+    const v = Math.min((temp-30)/10,2) * 3;
+    extraItems.push({name:'室溫偏高（參數試算）',pct:v});
+    totalPct += v;
+  }
+
+  const cappedPct = Math.min(totalPct,55);
+  const savedKWh = baseKWh * (cappedPct/100);
+  const savedMoney = savedKWh * price;
+  const co2Reduction = savedKWh * CO2_FACTOR / 1000;
+
+  const totalInvest = sel.reduce((a,i)=>a+(i.cost||0),0);
+  const paybackYears = savedMoney>0 ? (totalInvest*10000) / savedMoney : 0;
+
+  document.getElementById('r-count').innerHTML = `${sel.length}<span class="r-unit">/ 21</span>`;
+  document.getElementById('r-base').innerHTML = Math.round(baseKWh).toLocaleString()+'<span class="r-unit">度</span>';
+  document.getElementById('r-pct').innerHTML = cappedPct.toFixed(1)+'<span class="r-unit">%</span>';
+  document.getElementById('r-money').innerHTML = Math.round(savedMoney).toLocaleString()+'<span class="r-unit">元</span>';
+  document.getElementById('r-invest').innerHTML = (totalInvest>0?totalInvest.toLocaleString():'0')+'<span class="r-unit">萬元</span>';
+  document.getElementById('r-payback').innerHTML = (totalInvest===0?'立即':paybackYears.toFixed(1))+'<span class="r-unit">'+(totalInvest===0?'':'年')+'</span>';
+  document.getElementById('r-co2').innerHTML = co2Reduction.toFixed(1)+'<span class="r-unit">ton-CO2e/年</span>';
+
+  const allItems = [...sel.map(i=>({name:i.title,pct:i.saving})), ...extraItems].filter(i=>i.pct>0);
+  const bd = document.getElementById('breakdown');
+  if(allItems.length === 0){
+    bd.innerHTML = '<div class="empty-hint">尚無確認改善項目</div>';
+  } else {
+    const maxP = Math.max(...allItems.map(i=>i.pct));
+    bd.innerHTML = allItems.sort((a,b)=>b.pct-a.pct).map(i=>`
+      <div class="bd-row">
+        <span class="bd-name">${i.name.length>14?i.name.slice(0,14)+'…':i.name}</span>
+        <div class="bd-bar-wrap"><div class="bd-bar" style="width:${Math.round(i.pct/maxP*100)}%"></div></div>
+        <span class="bd-val">${i.pct.toFixed(1)}%</span>
+      </div>`).join('');
+  }
+
+  lastCalc = {
+    plant: document.getElementById('m-plant').value||'（未填）',
+    person: document.getElementById('m-person').value||'（未填）',
+    hp,hours,loadrate:loadrate*100,price,baseKWh,cappedPct,savedKWh,savedMoney,
+    totalInvest,paybackYears,co2Reduction,
+    items: allItems, checkedCount: sel.length
+  };
+  goStep(3);
+}
+
+function copyReport(){
+  if(!lastCalc) return;
+  const d = lastCalc;
+  const text = `【空壓系統節能完整評估報告】
+廠區：${d.plant}　評估人員：${d.person}
+
+設備裝置容量：${d.hp} hp
+年運轉時數：${d.hours} 小時
+馬達平均負載率：${d.loadrate}%
+工業電價：${d.price} 元/度
+現況年耗電量：約 ${Math.round(d.baseKWh).toLocaleString()} 度
+現場點檢確認改善項：${d.checkedCount} / 21 項
+
+節能機會項目：
+${d.items.map(i=>`・${i.name}：節能潛力 ${i.pct.toFixed(1)}%`).join('\n')}
+
+累計預估節能：${d.cappedPct.toFixed(1)}%
+預估年節省電量：${Math.round(d.savedKWh).toLocaleString()} 度
+預估年節省金額：${Math.round(d.savedMoney).toLocaleString()} 元
+預估投資費用：${d.totalInvest.toLocaleString()} 萬元
+簡易回收年限：${d.totalInvest===0?'立即（無額外投資）':d.paybackYears.toFixed(1)+' 年'}
+溫室氣體減量：約 ${d.co2Reduction.toFixed(1)} ton-CO2e/年（採經濟部能源局公告 114 年度電力排碳係數 0.424 kg-CO2e/kWh 估算）
+
+—
+本報告由 Charlotte Chang（協中實業市場開發顧問）製作
+本試算僅供初步評估參考，實際效益與投資金額需現場量測與報價確認。`;
+
+  navigator.clipboard.writeText(text).then(()=>{
+    alert('已複製到剪貼簿，可貼到 Word / Email 中。');
+  }).catch(()=>{
+    alert('複製失敗，請手動選取文字複製。');
+  });
+}
+
+function resetAll(){
+  checked.clear();
+  renderChecklist();
+  goStep(1);
+  document.getElementById('m-plant').value='';
+  document.getElementById('m-person').value='';
+}
+</script>
+
+</body>
+</html>
