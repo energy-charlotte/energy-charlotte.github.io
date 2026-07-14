@@ -87,12 +87,23 @@ ul.tight li{margin-bottom:4px}
 .src a{color:var(--blue);word-break:break-all}
 footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
 @media print{
-  header,nav,.btnrow,.scorebar,footer .noprint{display:none!important}
+  header,nav,.btnrow,.scorebar,footer .noprint,.lead-box{display:none!important}
   body{background:#fff}
   .page{display:none}
   .page.active{display:block}
   main{padding-bottom:0}
 }
+/* ===== 送出結果給顧問 ===== */
+.lead-box{margin-top:14px;border:1px solid var(--green);background:var(--green-light);border-radius:10px;padding:16px}
+.lead-title{font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:4px}
+.lead-sub{font-size:.8rem;color:var(--gray);line-height:1.6;margin-bottom:12px}
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:560px){.lead-grid{grid-template-columns:1fr}}
+.lead-consent{display:flex;align-items:flex-start;gap:7px;font-size:.76rem;color:var(--gray);line-height:1.5;margin-bottom:11px;cursor:pointer}
+.lead-consent input{margin-top:2px;width:14px;height:14px;flex-shrink:0;accent-color:var(--green)}
+.lead-msg{font-size:.82rem;margin-top:9px;text-align:center;line-height:1.5}
+.lead-msg.ok{color:var(--green-dark);font-weight:700}
+.lead-msg.err{color:var(--red)}
 </style>
 </head>
 <body>
@@ -168,6 +179,22 @@ footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8p
       <button class="btn sec" onclick="window.print()">列印</button>
     </div>
     <div id="diagOut"></div>
+    <div class="lead-box" id="leadBox">
+      <div class="lead-title">需要專業建議？把這份診斷結果送給顧問</div>
+      <div class="lead-sub">留下聯絡方式，Charlotte Chang（ESG永續發展協會顧問）將於一個工作天內與您聯繫，提供永續報告書規劃與輔導建議。</div>
+      <div class="lead-grid">
+        <input type="text" id="lead-name" placeholder="您的姓名 ＊">
+        <input type="text" id="lead-company" placeholder="公司 / 單位 ＊">
+        <input type="tel" id="lead-phone" placeholder="聯絡電話 ＊">
+        <input type="email" id="lead-email" placeholder="Email（選填）">
+      </div>
+      <label class="lead-consent">
+        <input type="checkbox" id="lead-consent">
+        <span>我同意將上述聯絡資訊與本次診斷結果提供予顧問，作為後續聯繫與服務之用；個資僅用於本目的，不作其他用途。</span>
+      </label>
+      <button type="button" class="btn" id="lead-submit" onclick="submitLead()" style="width:100%">送出結果給顧問</button>
+      <div class="lead-msg" id="lead-msg"></div>
+    </div>
   </div>
 </section>
 
@@ -465,7 +492,68 @@ function diagResult(){
      ${weak.length?`<br>優先補強構面：<b>${weak.join('、')}</b>`:''}<br><br>
      <b>建議：</b>${advice}<br><br>
      <span class="hint">Charlotte Chang 張雅雯｜${new Date().toLocaleDateString('zh-TW')}</span></div>`;
+  window.lastCalc = { name, tot, max, pct, lv, advice,
+    dims: `環境 ${dims.E[0]}/${dims.E[1]}、社會 ${dims.S[0]}/${dims.S[1]}、治理 ${dims.G[0]}/${dims.G[1]}`,
+    weak: weak.join('、')
+  };
   saveAll();
+}
+
+/* ===== 送出結果給顧問（連接 CRM 收單 Apps Script）===== */
+const LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzHVU7fq2p3ej9aW1fyjBqXqrXLYyO0BZJi_VJvP9cWd_EThHQNcrJHentwnAfnA8od/exec';
+
+function submitLead(){
+  const name    = document.getElementById('lead-name').value.trim();
+  const company = document.getElementById('lead-company').value.trim();
+  const phone   = document.getElementById('lead-phone').value.trim();
+  const email   = document.getElementById('lead-email').value.trim();
+  const consent = document.getElementById('lead-consent').checked;
+  const msg     = document.getElementById('lead-msg');
+  const btn     = document.getElementById('lead-submit');
+
+  if(!name || !company || !phone){
+    msg.className='lead-msg err'; msg.textContent='請填寫姓名、公司/單位與聯絡電話。'; return;
+  }
+  if(!consent){
+    msg.className='lead-msg err'; msg.textContent='請先勾選個資同意聲明，再送出。'; return;
+  }
+  if(!window.lastCalc){
+    msg.className='lead-msg err'; msg.textContent='請先產出診斷結果，再送出。'; return;
+  }
+
+  btn.disabled = true; btn.textContent = '傳送中…';
+  msg.className='lead-msg'; msg.textContent='';
+
+  const d = window.lastCalc;
+  const scoreLine = 'ESG成熟度 ' + d.tot + '/' + d.max + '（' + d.pct + '%）｜' + d.lv;
+  const summaryText = `【ESG 成熟度快速診斷結果】\n公司：${d.name}\n總分：${d.tot}/${d.max}（${d.pct}%）｜評等：${d.lv}\n構面得分：${d.dims}\n${d.weak?'優先補強構面：'+d.weak+'\\n':''}建議：${d.advice}\n—\n本結果由 Charlotte Chang 提供之自主診斷工具產出，僅供初步評估參考。`;
+
+  const payload = {
+    tool: 'ESG 行動服務平台－成熟度診斷',
+    company: company,
+    name: name,
+    phone: phone,
+    email: email,
+    area: d.name,
+    score: scoreLine,
+    summary: summaryText,
+    consent: consent
+  };
+
+  fetch(LEAD_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  }).then(()=>{
+    msg.className='lead-msg ok';
+    msg.textContent='✓ 已送出！Charlotte 將於一個工作天內與您聯繫，感謝您的填寫。';
+    btn.textContent='已送出';
+  }).catch(()=>{
+    msg.className='lead-msg err';
+    msg.textContent='送出時發生問題，請改用 Email（chalotte@gmail.com）與顧問聯繫。';
+    btn.disabled=false; btn.textContent='送出結果給顧問';
+  });
 }
 
 /* ====== 報告書架構指引 ====== */

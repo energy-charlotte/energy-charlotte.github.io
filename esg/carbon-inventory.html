@@ -59,7 +59,18 @@ ul.tight{padding-left:18px}ul.tight li{margin-bottom:4px}
 .src{font-size:.72rem;color:var(--gray);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
 .src a{color:var(--blue);word-break:break-all}
 footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
-@media print{header,nav,.btnrow,footer,.noprint{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+@media print{header,nav,.btnrow,footer,.noprint,.lead-box{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+/* ===== 送出結果給顧問 ===== */
+.lead-box{margin-top:14px;border:1px solid var(--blue);background:var(--blue-light);border-radius:10px;padding:16px}
+.lead-title{font-size:1rem;font-weight:700;color:var(--blue);margin-bottom:4px}
+.lead-sub{font-size:.8rem;color:var(--gray);line-height:1.6;margin-bottom:12px}
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:560px){.lead-grid{grid-template-columns:1fr}}
+.lead-consent{display:flex;align-items:flex-start;gap:7px;font-size:.76rem;color:var(--gray);line-height:1.5;margin-bottom:11px;cursor:pointer}
+.lead-consent input{margin-top:2px;width:14px;height:14px;flex-shrink:0;accent-color:var(--blue)}
+.lead-msg{font-size:.82rem;margin-top:9px;text-align:center;line-height:1.5}
+.lead-msg.ok{color:var(--blue);font-weight:700}
+.lead-msg.err{color:var(--red)}
 </style>
 </head>
 <body>
@@ -163,6 +174,22 @@ footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8p
       <button class="btn sec" onclick="window.print()">列印／存 PDF</button>
     </div>
     <div id="repOut"></div>
+    <div class="lead-box" id="leadBox">
+      <div class="lead-title">需要專業建議？把這份結果送給顧問</div>
+      <div class="lead-sub">留下聯絡方式，Charlotte Chang（協中實業／ESG永續發展協會顧問）將於一個工作天內與您聯繫，提供減碳規劃與正式盤查輔導建議。</div>
+      <div class="lead-grid">
+        <input type="text" id="lead-name" placeholder="您的姓名 ＊">
+        <input type="text" id="lead-company" placeholder="公司 / 單位 ＊">
+        <input type="tel" id="lead-phone" placeholder="聯絡電話 ＊">
+        <input type="email" id="lead-email" placeholder="Email（選填）">
+      </div>
+      <label class="lead-consent">
+        <input type="checkbox" id="lead-consent">
+        <span>我同意將上述聯絡資訊與本次評估結果提供予顧問，作為後續聯繫與服務之用；個資僅用於本目的，不作其他用途。</span>
+      </label>
+      <button type="button" class="btn" id="lead-submit" onclick="submitLead()" style="width:100%">送出結果給顧問</button>
+      <div class="lead-msg" id="lead-msg"></div>
+    </div>
   </div>
 </section>
 
@@ -300,7 +327,69 @@ function buildReport(){
   ${list.length?`<b>主要排放熱點：</b>${list.slice(0,3).map(x=>`${x.d.n}（${g>0?(x.t/g*100).toFixed(0):0}%）`).join('、')}<br>
   <b>減碳建議方向：</b>${p1>=50?'範疇一占比高——優先評估燃油設備電動化（堆高機、公務車）、鍋爐燃料轉換與冷媒管理制度。':'範疇二占比高——優先推動照明/空調/空壓系統節能、功率因數改善，並評估屋頂太陽能與綠電採購。'}`:''}
   <br><span class="hint">Charlotte Chang 張雅雯｜產出日期 ${new Date().toLocaleDateString('zh-TW')}｜本報告為估算性質，燃料係數僅計 CO₂ 主項；正式盤查請依環境部最新排放係數管理表全項計算並經查驗。</span></div>`;
+  window.lastCalc = {
+    name, year, g, s1, s2,
+    hotspots: list.slice(0,3).map(x=>x.d.n).join('、'),
+    advice: p1>=50?'範疇一占比高——優先評估燃油設備電動化（堆高機、公務車）、鍋爐燃料轉換與冷媒管理制度。':'範疇二占比高——優先推動照明/空調/空壓系統節能、功率因數改善，並評估屋頂太陽能與綠電採購。'
+  };
   saveAll();
+}
+
+/* ===== 送出結果給顧問（連接 CRM 收單 Apps Script）===== */
+const LEAD_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzHVU7fq2p3ej9aW1fyjBqXqrXLYyO0BZJi_VJvP9cWd_EThHQNcrJHentwnAfnA8od/exec';
+
+function submitLead(){
+  const name    = document.getElementById('lead-name').value.trim();
+  const company = document.getElementById('lead-company').value.trim();
+  const phone   = document.getElementById('lead-phone').value.trim();
+  const email   = document.getElementById('lead-email').value.trim();
+  const consent = document.getElementById('lead-consent').checked;
+  const msg     = document.getElementById('lead-msg');
+  const btn     = document.getElementById('lead-submit');
+
+  if(!name || !company || !phone){
+    msg.className='lead-msg err'; msg.textContent='請填寫姓名、公司/單位與聯絡電話。'; return;
+  }
+  if(!consent){
+    msg.className='lead-msg err'; msg.textContent='請先勾選個資同意聲明，再送出。'; return;
+  }
+  if(!window.lastCalc){
+    msg.className='lead-msg err'; msg.textContent='請先產出報表，再送出結果。'; return;
+  }
+
+  btn.disabled = true; btn.textContent = '傳送中…';
+  msg.className='lead-msg'; msg.textContent='';
+
+  const d = window.lastCalc;
+  const scoreLine = '總排放量 ' + d.g.toFixed(2) + ' 公噸 CO2e（範疇一 ' + d.s1.toFixed(2) + '／範疇二 ' + d.s2.toFixed(2) + '）';
+  const summaryText = `【溫室氣體盤查估算報告】\n公司：${d.name}｜報告期間：${d.year}\n總排放量：${d.g.toFixed(2)} 公噸CO2e（範疇一 ${d.s1.toFixed(2)}、範疇二 ${d.s2.toFixed(2)}）\n主要排放熱點：${d.hotspots||'—'}\n減碳建議：${d.advice||'—'}\n—\n本報告由 Charlotte Chang 製作，為估算性質，正式盤查需第三方查驗。`;
+
+  const payload = {
+    tool: '碳盤查行動平台',
+    company: company,
+    name: name,
+    phone: phone,
+    email: email,
+    area: d.name,
+    score: scoreLine,
+    summary: summaryText,
+    consent: consent
+  };
+
+  fetch(LEAD_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload)
+  }).then(()=>{
+    msg.className='lead-msg ok';
+    msg.textContent='✓ 已送出！Charlotte 將於一個工作天內與您聯繫，感謝您的填寫。';
+    btn.textContent='已送出';
+  }).catch(()=>{
+    msg.className='lead-msg err';
+    msg.textContent='送出時發生問題，請改用 Email（chalotte@gmail.com）或 LINE 官方帳號與顧問聯繫。';
+    btn.disabled=false; btn.textContent='送出結果給顧問';
+  });
 }
 
 /* ====== 指引 ====== */
