@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>碳盤查行動平台｜Charlotte Chang 張雅雯</title>
+<title>碳盤查行動平台｜協中實業</title>
 <style>
 :root{
   --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
@@ -60,6 +60,19 @@ ul.tight{padding-left:18px}ul.tight li{margin-bottom:4px}
 .src a{color:var(--blue);word-break:break-all}
 footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
 @media print{header,nav,.btnrow,footer,.noprint,.lead-box{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+/* ===== 範疇三 ===== */
+.s3{background:#6b4fa0!important}
+.s3row .lbl{font-weight:700;color:#6b4fa0}
+.s3row .efnote{font-size:.74rem;color:var(--gray);padding-top:4px;line-height:1.4}
+.s3row .out{font-weight:700}
+.tag{display:inline-block;font-size:.68rem;padding:1px 6px;border-radius:9px;margin-left:4px}
+.tag.tw{background:var(--green-light);color:var(--green-dark)}
+.tag.epa{background:var(--blue-light);color:var(--blue)}
+.tag.none{background:var(--amber-light);color:var(--amber)}
+.tag.prim{background:#efe9f8;color:#6b4fa0}
+.warnbox{border-left:4px solid var(--amber);background:var(--amber-light);padding:8px 10px;border-radius:0 8px 8px 0;font-size:.82rem;margin:8px 0}
+.okbox{border-left:4px solid var(--green);background:var(--green-light);padding:8px 10px;border-radius:0 8px 8px 0;font-size:.82rem;margin:8px 0}
+.tblwrap{overflow-x:auto}
 /* ===== 送出結果給顧問 ===== */
 .lead-box{margin-top:14px;border:1px solid var(--blue);background:var(--blue-light);border-radius:10px;padding:16px}
 .lead-title{font-size:1rem;font-weight:700;color:var(--blue);margin-bottom:4px}
@@ -76,14 +89,15 @@ footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8p
 <body>
 <header>
   <div style="display:flex;justify-content:space-between;align-items:center">
-    <h1>碳盤查行動平台（範疇一＋二）</h1><a href="../index.html" style="color:#fff;font-size:.78rem;text-decoration:none;opacity:.9">← 回首頁</a>
+    <h1>碳盤查行動平台（範疇一＋二＋三）</h1><a href="../index.html" style="color:#fff;font-size:.78rem;text-decoration:none;opacity:.9">← 回首頁</a>
   </div>
-  <div class="sub">Charlotte Chang 張雅雯｜依 ISO 14064-1 架構、環境部公告排放係數（GWP：IPCC AR6）編製</div>
+  <div class="sub">協中實業｜Charlotte Chang 張雅雯｜依 ISO 14064-1 架構、環境部公告排放係數（GWP：IPCC AR6）編製</div>
 </header>
 <nav>
   <button class="active" data-p="base" onclick="go('base',this)">盤查邊界</button>
   <button data-p="id" onclick="go('id',this)">排放源盤點</button>
   <button data-p="calc" onclick="go('calc',this)">數據計算</button>
+  <button data-p="s3" onclick="go('s3',this)">範疇三</button>
   <button data-p="rep" onclick="go('rep',this)">結果報表</button>
   <button data-p="ref" onclick="go('ref',this)">盤查指引</button>
 </nav>
@@ -165,6 +179,41 @@ footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8p
   </div>
 </section>
 
+<!-- ===== 範疇三 ===== -->
+<section class="page" id="p-s3">
+  <div class="card">
+    <h2>Step 3B｜範疇三：價值鏈間接排放</h2>
+    <p class="hint">每一筆採購或支出，依手上的資料選一種算法：</p>
+    <ul class="tight hint" style="margin:4px 0 6px">
+      <li><span class="tag tw">環境部</span> <b>數量法</b>：有重量／數量（公斤、度、延噸公里…）時，用環境部碳足跡排放係數（優先）。</li>
+      <li><span class="tag epa">EPA</span> <b>支出法</b>：只有金額時，用美國環保署供應鏈係數換算（台灣沒有對應係數時的備援）。</li>
+      <li><span class="tag prim">一級數據</span> <b>供應商提供</b>：供應商回覆實際排放量後，直接覆蓋估算值。</li>
+    </ul>
+    <div class="grid3">
+      <div><label class="f">匯率（新臺幣／美元，報告年度平均）</label><input type="text" id="s3-fx" inputmode="decimal" value="32.0" onchange="renderS3();saveAll()"></div>
+      <div><label class="f">物價調整倍數（報告年度 ÷ 2022 年）</label><input type="text" id="s3-cpi" inputmode="decimal" value="1.072" onchange="renderS3();saveAll()"></div>
+      <div><label class="f">支出法分類覆蓋率門檻</label><input type="text" value="75%" disabled></div>
+    </div>
+    <p class="hint" style="margin-top:6px">支出法換算：新臺幣 ÷ 匯率 ÷ 物價調整倍數 × EPA 係數（kgCO₂e／2022 年美元）。預設 1.072＝美國 CPI-U 2024 年均 313.689 ÷ 2022 年均 292.655；匯率與倍數請依報告年度更新。</p>
+    <div class="btnrow">
+      <button class="btn" onclick="addS3()">＋ 新增一筆</button>
+      <button class="btn sec" onclick="toggleImport()">匯入會計資料（CSV）</button>
+    </div>
+    <div id="s3-import" style="display:none;margin-top:10px">
+      <label class="f">貼上會計系統匯出資料，每行一筆：交易日期, 費用類別, 金額（新臺幣）, 供應商（選填）</label>
+      <textarea id="s3-csv" rows="6" placeholder="2025/03/15,原料-鋼材,1250000,○○鋼鐵&#10;2025/04/02,包材-紙箱,86000,○○紙器&#10;2025/05/20,運費,42000,○○通運"></textarea>
+      <div class="btnrow"><button class="btn sm" id="s3-impbtn" onclick="importS3()">匯入</button><span class="hint" id="s3-impmsg" style="align-self:center"></span></div>
+      <p class="hint">匯入後一律先以支出法建立，系統依費用類別關鍵字自動對應 EPA 類別；對不到的列為「未分類」，再逐筆檢查。有重量資料的品項，建議改選環境部數量係數。</p>
+    </div>
+  </div>
+  <div id="s3rows"></div>
+  <div class="card" id="s3sum"></div>
+  <div class="card">
+    <h3>高排放供應商（前 5 名）→ 下一步請供應商提供一級數據</h3>
+    <div id="s3sup" class="tblwrap"></div>
+  </div>
+</section>
+
 <!-- ===== 結果報表 ===== -->
 <section class="page" id="p-rep">
   <div class="card">
@@ -176,7 +225,7 @@ footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8p
     <div id="repOut"></div>
     <div class="lead-box" id="leadBox">
       <div class="lead-title">需要專業建議？把這份結果送給顧問</div>
-      <div class="lead-sub">留下聯絡方式，Charlotte Chang（協中實業／ESG永續發展協會顧問）將於一個工作天內與您聯繫，提供減碳規劃與正式盤查輔導建議。</div>
+      <div class="lead-sub">留下聯絡方式，Charlotte Chang（協中實業）將於一個工作天內與您聯繫，提供減碳規劃與正式盤查輔導建議。</div>
       <div class="lead-grid">
         <input type="text" id="lead-name" placeholder="您的姓名 ＊">
         <input type="text" id="lead-company" placeholder="公司 / 單位 ＊">
@@ -201,7 +250,7 @@ footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8p
 
 </main>
 <footer>
-  Charlotte Chang 張雅雯 製作｜係數基準：環境部公告溫室氣體排放係數（113.2.5，GWP 採 IPCC AR6）、排放係數管理表 6.0.4、能源署 114 年度電力排碳係數<br>
+  協中實業｜Charlotte Chang 張雅雯 製作｜係數基準：環境部公告溫室氣體排放係數（113.2.5，GWP 採 IPCC AR6）、排放係數管理表 6.0.4、能源署 114 年度電力排碳係數；範疇三：環境部碳足跡排放係數（環境資料開放平臺 CFP_P_02）為主、US EPA Supply Chain GHG Emission Factors v1.3 為輔<br>
   本工具供現場快速估算與輔導用；正式盤查申報請以環境部最新公告係數及查驗機構要求為準。
 </footer>
 
@@ -300,7 +349,274 @@ function totals(){
   document.getElementById('t-s2').textContent=s2.toFixed(3);
 }
 
+
+/* ====== 範疇三 ======
+   tw  ：環境部碳足跡排放係數（環境資料開放平臺 CFP_P_02；kgCO2e／宣告單位）
+   epa ：US EPA Supply Chain GHG Emission Factors v1.3（NAICS-6，含價差，kgCO2e／2022 USD 購買者價格）
+   none：未分類支出，以已分類支出之平均強度推估 */
+const S3C={1:'類別1 購買商品與服務',2:'類別2 資本財',3:'類別3 燃料與能源相關（上游）',4:'類別4 上游運輸與配送',5:'類別5 營運廢棄物',6:'類別6 商務差旅',7:'類別7 員工通勤'};
+const S3F=[
+/* --- 環境部：類別1 原物料 --- */
+{k:'tw_cs_billet',m:'tw',c:1,n:'碳鋼鋼胚（電弧爐製程）',u:'公斤',f:0.53,y:2015},
+{k:'tw_alloy_billet',m:'tw',c:1,n:'合金鋼鋼胚（機械五金用）',u:'公斤',f:0.5661,y:2025},
+{k:'tw_rebar',m:'tw',c:1,n:'鋼筋',u:'公斤',f:0.66,y:2015},
+{k:'tw_cs_cr',m:'tw',c:1,n:'碳鋼冷軋鋼捲',u:'公斤',f:2.5,y:2013},
+{k:'tw_ss_billet',m:'tw',c:1,n:'不銹鋼鋼胚',u:'公斤',f:2.831,y:2025},
+{k:'tw_ss_cr',m:'tw',c:1,n:'不銹鋼冷軋鋼捲（304，2B）',u:'公斤',f:3.562,y:2025},
+{k:'tw_tinplate',m:'tw',c:1,n:'馬口鐵（鍍錫鋼板）',u:'公斤',f:2.683,y:2025},
+{k:'tw_al_rec',m:'tw',c:1,n:'再生鋁錠',u:'公斤',f:0.7,y:2015},
+{k:'tw_cu_wire',m:'tw',c:1,n:'8mm 裸銅線（SCR 銅）',u:'公斤',f:4.13,y:2018},
+{k:'tw_hdpe',m:'tw',c:1,n:'高密度聚乙烯 HDPE',u:'公斤',f:2.21,y:2023},
+{k:'tw_lldpe',m:'tw',c:1,n:'線性低密度聚乙烯 LLDPE',u:'公斤',f:2.02,y:2020},
+{k:'tw_pp',m:'tw',c:1,n:'聚丙烯 PP',u:'公斤',f:1.95,y:2023},
+{k:'tw_pp_rec',m:'tw',c:1,n:'PP 再生塑膠粒',u:'公斤',f:0.4426,y:2025},
+{k:'tw_pet',m:'tw',c:1,n:'聚對苯二甲酸乙二酯 PET',u:'公斤',f:2.74,y:2022},
+{k:'tw_abs',m:'tw',c:1,n:'ABS 樹脂',u:'公斤',f:2.788,y:2025},
+{k:'tw_pvc',m:'tw',c:1,n:'聚氯乙烯 PVC',u:'公斤',f:2.571,y:2025},
+{k:'tw_gpps',m:'tw',c:1,n:'通用級聚苯乙烯 GPPS',u:'公斤',f:2.74,y:2022},
+{k:'tw_eps',m:'tw',c:1,n:'發泡聚苯乙烯',u:'公斤',f:2.31,y:2020},
+{k:'tw_box',m:'tw',c:1,n:'單層瓦楞紙箱（加權平均）',u:'平方公尺',f:1.1,y:2023},
+{k:'tw_board',m:'tw',c:1,n:'瓦楞紙板（B 楞）',u:'公斤',f:0.813,y:2023},
+{k:'tw_kraft',m:'tw',c:1,n:'牛皮紙',u:'公斤',f:1.22,y:2023},
+{k:'tw_ppallet',m:'tw',c:1,n:'紙棧板',u:'公斤',f:1.01,y:2023},
+{k:'tw_glass',m:'tw',c:1,n:'平板玻璃',u:'公斤',f:1.12,y:2016},
+{k:'tw_h2so4',m:'tw',c:1,n:'濃硫酸',u:'公斤',f:0.289,y:2023},
+{k:'tw_naoh',m:'tw',c:1,n:'氫氧化鈉 32%',u:'公斤',f:0.667,y:2022},
+{k:'tw_hcl',m:'tw',c:1,n:'鹽酸 32%（工業級，直接化合法）',u:'公斤',f:0.5627,y:2025},
+{k:'tw_n2',m:'tw',c:1,n:'氮氣 99.9999%',u:'公斤',f:0.123,y:2022},
+{k:'tw_o2',m:'tw',c:1,n:'液氧',u:'公斤',f:0.3671,y:2025},
+{k:'tw_h2',m:'tw',c:1,n:'氫氣（蒸汽重組法）',u:'公斤',f:5.36,y:2025},
+{k:'tw_lube',m:'tw',c:1,n:'潤滑油',u:'公斤',f:1.09,y:2025},
+{k:'tw_water',m:'tw',c:1,n:'臺灣自來水',u:'立方公尺',f:0.233,y:2022},
+/* --- 環境部：類別3 燃料與能源上游（與範疇一、二活動數據對應） --- */
+{k:'tw_up_diesel',m:'tw',c:3,n:'柴油上游（未燃燒）',u:'公升',f:0.677,y:2025},
+{k:'tw_up_gasoline',m:'tw',c:3,n:'車用汽油上游（未燃燒）',u:'公升',f:0.657,y:2022},
+{k:'tw_up_lpg',m:'tw',c:3,n:'液化石油氣上游（未燃燒）',u:'公升',f:0.4559,y:2025},
+{k:'tw_up_ng',m:'tw',c:3,n:'天然氣上游（未燃燒）',u:'立方公尺',f:0.5313,y:2025},
+{k:'tw_up_elec',m:'tw',c:3,n:'電力間接碳足跡（上游）',u:'度',f:0.0882,y:2022},
+/* --- 環境部：類別4 運輸 --- */
+{k:'tw_truck_l',m:'tw',c:4,n:'營業大貨車（柴油）',u:'延噸公里',f:0.131,y:2022},
+{k:'tw_truck_sd',m:'tw',c:4,n:'營業小貨車（柴油）',u:'延噸公里',f:0.587,y:2022},
+{k:'tw_truck_sg',m:'tw',c:4,n:'營業小貨車（汽油）',u:'延噸公里',f:0.683,y:2022},
+{k:'tw_sea_dom',m:'tw',c:4,n:'國內海運貨物運輸（柴油動力）',u:'延噸公里',f:0.0334,y:2016},
+{k:'tw_sea_int',m:'tw',c:4,n:'國際海運貨物運輸（燃料油動力）',u:'延噸公里',f:0.0198,y:2016},
+{k:'tw_air',m:'tw',c:4,n:'航空貨物運輸服務',u:'延噸公里',f:1.16,y:2017},
+/* --- 環境部：類別5 廢棄物 --- */
+{k:'tw_incin',m:'tw',c:5,n:'廢棄物焚化處理（岡山焚化廠）',u:'公噸',f:360,y:2020},
+{k:'tw_sludge',m:'tw',c:5,n:'污泥掩埋處理服務',u:'公斤',f:0.3,y:2016},
+{k:'tw_haz',m:'tw',c:5,n:'有害事業廢棄物穩定化／固化處理',u:'公斤',f:0.29,y:2015},
+{k:'tw_solvent',m:'tw',c:5,n:'廢溶劑蒸餾回收處理服務',u:'公斤',f:0.5886,y:2025},
+/* --- 環境部：類別6／7 交通燃料（含上游之碳足跡） --- */
+{k:'tw_car_gas',m:'tw',c:7,n:'車用汽油（移動源使用，碳足跡）',u:'公升',f:2.93,y:2025},
+{k:'tw_car_dsl',m:'tw',c:7,n:'柴油（公路運輸使用，碳足跡）',u:'公升',f:3.324,y:2025},
+/* --- EPA 支出法：類別1 --- */
+{k:'epa_331110',m:'epa',c:1,n:'鋼鐵材料',na:'331110',f:0.787},
+{k:'epa_331315',m:'epa',c:1,n:'鋁板／鋁箔',na:'331315',f:0.721},
+{k:'epa_331420',m:'epa',c:1,n:'銅材加工品',na:'331420',f:0.334},
+{k:'epa_423510',m:'epa',c:1,n:'金屬材料（經銷商購入）',na:'423510',f:0.108},
+{k:'epa_325211',m:'epa',c:1,n:'塑膠原料／樹脂',na:'325211',f:1.045},
+{k:'epa_325199',m:'epa',c:1,n:'有機化學品／溶劑',na:'325199',f:1.184},
+{k:'epa_325180',m:'epa',c:1,n:'無機化學品',na:'325180',f:1.01},
+{k:'epa_325120',m:'epa',c:1,n:'工業氣體',na:'325120',f:1.211},
+{k:'epa_424690',m:'epa',c:1,n:'化學品（經銷商購入）',na:'424690',f:0.144},
+{k:'epa_325510',m:'epa',c:1,n:'油漆塗料',na:'325510',f:0.291},
+{k:'epa_325520',m:'epa',c:1,n:'黏著劑',na:'325520',f:0.531},
+{k:'epa_326199',m:'epa',c:1,n:'塑膠製品',na:'326199',f:0.371},
+{k:'epa_326112',m:'epa',c:1,n:'塑膠包裝膜／片',na:'326112',f:0.544},
+{k:'epa_322211',m:'epa',c:1,n:'瓦楞紙箱',na:'322211',f:0.479},
+{k:'epa_322220',m:'epa',c:1,n:'紙袋／塗布紙',na:'322220',f:0.364},
+{k:'epa_332710',m:'epa',c:1,n:'機械加工外包',na:'332710',f:0.278},
+{k:'epa_332999',m:'epa',c:1,n:'五金／金屬零件',na:'332999',f:0.272},
+{k:'epa_339991',m:'epa',c:1,n:'墊片／密封件',na:'339991',f:0.182},
+{k:'epa_335999',m:'epa',c:1,n:'電機電料零組件',na:'335999',f:0.128},
+{k:'epa_334413',m:'epa',c:1,n:'半導體／電子元件',na:'334413',f:0.215},
+{k:'epa_324191',m:'epa',c:1,n:'潤滑油脂',na:'324191',f:0.391},
+{k:'epa_423840',m:'epa',c:1,n:'工業耗材（經銷商購入）',na:'423840',f:0.115},
+{k:'epa_424120',m:'epa',c:1,n:'文具及辦公用品',na:'424120',f:0.144},
+{k:'epa_221310',m:'epa',c:1,n:'自來水費',na:'221310',f:0.578},
+{k:'epa_811310',m:'epa',c:1,n:'機械設備維修保養',na:'811310',f:0.136},
+{k:'epa_532490',m:'epa',c:1,n:'機械設備租賃',na:'532490',f:0.106},
+{k:'epa_541330',m:'epa',c:1,n:'工程技術服務',na:'541330',f:0.103},
+{k:'epa_541611',m:'epa',c:1,n:'管理顧問服務',na:'541611',f:0.078},
+{k:'epa_541512',m:'epa',c:1,n:'資訊系統服務',na:'541512',f:0.089},
+{k:'epa_561320',m:'epa',c:1,n:'人力派遣',na:'561320',f:0.051},
+{k:'epa_561612',m:'epa',c:1,n:'保全服務',na:'561612',f:0.074},
+{k:'epa_561720',m:'epa',c:1,n:'清潔服務',na:'561720',f:0.214},
+{k:'epa_524126',m:'epa',c:1,n:'產物保險',na:'524126',f:0.033},
+{k:'epa_722511',m:'epa',c:1,n:'員工伙食／餐飲',na:'722511',f:0.194},
+{k:'epa_611430',m:'epa',c:1,n:'教育訓練課程',na:'611430',f:0.108},
+/* --- EPA 支出法：類別2 資本財 --- */
+{k:'epa_333249',m:'epa',c:2,n:'工業機械設備',na:'333249',f:0.185},
+{k:'epa_333912',m:'epa',c:2,n:'空壓機／氣體壓縮設備',na:'333912',f:0.177},
+{k:'epa_333414',m:'epa',c:2,n:'加熱設備',na:'333414',f:0.176},
+{k:'epa_332420',m:'epa',c:2,n:'金屬儲槽',na:'332420',f:0.279},
+{k:'epa_332312',m:'epa',c:2,n:'鋼構製品',na:'332312',f:0.262},
+{k:'epa_335311',m:'epa',c:2,n:'變壓器／配電設備',na:'335311',f:0.133},
+{k:'epa_236220',m:'epa',c:2,n:'廠房營建工程',na:'236220',f:0.224},
+{k:'epa_238220',m:'epa',c:2,n:'機電／空調工程',na:'238220',f:0.221},
+{k:'epa_334111',m:'epa',c:2,n:'電腦設備',na:'334111',f:0.058},
+{k:'epa_337214',m:'epa',c:2,n:'辦公家具',na:'337214',f:0.24},
+/* --- EPA 支出法：類別4／5／6 --- */
+{k:'epa_484121',m:'epa',c:4,n:'貨運（長途）',na:'484121',f:0.595},
+{k:'epa_484110',m:'epa',c:4,n:'貨運（區域）',na:'484110',f:0.595},
+{k:'epa_488510',m:'epa',c:4,n:'貨運承攬／報關',na:'488510',f:0.162},
+{k:'epa_492110',m:'epa',c:4,n:'快遞／宅配',na:'492110',f:0.303},
+{k:'epa_493110',m:'epa',c:4,n:'倉儲服務',na:'493110',f:0.244},
+{k:'epa_562111',m:'epa',c:5,n:'一般廢棄物清運',na:'562111',f:0.988},
+{k:'epa_562211',m:'epa',c:5,n:'有害廢棄物處理',na:'562211',f:0.988},
+{k:'epa_481111',m:'epa',c:6,n:'機票（航空客運）',na:'481111',f:0.644},
+{k:'epa_721110',m:'epa',c:6,n:'差旅住宿',na:'721110',f:0.145},
+/* --- 未分類 --- */
+{k:'none',m:'none',c:1,n:'未分類支出（以平均強度推估）',f:0}
+];
+const S3MAP=[[/空壓/,'epa_333912'],[/鋼|鐵/,'epa_331110'],[/鋁/,'epa_331315'],[/銅/,'epa_331420'],[/塑膠粒|樹脂/,'epa_325211'],
+[/氣體|氮氣|氧氣|氬/,'epa_325120'],[/化學|藥劑|溶劑/,'epa_325199'],[/油漆|塗料/,'epa_325510'],[/黏著|膠水/,'epa_325520'],
+[/紙箱|紙器|包材/,'epa_322211'],[/塑膠|膠膜|塑膠袋/,'epa_326199'],[/委外|外包|加工費/,'epa_332710'],[/五金|螺絲|零件/,'epa_332999'],
+[/電料|電器|電機/,'epa_335999'],[/潤滑/,'epa_324191'],[/維修|保養/,'epa_811310'],[/快遞|宅配/,'epa_492110'],[/倉儲/,'epa_493110'],
+[/運費|貨運|物流|運輸/,'epa_484121'],[/廢棄物|清運/,'epa_562111'],[/機台|設備|機械/,'epa_333249'],[/工程|裝修|營建/,'epa_236220'],
+[/電腦/,'epa_334111'],[/顧問/,'epa_541611'],[/保全/,'epa_561612'],[/清潔/,'epa_561720'],[/保險/,'epa_524126'],[/機票|差旅/,'epa_481111'],
+[/住宿|飯店|旅館/,'epa_721110'],[/伙食|餐/,'epa_722511'],[/文具|辦公用品/,'epa_424120'],[/訓練|課程/,'epa_611430'],[/水費/,'epa_221310'],
+[/派遣/,'epa_561320'],[/租賃|租金/,'epa_532490']];
+let s3rows=[]; // {c,k,item,sup,date,qty,amt,prim}
+function esc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+function s3F(k){return S3F.find(e=>e.k===k)||S3F[S3F.length-1];}
+function s3par(){
+  const fx=parseFloat(document.getElementById('s3-fx').value)||32;
+  const cpi=parseFloat(document.getElementById('s3-cpi').value)||1;
+  return{fx,cpi};
+}
+function addS3(k){s3rows.push({c:1,k:k||'tw_cs_billet',item:'',sup:'',date:'',qty:'',amt:'',prim:''});renderS3();saveAll();}
+function delS3(i){if(!confirm('刪除此筆？'))return;s3rows.splice(i,1);renderS3();saveAll();}
+function setS3(i,f,v){
+  s3rows[i][f]=v;
+  if(f==='k'){const d=s3F(v);s3rows[i].c=d.c;}
+  saveAll();setTimeout(renderS3,0);
+}
+function toggleImport(){const e=document.getElementById('s3-import');e.style.display=e.style.display==='none'?'block':'none';}
+function importS3(){
+  const txt=document.getElementById('s3-csv').value.trim();
+  let n=0,skip=0;
+  txt.split(/\r?\n/).forEach(line=>{
+    if(!line.trim())return;
+    const p=line.split(line.includes('\t')?'\t':',').map(x=>x.trim());
+    if(p.length<3){skip++;return;}
+    const last=p[p.length-1];
+    const hasSup=p.length>=4&&isNaN(parseFloat(last.replace(/[,\s]/g,'')));
+    const amt=parseFloat(p.slice(2,hasSup?-1:undefined).join('').replace(/[^\d.\-]/g,''));
+    if(isNaN(amt)){skip++;return;}
+    const cat=p[1];
+    const hit=S3MAP.find(([re])=>re.test(cat));
+    const k=hit?hit[1]:'none';
+    s3rows.push({c:s3F(k).c,k,item:cat,sup:hasSup?last:'',date:p[0],qty:'',amt:String(amt),prim:''});
+    n++;
+  });
+  document.getElementById('s3-impmsg').textContent=`已匯入 ${n} 筆${skip?`，略過 ${skip} 行（表頭或格式不符）`:''}。`;
+  renderS3();saveAll();
+}
+/* 單筆計算：回傳 {t, how}；未分類列 t 先為 null，於 s3calc 推估 */
+function s3one(r,par){
+  const d=s3F(r.k);
+  const prim=parseFloat(r.prim);
+  if(prim>0)return{t:prim,how:'prim'};
+  if(d.m==='tw')return{t:(parseFloat(r.qty)||0)*d.f/1000,how:'tw'};
+  if(d.m==='epa')return{t:(parseFloat(r.amt)||0)/par.fx/par.cpi*d.f/1000,how:'epa'};
+  return{t:null,how:'none'};
+}
+function s3calc(){
+  const par=s3par();
+  let mapSpend=0,mapT=0,unSpend=0;
+  const res=s3rows.map(r=>{
+    const o=s3one(r,par);
+    const amt=parseFloat(r.amt)||0;
+    if(o.how==='epa'){mapSpend+=amt;mapT+=o.t;}
+    if(o.how==='none')unSpend+=amt;
+    return o;
+  });
+  const inten=mapSpend>0?mapT/mapSpend:0; // tCO2e / 新臺幣
+  res.forEach((o,i)=>{if(o.how==='none')o.t=(parseFloat(s3rows[i].amt)||0)*inten;});
+  const byCat={},byHow={tw:0,epa:0,none:0,prim:0},bySup={};
+  let tot=0;
+  res.forEach((o,i)=>{
+    const r=s3rows[i];
+    byCat[r.c]=(byCat[r.c]||0)+o.t;byHow[o.how]+=o.t;tot+=o.t;
+    const s=(r.sup||'').trim()||'（未填供應商）';
+    if(!bySup[s])bySup[s]={t:0,n:0,prim:false};
+    bySup[s].t+=o.t;bySup[s].n++;if(o.how==='prim')bySup[s].prim=true;
+  });
+  const spendAll=mapSpend+unSpend;
+  const cov=spendAll>0?mapSpend/spendAll:1;
+  const sups=Object.entries(bySup).sort((a,b)=>b[1].t-a[1].t);
+  return{res,tot,byCat,byHow,cov,spendAll,unSpend,inten,sups};
+}
+function efText(d,par){
+  if(d.m==='tw')return `<span class="tag tw">環境部</span> ${d.f} kgCO₂e／${d.u}（${d.y} 年公告）`;
+  if(d.m==='epa')return `<span class="tag epa">EPA</span> ${d.f} kgCO₂e／USD-2022（NAICS ${d.na}）＝ 每萬元新臺幣 ${(10000/par.fx/par.cpi*d.f).toFixed(1)} kgCO₂e`;
+  return `<span class="tag none">未分類</span> 以已分類支出平均強度推估`;
+}
+function renderS3(){
+  const box=document.getElementById('s3rows');if(!box)return;
+  const par=s3par();
+  const C=s3calc();
+  const opts=k=>{
+    const g=(m,label)=>`<optgroup label="${label}">`+S3F.filter(e=>e.m===m).map(e=>`<option value="${e.k}" ${e.k===k?'selected':''}>${e.m==='tw'?'['+e.u+'] ':''}${e.n}</option>`).join('')+'</optgroup>';
+    return g('tw','環境部碳足跡係數（數量法，優先）')+g('epa','EPA 供應鏈係數（支出法，備援）')+g('none','其他');
+  };
+  box.innerHTML=s3rows.map((r,i)=>{
+    const d=s3F(r.k),o=C.res[i];
+    const inp=d.m==='tw'
+      ?`<label class="f">活動數據（${d.u}）</label><input type="text" inputmode="decimal" value="${esc(r.qty)}" placeholder="數量" onchange="setS3(${i},'qty',this.value)">`
+      :`<label class="f">支出金額（新臺幣元）</label><input type="text" inputmode="decimal" value="${esc(r.amt)}" placeholder="金額" onchange="setS3(${i},'amt',this.value)">`;
+    return `<div class="srcRow s3row">
+      <div class="grid3">
+        <div><label class="f">範疇三類別</label><select onchange="setS3(${i},'c',+this.value)">${Object.entries(S3C).map(([v,l])=>`<option value="${v}" ${+v===+r.c?'selected':''}>${l}</option>`).join('')}</select></div>
+        <div style="grid-column:span 2"><label class="f">係數（選擇品項）</label><select onchange="setS3(${i},'k',this.value)">${opts(r.k)}</select>
+          <div class="efnote">${efText(d,par)}</div></div>
+      </div>
+      <div class="grid3" style="margin-top:4px">
+        <div><label class="f">品項／內部費用類別</label><input type="text" value="${esc(r.item)}" placeholder="例：原料-鋼材" onchange="setS3(${i},'item',this.value)"></div>
+        <div><label class="f">供應商（選填）</label><input type="text" value="${esc(r.sup)}" placeholder="例：○○鋼鐵" onchange="setS3(${i},'sup',this.value)"></div>
+        <div><label class="f">交易日期／期間</label><input type="text" value="${esc(r.date)}" placeholder="例：2025/03" onchange="setS3(${i},'date',this.value)"></div>
+      </div>
+      <div class="grid3" style="margin-top:4px">
+        <div>${inp}</div>
+        <div><label class="f">供應商一級數據 tCO₂e（選填，填了即覆蓋）</label><input type="text" inputmode="decimal" value="${esc(r.prim)}" placeholder="供應商回覆值" onchange="setS3(${i},'prim',this.value)"></div>
+        <div><label class="f">排放量 tCO₂e</label><div style="display:flex;gap:6px;align-items:center"><input type="text" class="out" value="${o.t.toFixed(3)}${o.how==='none'?'（推估）':''}" disabled><button class="btn warn sm" onclick="delS3(${i})">✕</button></div>
+          ${o.how==='prim'?'<div class="efnote"><span class="tag prim">一級數據</span> 已覆蓋估算值</div>':''}</div>
+      </div></div>`;
+  }).join('')||'<div class="card hint">尚無範疇三資料。可「＋新增一筆」，或用「匯入會計資料」一次貼上全年支出。</div>';
+  // 小計
+  const covPct=(C.cov*100).toFixed(0);
+  document.getElementById('s3sum').innerHTML=s3rows.length?`
+    <div class="tot">範疇三合計：${C.tot.toFixed(3)} 公噸 CO₂e／年</div>
+    <div class="hint">環境部數量法 ${C.byHow.tw.toFixed(3)} t｜EPA 支出法 ${C.byHow.epa.toFixed(3)} t｜未分類推估 ${C.byHow.none.toFixed(3)} t｜供應商一級數據 ${C.byHow.prim.toFixed(3)} t</div>
+    <div class="tblwrap"><table><tr><th>類別</th><th class="num">tCO₂e</th><th class="num">占比</th></tr>
+    ${Object.keys(S3C).filter(c=>C.byCat[c]).map(c=>`<tr><td>${S3C[c]}</td><td class="num">${C.byCat[c].toFixed(3)}</td><td class="num">${C.tot>0?(C.byCat[c]/C.tot*100).toFixed(1):0}%</td></tr>`).join('')}</table></div>
+    ${C.spendAll>0?(C.cov<0.75
+      ?`<div class="warnbox">支出法分類覆蓋率 <b>${covPct}%</b>，低於 75%。未分類支出 ${Math.round(C.unSpend).toLocaleString()} 元以平均強度推估，建議再對應更多費用類別以提高準確度。</div>`
+      :`<div class="okbox">支出法分類覆蓋率 <b>${covPct}%</b>（≥75%）。${C.unSpend>0?`其餘 ${Math.round(C.unSpend).toLocaleString()} 元未分類支出，以已分類支出平均強度（每萬元 ${(C.inten*1e7).toFixed(1)} kgCO₂e）推估。`:''}</div>`):''}
+  `:'';
+  // 供應商
+  const top=C.sups.filter(s=>s[0]!=='（未填供應商）').slice(0,5);
+  document.getElementById('s3sup').innerHTML=top.length?`<table><tr><th>#</th><th>供應商</th><th class="num">筆數</th><th class="num">tCO₂e</th><th class="num">占範疇三</th><th>狀態</th></tr>
+    ${top.map(([s,v],i)=>`<tr><td>${i+1}</td><td>${esc(s)}</td><td class="num">${v.n}</td><td class="num">${v.t.toFixed(3)}</td><td class="num">${C.tot>0?(v.t/C.tot*100).toFixed(1):0}%</td><td>${v.prim?'<span class="tag prim">已有一級數據</span>':'待發問卷'}</td></tr>`).join('')}</table>
+    <p class="hint">建議向前幾名供應商索取：產品碳足跡（或分配到本公司的排放量）、溫室氣體盤查範疇、減量目標；回覆數值填入該筆的「供應商一級數據」欄即可覆蓋估算值。</p>`
+    :'<p class="hint">填入供應商名稱後，這裡會列出排放量最高的供應商。</p>';
+}
+
 /* ====== 報表 ====== */
+function s3html(){
+  if(!s3rows.length)return '';
+  const C=s3calc();
+  return `<h3>範疇三：價值鏈間接排放（另列，不併入上方總量）</h3>
+  <div class="tot">範疇三估算 ${C.tot.toFixed(2)} 公噸 CO₂e</div>
+  <table><tr><th>類別</th><th class="num">tCO₂e</th><th class="num">占比</th></tr>
+  ${Object.keys(S3C).filter(c=>C.byCat[c]).map(c=>`<tr><td>${S3C[c]}</td><td class="num">${C.byCat[c].toFixed(3)}</td><td class="num">${C.tot>0?(C.byCat[c]/C.tot*100).toFixed(1):0}%</td></tr>`).join('')}
+  <tr><th>合計</th><th class="num">${C.tot.toFixed(3)}</th><th class="num">100%</th></tr></table>
+  計算方法組成：環境部數量法 ${C.byHow.tw.toFixed(2)} t、EPA 支出法 ${C.byHow.epa.toFixed(2)} t、未分類推估 ${C.byHow.none.toFixed(2)} t、供應商一級數據 ${C.byHow.prim.toFixed(2)} t
+  ${C.spendAll>0?`｜支出法分類覆蓋率 ${(C.cov*100).toFixed(0)}%`:''}<br>
+  ${C.sups.filter(s=>s[0]!=='（未填供應商）').length?`<b>高排放供應商：</b>${C.sups.filter(s=>s[0]!=='（未填供應商）').slice(0,5).map(([s,v])=>`${esc(s)}（${v.t.toFixed(2)} t）`).join('、')}——建議優先索取一級數據。<br>`:''}
+  <span class="hint">範疇三以環境部碳足跡排放係數為主；無對應係數之支出，以 US EPA 供應鏈係數 v1.3（2022 年美元）經匯率與物價調整換算，屬篩選性估算，不確定性高於範疇一、二。</span>`;
+}
 function buildReport(){
   const{s1,s2,g}=sums();
   const name=document.getElementById('b-name').value||"（未填公司名）";
@@ -326,9 +642,11 @@ function buildReport(){
   <tr><th colspan="5">合計</th><th class="num">${g.toFixed(3)}</th><th class="num">100%</th><th></th></tr></table>
   ${list.length?`<b>主要排放熱點：</b>${list.slice(0,3).map(x=>`${x.d.n}（${g>0?(x.t/g*100).toFixed(0):0}%）`).join('、')}<br>
   <b>減碳建議方向：</b>${p1>=50?'範疇一占比高——優先評估燃油設備電動化（堆高機、公務車）、鍋爐燃料轉換與冷媒管理制度。':'範疇二占比高——優先推動照明/空調/空壓系統節能、功率因數改善，並評估屋頂太陽能與綠電採購。'}`:''}
-  <br><span class="hint">Charlotte Chang 張雅雯｜產出日期 ${new Date().toLocaleDateString('zh-TW')}｜本報告為估算性質，燃料係數僅計 CO₂ 主項；正式盤查請依環境部最新排放係數管理表全項計算並經查驗。</span></div>`;
+  ${s3html()}
+  <br><span class="hint">協中實業｜Charlotte Chang 張雅雯｜產出日期 ${new Date().toLocaleDateString('zh-TW')}｜本報告為估算性質，燃料係數僅計 CO₂ 主項；正式盤查請依環境部最新排放係數管理表全項計算並經查驗。</span></div>`;
+  const s3=s3rows.length?s3calc().tot:0;
   window.lastCalc = {
-    name, year, g, s1, s2,
+    name, year, g, s1, s2, s3,
     hotspots: list.slice(0,3).map(x=>x.d.n).join('、'),
     advice: p1>=50?'範疇一占比高——優先評估燃油設備電動化（堆高機、公務車）、鍋爐燃料轉換與冷媒管理制度。':'範疇二占比高——優先推動照明/空調/空壓系統節能、功率因數改善，並評估屋頂太陽能與綠電採購。'
   };
@@ -361,8 +679,8 @@ function submitLead(){
   msg.className='lead-msg'; msg.textContent='';
 
   const d = window.lastCalc;
-  const scoreLine = '總排放量 ' + d.g.toFixed(2) + ' 公噸 CO2e（範疇一 ' + d.s1.toFixed(2) + '／範疇二 ' + d.s2.toFixed(2) + '）';
-  const summaryText = `【溫室氣體盤查估算報告】\n公司：${d.name}｜報告期間：${d.year}\n總排放量：${d.g.toFixed(2)} 公噸CO2e（範疇一 ${d.s1.toFixed(2)}、範疇二 ${d.s2.toFixed(2)}）\n主要排放熱點：${d.hotspots||'—'}\n減碳建議：${d.advice||'—'}\n—\n本報告由 Charlotte Chang 製作，為估算性質，正式盤查需第三方查驗。`;
+  const scoreLine = '總排放量 ' + d.g.toFixed(2) + ' 公噸 CO2e（範疇一 ' + d.s1.toFixed(2) + '／範疇二 ' + d.s2.toFixed(2) + '）' + (d.s3 ? '；範疇三另計 ' + d.s3.toFixed(2) : '');
+  const summaryText = `【溫室氣體盤查估算報告】\n公司：${d.name}｜報告期間：${d.year}\n總排放量：${d.g.toFixed(2)} 公噸CO2e（範疇一 ${d.s1.toFixed(2)}、範疇二 ${d.s2.toFixed(2)}）\n${d.s3?`範疇三（另列）：${d.s3.toFixed(2)} 公噸CO2e\n`:''}主要排放熱點：${d.hotspots||'—'}\n減碳建議：${d.advice||'—'}\n—\n本報告由協中實業 Charlotte Chang 製作，為估算性質，正式盤查需第三方查驗。`;
 
   const payload = {
     tool: '碳盤查行動平台',
@@ -413,20 +731,29 @@ const REF=[
 <li>加油發票、油卡月結單（公務車、貨車、堆高機）</li><li>鍋爐燃料採購單據</li>
 <li>冷氣、冰水機、冷凍設備之冷媒補充維修單</li><li>滅火器換藥紀錄、焊接氣體採購單</li>
 <li>員工人數、年營收（計算排放強度）</li></ul>`},
+{t:"範疇三怎麼算？（支出法＋數量法）",h:`<ul class="tight">
+<li><b>先抓大的</b>：製造業範疇三通常以類別1「購買商品與服務」、類別2「資本財」最大，先從會計系統匯出全年採購／費用明細（日期、費用類別、金額、供應商）。</li>
+<li><b>有數量用環境部係數</b>：原料有重量（鋼材、塑膠粒、紙箱…）時，用環境部碳足跡排放係數計算，最貼近台灣產業實況。</li>
+<li><b>只有金額用 EPA 支出係數</b>：台灣沒有官方支出別係數，以美國 EPA 供應鏈係數（kgCO₂e／美元）經匯率及物價調整換算，作為篩選性估算。</li>
+<li><b>覆蓋率至少 75%</b>：至少 75% 的支出要對應到類別；其餘以已分類支出的平均強度推估，確保完整性。</li>
+<li><b>找出熱點供應商</b>：估算只是第一步。排名前幾大的供應商請其提供一級數據（產品碳足跡或分配排放量、盤查範疇、減量目標），回填後覆蓋估算值，逐年提高準確度。</li>
+<li><b>類別3</b>：範疇一、二的燃料與電力，另有開採、煉製、輸配的上游排放，可用相同活動數據乘以環境部「未燃燒／電力間接」係數計算。</li></ul>`},
 {t:"資料來源（官方連結）",h:`<div class="src">
 ・<a href="https://ghgregistry.moenv.gov.tw/epa_ghg/Downloads/FileDownloads.aspx?Type_ID=1">環境部事業溫室氣體排放量資訊平台｜排放係數管理表下載</a><br>
 ・<a href="https://ghgregistry.moenv.gov.tw/upload/Tools/%E5%85%AC%E5%91%8A%E6%BA%AB%E5%AE%A4%E6%B0%A3%E9%AB%94%E6%8E%92%E6%94%BE%E4%BF%82%E6%95%B8.pdf">環境部公告溫室氣體排放係數（含 GWP AR6 附表）</a><br>
-・<a href="https://www.moeaea.gov.tw/ecw/populace/content/ContentDesc.aspx?menu_id=27028">經濟部能源署｜114 年度電力排碳係數</a></div>`}
+・<a href="https://www.moeaea.gov.tw/ecw/populace/content/ContentDesc.aspx?menu_id=27028">經濟部能源署｜114 年度電力排碳係數</a><br>
+・<a href="https://data.moenv.gov.tw/dataset/detail/CFP_P_02">環境部環境資料開放平臺｜碳足跡排放係數（CFP_P_02）</a><br>
+・<a href="https://catalog.data.gov/dataset/supply-chain-greenhouse-gas-emission-factors-v1-3-by-naics-6">US EPA｜Supply Chain GHG Emission Factors v1.3 by NAICS-6</a></div>`}
 ];
 function renderRef(){
   document.getElementById('refList').innerHTML=REF.map((g,i)=>`<details ${i===0?'open':''}><summary>${g.t}</summary><div class="body">${g.h}</div></details>`).join('');
 }
 
 /* ====== 儲存 ====== */
-const BF=['b-name','b-year','b-method','b-emp','b-rev','b-owner','b-sites','b-excl','elecEF'];
+const BF=['b-name','b-year','b-method','b-emp','b-rev','b-owner','b-sites','b-excl','elecEF','s3-fx','s3-cpi'];
 function saveAll(){
   try{
-    const o={f:{},r:rows};
+    const o={f:{},r:rows,s3:s3rows};
     BF.forEach(id=>o.f[id]=document.getElementById(id).value);
     localStorage.setItem('carbonTool',JSON.stringify(o));
   }catch(e){}
@@ -436,8 +763,9 @@ function loadAll(){
     const o=JSON.parse(localStorage.getItem('carbonTool')||'{}');
     if(o.f)BF.forEach(id=>{if(o.f[id]!=null)document.getElementById(id).value=o.f[id];});
     rows=o.r||[];
+    s3rows=o.s3||[];
   }catch(e){}
-  renderRows();
+  renderRows();renderS3();
 }
 function resetAll(){
   if(!confirm('確定清除本機所有已填資料？'))return;
