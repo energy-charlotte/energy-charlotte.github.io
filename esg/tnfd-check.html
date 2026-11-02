@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNFD 自然揭露準備度自評｜Charlotte Chang 張雅雯</title>
+<meta name="description" content="企業 TNFD（自然相關財務揭露）LEAP 準備度自評工具：盤點營運據點與敏感自然區位的關聯、依賴與影響、風險與機會、揭露準備，產出缺口清單與在地行動建議。">
+<style>
+:root{
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --purple:#6b46a8; --purple-light:#f0eaf8;
+  --red:#c0392b; --red-light:#fdeceb;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f4f7f9; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.6}
+header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem}
+header .sub{font-size:.72rem;opacity:.88;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9;white-space:nowrap}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:49;overflow-x:auto}
+nav button{flex:1;min-width:88px;padding:11px 6px;border:none;background:none;font-size:.88rem;font-family:inherit;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--green);border-bottom-color:var(--green);font-weight:700}
+main{max-width:1000px;margin:0 auto;padding:14px 12px 80px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
+.card h2{font-size:1.02rem;color:var(--green);margin-bottom:8px}
+.card h3{font-size:.94rem;margin:12px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+input,select,textarea{padding:8px;border:1px solid var(--line);border-radius:7px;font-family:inherit;font-size:.88rem;background:#fff;width:100%}
+label.f{display:block;font-size:.78rem;color:var(--gray);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;cursor:pointer;background:var(--green);color:#fff}
+.btn.sec{background:#fff;color:var(--green);border:1px solid var(--green)}
+.btn.warn{background:#fff;color:var(--red);border:1px solid var(--red)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 7px;text-align:left;vertical-align:top}
+th{background:var(--green-light);font-weight:700}
+.siteRow{border:1px solid var(--line);border-radius:9px;padding:10px;margin-bottom:8px;background:#fff}
+.siteRow .g{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr 34px;gap:6px;align-items:end}
+@media(max-width:760px){.siteRow .g{grid-template-columns:1fr 1fr}}
+.x{border:none;background:none;color:var(--red);font-size:1.1rem;cursor:pointer;padding:6px}
+.q{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.q .code{display:inline-block;font-size:.72rem;font-weight:700;color:#fff;border-radius:5px;padding:1px 7px;margin-right:6px}
+.q .t{font-weight:700;font-size:.9rem}
+.q .d{font-size:.78rem;color:var(--gray);margin:3px 0 7px}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opts label{flex:1;min-width:110px;border:1px solid var(--line);border-radius:7px;padding:6px 8px;font-size:.8rem;cursor:pointer;display:flex;gap:6px;align-items:center}
+.opts input{width:auto;accent-color:var(--green)}
+.opts label.on{border-color:var(--green);background:var(--green-light);font-weight:700}
+.stageHead{display:flex;align-items:center;gap:8px;margin:16px 0 8px}
+.stageHead .b{font-weight:800;color:#fff;border-radius:8px;padding:3px 10px}
+.stageHead .n{font-weight:700}
+.prog{font-size:.8rem;color:var(--gray);text-align:right;margin-top:6px}
+.bar{height:14px;border-radius:7px;background:#e8edf2;overflow:hidden;margin:3px 0 8px}
+.bar>div{height:100%}
+.big{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.score{font-size:2.2rem;font-weight:800;color:var(--green)}
+.level{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.82rem;font-weight:700}
+.result{border-left:4px solid var(--green);background:var(--green-light);padding:10px 12px;border-radius:0 8px 8px 0;margin:10px 0;font-size:.88rem}
+.result.amber{border-color:var(--amber);background:var(--amber-light)}
+.gap{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:6px;font-size:.84rem;background:#fff}
+.gap b{color:var(--red)}
+.plan{border:1px solid var(--green);border-radius:10px;padding:12px;margin-top:8px;background:#fff}
+.plan .pt{font-weight:800;color:var(--green)}
+details{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+summary{padding:11px 12px;cursor:pointer;font-weight:700;font-size:.9rem;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"＋";color:var(--gray)}
+details[open] summary::after{content:"－"}
+details .body{padding:0 12px 12px;font-size:.86rem}
+ul.tight{padding-left:18px}ul.tight li{margin-bottom:4px}
+.src{font-size:.72rem;color:var(--gray);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+.src a,.body a{color:var(--blue);word-break:break-all}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
+@media print{header,nav,.btnrow,footer,.noprint,.lead-box{display:none!important}body{background:#fff}.page{display:none}.page.active{display:block}}
+.lead-box{margin-top:14px;border:1px solid var(--green);background:var(--green-light);border-radius:10px;padding:16px}
+.lead-title{font-size:1rem;font-weight:700;color:var(--green);margin-bottom:4px}
+.lead-sub{font-size:.8rem;color:var(--gray);line-height:1.6;margin-bottom:12px}
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:560px){.lead-grid{grid-template-columns:1fr}}
+.lead-consent{display:flex;align-items:flex-start;gap:7px;font-size:.76rem;color:var(--gray);line-height:1.5;margin-bottom:11px;cursor:pointer}
+.lead-consent input{margin-top:2px;width:14px;height:14px;flex-shrink:0;accent-color:var(--green)}
+.lead-msg{font-size:.82rem;margin-top:9px;text-align:center;line-height:1.5}
+.lead-msg.ok{color:var(--green);font-weight:700}
+.lead-msg.err{color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <h1>TNFD 自然揭露準備度自評</h1><a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜工業能源與永續顧問・依 TNFD LEAP 方法（定位→評價→評估→準備）</div>
+</header>
+<nav>
+  <button class="active" data-p="site" onclick="go('site',this)">① 據點定位</button>
+  <button data-p="leap" onclick="go('leap',this)">② LEAP 自評</button>
+  <button data-p="rep" onclick="go('rep',this)">③ 結果報表</button>
+  <button data-p="ref" onclick="go('ref',this)">指引</button>
+</nav>
+<main>
+
+<!-- ===== ① 據點定位 ===== -->
+<section class="page active" id="p-site">
+  <div class="card">
+    <h2>Step 1｜公司與產業</h2>
+    <p class="hint">TNFD 不是評分或認證，而是自然相關的揭露框架。本工具協助您在 10 分鐘內看出「目前做到哪裡、缺什麼」，作為導入的第一步。資料只存在您的瀏覽器。</p>
+    <div class="grid2">
+      <div><label class="f">公司名稱</label><input type="text" id="c-name" placeholder="○○工業股份有限公司"></div>
+      <div><label class="f">產業別</label>
+        <select id="c-ind" onchange="saveAll()">
+          <option value="">— 請選擇 —</option>
+          <option value="petro">石化、化工與材料</option>
+          <option value="energy">熱能公用、電力</option>
+          <option value="metal">金屬、機械加工</option>
+          <option value="build">營造、建設、房地產</option>
+          <option value="food">食品、飲料、農產加工</option>
+          <option value="elec">電子、半導體</option>
+          <option value="fin">金融、服務業</option>
+          <option value="other">其他製造業</option>
+        </select></div>
+      <div><label class="f">揭露需求來源（可複選意涵，擇主要者）</label>
+        <select id="c-driver" onchange="saveAll()">
+          <option value="">— 請選擇 —</option>
+          <option value="listed">上市櫃永續報告書（GRI 101／TNFD 章節）</option>
+          <option value="customer">國際客戶或品牌要求供應商揭露</option>
+          <option value="bank">銀行、投資人詢問自然風險</option>
+          <option value="rating">永續評鑑加分（如 ESG 評鑑、CDP）</option>
+          <option value="self">主動布局，尚無外部要求</option>
+        </select></div>
+      <div><label class="f">評估年度</label><input type="text" id="c-year" placeholder="例：115 年度"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Step 2｜營運據點與自然區位（TNFD L3、L4）</h2>
+    <p class="hint">列出主要廠區，估計與最近「敏感自然區位」（國家重要濕地、保護區、保安林、淺山森林、河口、重要野鳥棲地等）的距離。不確定時選「尚未確認」，這本身就是一項缺口。查詢方式見「指引」頁。</p>
+    <div id="sites"></div>
+    <div class="btnrow">
+      <button class="btn" onclick="addSite()">＋ 新增據點</button>
+      <button class="btn sec" onclick="demo()">帶入示範（仁大工業區石化廠）</button>
+      <button class="btn warn" onclick="resetAll()">清除全部資料</button>
+    </div>
+  </div>
+  <div class="btnrow"><button class="btn" onclick="go('leap',document.querySelector('[data-p=leap]'))">下一步：LEAP 自評 →</button></div>
+</section>
+
+<!-- ===== ② LEAP 自評 ===== -->
+<section class="page" id="p-leap">
+  <div class="card">
+    <h2>LEAP 16 項＋治理 2 項自評</h2>
+    <p class="hint">每題選最接近現況的一項。「已完成」指有文件或數據可佐證，口頭共識不算。</p>
+    <div class="prog" id="prog"></div>
+  </div>
+  <div id="qs"></div>
+  <div class="btnrow"><button class="btn" onclick="go('rep',document.querySelector('[data-p=rep]'))">產出結果報表 →</button></div>
+</section>
+
+<!-- ===== ③ 結果報表 ===== -->
+<section class="page" id="p-rep">
+  <div class="card">
+    <h2>TNFD 準備度結果</h2>
+    <div class="btnrow noprint">
+      <button class="btn" onclick="buildReport()">重新計算</button>
+      <button class="btn sec" onclick="window.print()">列印／存 PDF</button>
+    </div>
+    <div id="repOut"></div>
+    <div class="lead-box" id="leadBox">
+      <div class="lead-title">想把缺口補起來？把這份結果送給顧問</div>
+      <div class="lead-sub">留下聯絡方式，Charlotte Chang（工業能源與永續顧問）將於一個工作天內與您聯繫，說明 LEAP 導入步驟與在地自然修復合作方案。</div>
+      <div class="lead-grid">
+        <input type="text" id="lead-name" placeholder="您的姓名 ＊">
+        <input type="text" id="lead-company" placeholder="公司 / 單位 ＊">
+        <input type="tel" id="lead-phone" placeholder="聯絡電話 ＊">
+        <input type="email" id="lead-email" placeholder="Email（選填）">
+      </div>
+      <label class="lead-consent">
+        <input type="checkbox" id="lead-consent">
+        <span>我同意將上述聯絡資訊與本次評估結果提供予顧問，作為後續聯繫與服務之用；個資僅用於本目的，不作其他用途。</span>
+      </label>
+      <button type="button" class="btn" id="lead-submit" onclick="submitLead()" style="width:100%">送出結果給顧問</button>
+      <div class="lead-msg" id="lead-msg"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 指引 ===== -->
+<section class="page" id="p-ref">
+  <div class="card"><h2>TNFD 導入指引</h2><p class="hint">給永續、環安與公關窗口的快速說明。</p></div>
+  <div id="refList"></div>
+</section>
+
+</main>
+<footer>
+  Charlotte Chang 張雅雯 製作｜題目依 TNFD LEAP 方法各組成項目（L1–P4）改寫為自評題<br>
+  本工具僅供初步盤點與內部溝通，不代表符合 TNFD 揭露建議；正式揭露請依 TNFD 官方指引並經專業評估。
+</footer>
+
+<script>
+function go(p,btn){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.getElementById('p-'+p).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');window.scrollTo(0,0);saveAll();
+  if(p==='rep')buildReport();
+}
+
+/* ===== 產業自然議題（依 BCG／IPBES 公開分析整理之參考）===== */
+const IND={
+ petro:{n:"石化、化工與材料",dep:"中至高",issue:"用水、空氣品質、周邊社區關係、事故風險"},
+ energy:{n:"熱能公用、電力",dep:"高",issue:"用水與冷卻、土地使用、廠區周邊棲地"},
+ metal:{n:"金屬、機械加工",dep:"中",issue:"用水、廢水與土壤污染、原料採礦的上游衝擊"},
+ build:{n:"營造、建設、房地產",dep:"中至高",issue:"土地開發、棲地切割、外來種"},
+ food:{n:"食品、飲料、農產加工",dep:"高",issue:"水源、授粉、土壤、原料產地"},
+ elec:{n:"電子、半導體",dep:"低（直接）",issue:"用水、供應鏈上游採礦、據點周邊自然"},
+ fin:{n:"金融、服務業",dep:"低（直接）",issue:"投融資組合的間接依賴與影響"},
+ other:{n:"其他製造業",dep:"視製程而定",issue:"用水、土地、廢棄物與周邊棲地"}
+};
+const DIST={near:"1 公里內",mid:"1–5 公里",far:"5 公里以上",unk:"尚未確認"};
+const ZONE={wet:"濕地／河口",forest:"淺山森林／保安林",prot:"保護區／自然保留區",bird:"重要野鳥棲地",river:"河川廊道",none:"無明顯敏感區",unk:"尚未確認"};
+
+/* ===== LEAP 題目 ===== */
+const ST={
+ L:{n:"Locate 定位",c:"#1e5f8a",d:"找出企業與自然的交界：在哪裡、碰到什麼自然"},
+ E:{n:"Evaluate 評價",c:"#1a7a4f",d:"辨識並衡量對自然的依賴與影響"},
+ A:{n:"Assess 評估",c:"#b7791f",d:"把依賴與影響轉成企業的風險與機會"},
+ P:{n:"Prepare 準備",c:"#6b46a8",d:"策略、目標、指標與揭露"},
+ G:{n:"治理與利害關係人",c:"#3d4b5c",d:"董事會監督與在地社群參與（TNFD 一般要求）"}
+};
+const Q=[
+ {id:"L1",s:"L",t:"商業模式與價值鏈範圍",d:"是否已界定評估範圍：自有營運、上游供應商、下游客戶分別涵蓋哪些？",fix:"先畫出價值鏈圖，決定第一年只做自有營運據點或延伸至主要供應商。"},
+ {id:"L2",s:"L",t:"依賴與影響初篩",d:"是否已依產業別初步篩選出高度依賴或高影響的自然議題（如用水、土地、污染）？",fix:"可用 ENCORE 等公開工具依產業別初篩，1–2 週可完成。"},
+ {id:"L3",s:"L",t:"據點與自然的交界",d:"是否有各營運據點的座標，並知道每個據點周邊的生態系類型？",fix:"整理廠區座標清單，套疊國土生態綠網、濕地與保護區圖資。"},
+ {id:"L4",s:"L",t:"與敏感區位的關聯",d:"是否已確認哪些據點鄰近重要濕地、保護區、保安林、重要野鳥棲地或水資源壓力區？",fix:"列出距離 5 公里內的敏感區位，作為優先評估據點；必要時請在地生態團體協助判讀。"},
+ {id:"E1",s:"E",t:"環境資產與生態系服務",d:"是否已辨識據點周邊的環境資產（森林、水域、土壤）與提供的生態系服務（水源、調節、授粉）？",fix:"於優先據點周邊建立生態基線（鳥類、植物、水文），由第三方調查。"},
+ {id:"E2",s:"E",t:"依賴與影響辨識",d:"是否已列出營運對哪些生態系服務有依賴、對自然造成哪些影響驅動因子（土地利用、污染、資源使用、外來種）？",fix:"以「依賴×影響」矩陣列出各據點的前 3 大議題。"},
+ {id:"E3",s:"E",t:"依賴與影響的衡量",d:"是否有可量化的數據，例如取水量、水壓力程度、土地使用面積、排放與廢棄物對周邊的影響？",fix:"延用現有環安數據（用水、廢水、廢棄物），補上周邊生物多樣性指標。"},
+ {id:"E4",s:"E",t:"影響重大性",d:"是否已判斷哪些影響具重大性（規模、範圍、不可逆性）？",fix:"將影響重大性納入既有雙重重大性評估流程。"},
+ {id:"A1",s:"A",t:"風險與機會辨識",d:"是否已辨識自然相關的實體風險、轉型風險（法規、市場、聲譽）與機會？",fix:"沿用 TCFD 情境分析的作法，新增自然議題的風險與機會清單。"},
+ {id:"A2",s:"A",t:"現有風險管理的調整",d:"自然相關風險是否已納入公司既有風險管理制度（ERM）與減緩措施？",fix:"將自然風險加入 ERM 風險登錄表，指定負責單位。"},
+ {id:"A3",s:"A",t:"風險衡量與排序",d:"是否已評估風險的可能性與財務衝擊，並排出優先順序？",fix:"先做定性排序（高中低），再挑 1–2 項做財務量化。"},
+ {id:"A4",s:"A",t:"風險與機會重大性",d:"是否已決定哪些自然相關風險與機會需要對外揭露？",fix:"對照 TNFD 揭露建議與 GRI 101，確認揭露門檻。"},
+ {id:"P1",s:"P",t:"策略與資源配置",d:"是否已依減緩層級（避免→減量→修復→轉型）規劃行動與預算？",fix:"先確保廠內避免與減量措施，再規劃據點周邊的修復行動，避免被質疑漂綠。"},
+ {id:"P2",s:"P",t:"目標設定與績效管理",d:"是否有具基線、時間與空間邊界、可驗證的自然相關目標與指標？",fix:"以一處修復場域為試點，建立基線、對照樣區與年度指標。"},
+ {id:"P3",s:"P",t:"報告",d:"永續報告書是否已有自然／生物多樣性章節（GRI 101 或 TNFD 揭露建議）？",fix:"從 GRI 101 生物多樣性準則的據點揭露開始，逐年擴充至 TNFD 揭露建議。"},
+ {id:"P4",s:"P",t:"呈現與溝通",d:"是否有可對外說明的具體行動成果（數據、影像、第三方證明）？",fix:"取得第三方調查資料與林保署媒合平臺成果證明，作為揭露佐證。"},
+ {id:"G1",s:"G",t:"董事會與管理階層監督",d:"董事會或永續委員會是否定期聽取自然相關議題報告？",fix:"將自然議題納入永續委員會年度議程，至少一年報告一次。"},
+ {id:"G2",s:"G",t:"在地社群與利害關係人參與",d:"是否與據點周邊社區、在地生態團體建立溝通或合作機制？",fix:"與在地社區發展協會、野鳥學會等在地團體建立合作，納入員工志工行動。"}
+];
+const OPT=[{v:0,n:"未開始"},{v:1,n:"規劃／進行中"},{v:2,n:"已完成且有佐證"}];
+
+let sites=[],ans={};
+
+function siteHTML(s,i){
+  const sel=(o,v)=>Object.entries(o).map(([k,n])=>`<option value="${k}" ${k===v?'selected':''}>${n}</option>`).join('');
+  return `<div class="siteRow"><div class="g">
+   <div><label class="f">據點名稱／地址</label><input value="${esc(s.n)}" oninput="sites[${i}].n=this.value;saveAll()" placeholder="例：大社廠"></div>
+   <div><label class="f">行政區</label><input value="${esc(s.a)}" oninput="sites[${i}].a=this.value;saveAll()" placeholder="例：高雄市大社區"></div>
+   <div><label class="f">與最近敏感區位距離</label><select onchange="sites[${i}].d=this.value;saveAll()">${sel(DIST,s.d)}</select></div>
+   <div><label class="f">敏感區位類型</label><select onchange="sites[${i}].z=this.value;saveAll()">${sel(ZONE,s.z)}</select></div>
+   <button class="x" title="刪除" onclick="delSite(${i})">✕</button>
+  </div></div>`;
+}
+function esc(t){return (t||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function renderSites(){
+  document.getElementById('sites').innerHTML=sites.length?sites.map(siteHTML).join(''):'<p class="hint">尚未新增據點。</p>';
+}
+function addSite(){sites.push({n:"",a:"",d:"unk",z:"unk"});renderSites();saveAll();}
+function delSite(i){if(!confirm('刪除此據點？'))return;sites.splice(i,1);renderSites();saveAll();}
+
+function renderQs(){
+  let h='',cur='';
+  Q.forEach(q=>{
+    if(q.s!==cur){cur=q.s;const s=ST[cur];
+      h+=`<div class="stageHead"><span class="b" style="background:${s.c}">${cur==='G'?'G':cur}</span><span class="n">${s.n}</span><span class="hint">${s.d}</span></div>`;}
+    h+=`<div class="q"><span class="code" style="background:${ST[q.s].c}">${q.id}</span><span class="t">${q.t}</span>
+      <div class="d">${q.d}</div><div class="opts">${OPT.map(o=>`<label class="${ans[q.id]===o.v?'on':''}"><input type="radio" name="${q.id}" value="${o.v}" ${ans[q.id]===o.v?'checked':''} onchange="setA('${q.id}',${o.v})">${o.n}</label>`).join('')}</div></div>`;
+  });
+  document.getElementById('qs').innerHTML=h;prog();
+}
+function setA(id,v){ans[id]=v;saveAll();
+  document.querySelectorAll(`input[name="${id}"]`).forEach(r=>r.parentElement.classList.toggle('on',+r.value===v));prog();}
+function prog(){const n=Object.keys(ans).length;document.getElementById('prog').textContent=`已作答 ${n} / ${Q.length} 題`;}
+
+function demo(){
+  if((sites.length||Object.keys(ans).length)&&!confirm('帶入示範會覆蓋目前資料，確定？'))return;
+  document.getElementById('c-name').value='（示範）仁大工業區石化廠';
+  document.getElementById('c-ind').value='petro';
+  document.getElementById('c-driver').value='listed';
+  document.getElementById('c-year').value='115 年度';
+  sites=[{n:"大社廠",a:"高雄市大社區",d:"mid",z:"forest"},{n:"仁武廠",a:"高雄市仁武區",d:"mid",z:"forest"}];
+  ans={L1:2,L2:1,L3:1,L4:0,E1:0,E2:1,E3:1,E4:0,A1:1,A2:0,A3:0,A4:0,P1:0,P2:0,P3:1,P4:0,G1:1,G2:0};
+  renderSites();renderQs();saveAll();
+}
+
+function calc(){
+  const r={};Object.keys(ST).forEach(k=>r[k]={s:0,m:0});
+  Q.forEach(q=>{r[q.s].m+=2;r[q.s].s+=(ans[q.id]||0);});
+  let s=0,m=0;Object.values(r).forEach(x=>{s+=x.s;m+=x.m;});
+  return {by:r,pct:Math.round(s/m*100)};
+}
+function level(p){
+  if(p<25)return{n:"起步期",c:"var(--red)",bg:"var(--red-light)",t:"尚未建立自然相關評估基礎，建議先完成定位（L）與一處據點的生態基線。"};
+  if(p<50)return{n:"建構期",c:"var(--amber)",bg:"var(--amber-light)",t:"已有部分盤點，但依賴與影響缺乏量化數據，風險評估尚未成形。"};
+  if(p<75)return{n:"執行期",c:"var(--blue)",bg:"var(--blue-light)",t:"LEAP 主要步驟已在進行，下一步是設定可驗證的目標並累積成果。"};
+  return{n:"揭露就緒",c:"var(--green)",bg:"var(--green-light)",t:"已具備依 TNFD 揭露建議撰寫自然章節的基礎，可考慮外部確信。"};
+}
+
+function buildReport(){
+  const c=calc(),lv=level(c.pct),ind=IND[document.getElementById('c-ind').value];
+  const comp=document.getElementById('c-name').value||'（未填公司名稱）';
+  const yr=document.getElementById('c-year').value||'—';
+  const answered=Object.keys(ans).length;
+  const gaps=Q.filter(q=>(ans[q.id]||0)===0);
+  const near=sites.filter(s=>s.d==='near'||s.d==='mid');
+  const unk=sites.filter(s=>s.d==='unk'||s.z==='unk');
+  let h=`<p class="hint">${esc(comp)}｜${esc(yr)}｜作答 ${answered}/${Q.length} 題${answered<Q.length?'（未作答題目以「未開始」計）':''}</p>
+  <div class="big"><div class="score">${c.pct}%</div><div><span class="level" style="color:${lv.c};background:${lv.bg}">${lv.n}</span><div class="hint" style="margin-top:4px">${lv.t}</div></div></div>
+  <h3>各階段完成度</h3>`;
+  Object.entries(c.by).forEach(([k,x])=>{const p=Math.round(x.s/x.m*100);
+    h+=`<div style="font-size:.84rem"><b>${ST[k].n}</b>　${p}%</div><div class="bar"><div style="width:${p}%;background:${ST[k].c}"></div></div>`;});
+
+  h+=`<h3>據點與自然區位</h3>`;
+  if(!sites.length)h+=`<div class="result amber">尚未填寫營運據點。TNFD 的第一步就是「在哪裡」，請回到 ① 補上。</div>`;
+  else{
+    h+=`<table><tr><th>據點</th><th>行政區</th><th>距敏感區位</th><th>區位類型</th></tr>${sites.map(s=>`<tr><td>${esc(s.n)||'—'}</td><td>${esc(s.a)||'—'}</td><td>${DIST[s.d]}</td><td>${ZONE[s.z]}</td></tr>`).join('')}</table>`;
+    if(near.length)h+=`<div class="result">有 ${near.length} 處據點距敏感區位 5 公里內，屬 TNFD L4 應優先評估的據點。</div>`;
+    if(unk.length)h+=`<div class="result amber">有 ${unk.length} 處據點的周邊自然區位尚未確認，建議先完成圖資套疊。</div>`;
+  }
+  if(ind)h+=`<h3>產業自然議題參考</h3><table><tr><th>產業</th><th>自然依賴程度</th><th>主要自然議題</th></tr><tr><td>${ind.n}</td><td>${ind.dep}</td><td>${ind.issue}</td></tr></table><p class="hint">依賴程度參考 BCG、IPBES 公開分析，實際以企業自身評估為準。</p>`;
+
+  h+=`<h3>優先補強缺口（未開始項目）</h3>`;
+  if(!gaps.length)h+=`<p class="hint">沒有「未開始」的項目，做得很好。</p>`;
+  else h+=gaps.slice(0,8).map(q=>`<div class="gap"><b>${q.id}｜${q.t}</b><br>${q.fix}</div>`).join('')+(gaps.length>8?`<p class="hint">另有 ${gaps.length-8} 項，見 ② 自評頁。</p>`:'');
+
+  /* 在地行動建議 */
+  const sc=k=>c.by[k].s/c.by[k].m;
+  let plan;
+  if(sc('L')<.5||sc('E')<.4)plan={t:"建議：先建立「自然基線」",d:"您的缺口集中在定位與評價。最有效率的做法是挑一處鄰近據點的自然場域，由在地生態團體做兩季調查、架設自動相機，6 個月內取得可引用的基線資料與 LEAP 定位圖資。"};
+  else if(sc('P')<.5)plan={t:"建議：以「在地修復行動」累積可揭露成果",d:"您已完成大部分盤點，缺的是有基線、有對照、可驗證的行動成果。建議在營運據點周邊支持一處棲地修復（外來種移除、原生植栽、四季監測），12 個月產出年度成效報告與 GRI 101／TNFD 揭露素材。"};
+  else plan={t:"建議：轉為「多年期自然承諾」",d:"您的 LEAP 基礎已相當完整，下一步是將自然議題納入中長期目標與董事會監督，以多年期監測數據呈現趨勢，並評估申請保育共生地（OECM）等官方認可。"};
+  h+=`<h3>在地行動建議</h3><div class="plan"><div class="pt">${plan.t}</div><div style="font-size:.86rem;margin-top:4px">${plan.d}</div>
+   <div class="hint" style="margin-top:8px">高屏地區企業可透過農業部林業及自然保育署「自然碳匯與生物多樣性專案媒合平臺」（esg.forest.gov.tw）登記合作，取得官方成果證明。行動應定位為「修復」，作為廠內避免與減量的補充，不作為抵銷。</div></div>`;
+
+  document.getElementById('repOut').innerHTML=h;
+  window.lastCalc={comp,yr,pct:c.pct,lv:lv.n,by:Object.fromEntries(Object.entries(c.by).map(([k,x])=>[k,Math.round(x.s/x.m*100)])),gaps:gaps.map(q=>q.id).join('、'),plan:plan.t,sites:sites.map(s=>`${s.n||'—'}(${DIST[s.d]}/${ZONE[s.z]})`).join('；')};
+}
+
+/* ===== 送出結果給顧問（CRM 收單）===== */
+const LEAD_ENDPOINT='https://script.google.com/macros/s/AKfycbzHVU7fq2p3ej9aW1fyjBqXqrXLYyO0BZJi_VJvP9cWd_EThHQNcrJHentwnAfnA8od/exec';
+function submitLead(){
+  const name=document.getElementById('lead-name').value.trim();
+  const company=document.getElementById('lead-company').value.trim();
+  const phone=document.getElementById('lead-phone').value.trim();
+  const email=document.getElementById('lead-email').value.trim();
+  const consent=document.getElementById('lead-consent').checked;
+  const msg=document.getElementById('lead-msg'),btn=document.getElementById('lead-submit');
+  if(!name||!company||!phone){msg.className='lead-msg err';msg.textContent='請填寫姓名、公司/單位與聯絡電話。';return;}
+  if(!consent){msg.className='lead-msg err';msg.textContent='請先勾選個資同意聲明，再送出。';return;}
+  if(!window.lastCalc)buildReport();
+  const d=window.lastCalc;
+  btn.disabled=true;btn.textContent='傳送中…';msg.className='lead-msg';msg.textContent='';
+  const summaryText=`【TNFD 自然揭露準備度自評】\n公司：${d.comp}｜年度：${d.yr}\n總完成度：${d.pct}%（${d.lv}）\n定位 ${d.by.L}%｜評價 ${d.by.E}%｜評估 ${d.by.A}%｜準備 ${d.by.P}%｜治理 ${d.by.G}%\n據點：${d.sites||'—'}\n未開始項目：${d.gaps||'—'}\n建議：${d.plan}\n—\n本結果由 Charlotte Chang 製作之自評工具產出，僅供初步盤點參考。`;
+  fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({tool:'TNFD 自然揭露準備度自評',company,name,phone,email,area:d.comp,score:`TNFD 準備度 ${d.pct}%（${d.lv}）`,summary:summaryText,consent})
+  }).then(()=>{msg.className='lead-msg ok';msg.textContent='✓ 已送出！Charlotte 將於一個工作天內與您聯繫，感謝您的填寫。';btn.textContent='已送出';})
+  .catch(()=>{msg.className='lead-msg err';msg.textContent='送出時發生問題，請改用 Email（chalotte@gmail.com）或 LINE 官方帳號與顧問聯繫。';btn.disabled=false;btn.textContent='送出結果給顧問';});
+}
+
+/* ===== 指引 ===== */
+const REF=[
+{t:"TNFD 是什麼？和 TCFD 有什麼不同？",h:`<ul class="tight">
+<li><b>TNFD</b>（自然相關財務揭露工作小組）於 2023 年 9 月發布最終建議，架構與 TCFD 相同：治理、策略、風險與影響管理、指標與目標四大支柱。</li>
+<li>差別在 TNFD 多了「<b>地點</b>」：氣候是全球同一個大氣，自然卻是每個據點都不同，所以第一步一定是「你在哪裡」。</li>
+<li>TNFD 不是認證、沒有評分，本工具的百分比只是內部盤點用的進度指標。</li></ul>`},
+{t:"LEAP 四步驟怎麼做？",h:`<ul class="tight">
+<li><b>L 定位</b>：價值鏈範圍、依賴與影響初篩、據點與自然的交界、敏感區位。</li>
+<li><b>E 評價</b>：辨識環境資產與生態系服務、依賴與影響、量化衡量、影響重大性。</li>
+<li><b>A 評估</b>：風險與機會辨識、納入既有風險管理、衡量排序、重大性判斷。</li>
+<li><b>P 準備</b>：策略與資源配置、目標與績效、報告、呈現。</li>
+<li>建議做法：第一年只挑 1–2 個最靠近敏感區位的據點完整走一次 LEAP，比全公司都做一半有價值。</li></ul>`},
+{t:"怎麼查據點周邊有沒有敏感自然區位？",h:`<ul class="tight">
+<li><b>國家重要濕地</b>：內政部國家公園署濕地保育網圖資。</li>
+<li><b>保護區、保安林、國土生態綠網</b>：農業部林業及自然保育署公開圖資。</li>
+<li><b>鳥類與物種紀錄</b>：台灣生物多樣性網絡（TBN）、eBird 可查據點周邊的物種出現紀錄；在地野鳥學會長期調查資料最能反映實況。</li>
+<li>判讀有困難時，請在地生態團體協助，比自行判讀可靠，也是 TNFD 重視的利害關係人參與。</li></ul>`},
+{t:"減緩層級：為什麼「修復」不能當「抵銷」？",h:`<ul class="tight">
+<li>順序是 <b>避免 → 減量 → 修復 → 抵銷</b>。企業應先處理廠內自身的衝擊。</li>
+<li>在據點周邊支持棲地修復，是對在地自然的正向行動，但不能拿來宣稱抵銷了其他地方的生態損失。</li>
+<li>建議揭露說法：「本公司除在廠區推動○○減量措施外，另於營運據點所在區域支持棲地修復，並以第三方調查資料追蹤成效。」</li></ul>`},
+{t:"GRI 101、林保署平臺與 TNFD 的關係",h:`<ul class="tight">
+<li><b>GRI 101：生物多樣性 2024</b> 自 2026 年 1 月 1 日起生效，要求依據點揭露對生物多樣性的衝擊，與 TNFD 的地點導向一致。</li>
+<li><b>林保署自然碳匯與生物多樣性專案媒合平臺</b>（esg.forest.gov.tw）：企業可認養上架專案或自提專案，取得官方成果證明作為揭露佐證；是否符合確信標準仍由查核方認定。</li>
+<li>三者搭配：TNFD 給方法、GRI 101 給揭露格式、林保署平臺給在地行動與官方佐證。</li></ul>`}
+];
+function renderRef(){
+  document.getElementById('refList').innerHTML=REF.map(r=>`<details><summary>${r.t}</summary><div class="body">${r.h}</div></details>`).join('')+
+  `<div class="card src">參考資料：<br>
+  ・<a href="https://tnfd.global/recommendations-of-the-tnfd/">TNFD｜Recommendations of the TNFD</a><br>
+  ・<a href="https://tnfd.global/publication/additional-guidance-on-assessment-of-nature-related-issues-the-leap-approach/">TNFD｜LEAP approach guidance</a><br>
+  ・<a href="https://www.globalreporting.org/standards/standards-development/topic-standard-project-for-biodiversity/">GRI 101: Biodiversity 2024</a><br>
+  ・<a href="https://esg.forest.gov.tw/">林業及自然保育署｜自然碳匯與生物多樣性專案媒合平臺</a><br>
+  ・<a href="https://www.tbn.org.tw/">台灣生物多樣性網絡 TBN</a>　・<a href="https://ebird.org/">eBird</a>　・<a href="https://encorenature.org/">ENCORE</a></div>`;
+}
+
+/* ===== 儲存 ===== */
+const KEY='tnfd-check-v1';
+function saveAll(){
+  try{localStorage.setItem(KEY,JSON.stringify({c:['c-name','c-ind','c-driver','c-year'].map(i=>document.getElementById(i).value),sites,ans}));}catch(e){}
+}
+function loadAll(){
+  try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(!d)return;
+    ['c-name','c-ind','c-driver','c-year'].forEach((i,k)=>document.getElementById(i).value=d.c[k]||'');
+    sites=d.sites||[];ans=d.ans||{};}catch(e){}
+}
+function resetAll(){if(!confirm('確定清除全部資料？'))return;try{localStorage.removeItem(KEY);}catch(e){}
+  sites=[];ans={};['c-name','c-ind','c-driver','c-year'].forEach(i=>document.getElementById(i).value='');
+  renderSites();renderQs();document.getElementById('repOut').innerHTML='';}
+['c-name','c-year'].forEach(i=>document.getElementById(i).addEventListener('input',saveAll));
+loadAll();renderSites();renderQs();renderRef();
+</script>
+</body>
+</html>
