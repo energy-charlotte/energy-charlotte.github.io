@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>供應鏈職安衛 × ESG 評鑑導讀｜Charlotte Chang 張雅雯</title>
+<meta name="description" content="給中小供應商與承攬商的白話導讀：金管會 115 年度 ESG 評鑑 S-2 人權盡職調查、S-15 供應商管理、S-19 職場健康與安全，客戶會向你要什麼、該準備什麼，以及勞動部職安署官方免費自評資源導航。">
+<style>
+:root{
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --red:#c0392b; --red-light:#fdeceb;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f4f7f9; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem}
+header .sub{font-size:.72rem;opacity:.88;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9;white-space:nowrap}
+nav.toc{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:62px;z-index:49;overflow-x:auto}
+nav.toc a{flex:1;min-width:84px;padding:10px 6px;text-align:center;font-size:.84rem;color:var(--gray);text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent}
+nav.toc a:hover{color:var(--green);border-bottom-color:var(--green)}
+main{max-width:1000px;margin:0 auto;padding:14px 16px 60px}
+section{scroll-margin-top:120px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+.card h2{font-size:1.05rem;color:var(--green);margin-bottom:8px}
+.card h3{font-size:.95rem;margin:12px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+.hero{border-left:5px solid var(--green)}
+.hero p{font-size:.95rem}
+.alert{border-left:4px solid var(--amber);background:var(--amber-light);padding:10px 12px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.88rem}
+.chain{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+.chain div{border:1px solid var(--line);border-radius:9px;padding:10px;font-size:.82rem;background:#fff}
+.chain b{display:block;color:var(--green-dark);font-size:.88rem;margin-bottom:2px}
+.chain div:last-child{border-color:var(--red);background:var(--red-light)}
+.chain div:last-child b{color:var(--red)}
+@media(max-width:700px){.chain{grid-template-columns:1fr 1fr}}
+ul.tight{padding-left:20px}ul.tight li{margin-bottom:4px;font-size:.88rem}
+details{border:1px solid var(--line);border-radius:9px;margin-bottom:8px;background:#fff}
+summary{padding:11px 12px;cursor:pointer;font-weight:700;font-size:.92rem;list-style:none;display:flex;justify-content:space-between;gap:8px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"＋";color:var(--gray)}
+details[open] summary::after{content:"－"}
+details .body{padding:0 12px 12px;font-size:.87rem}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;color:#fff;background:var(--green);border-radius:5px;padding:1px 7px;margin-right:6px}
+.ask{margin-top:8px;border-left:4px solid var(--blue);background:var(--blue-light);padding:8px 10px;border-radius:0 8px 8px 0}
+.ask b{color:var(--blue)}
+.warn{color:var(--red);font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:.83rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{background:var(--green-light);font-weight:700}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:620px){.res{grid-template-columns:1fr}}
+.res a{display:block;border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#fff;text-decoration:none;color:var(--ink)}
+.res a:hover{border-color:var(--green);background:var(--green-light)}
+.res a b{color:var(--blue);font-size:.9rem}
+.res a span{display:block;font-size:.78rem;color:var(--gray)}
+.res a.main{border-color:var(--green);background:var(--green-light)}
+.res a.main b{color:var(--green-dark)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:620px){.steps{grid-template-columns:1fr}}
+.steps div{border:1px solid var(--line);border-radius:9px;padding:10px;background:#fff;font-size:.84rem}
+.steps b{display:block;color:var(--green)}
+.cta{border:1px solid var(--green);background:var(--green-light)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{display:inline-block;padding:9px 16px;border-radius:8px;font-size:.9rem;text-decoration:none;background:var(--green);color:#fff}
+.btn.sec{background:#fff;color:var(--green);border:1px solid var(--green)}
+.btn.line{background:#06c755}
+.src{font-size:.74rem;color:var(--gray);margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}
+.src a,.body a{color:var(--blue);word-break:break-all}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 12px 10px}
+@media print{header,nav.toc,.btnrow{display:none!important}body{background:#fff}details{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <h1>供應鏈職安衛 × ESG 評鑑</h1><a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜工業能源與永續顧問・給中小供應商與承攬商的白話導讀</div>
+</header>
+<nav class="toc">
+  <a href="#why">為什麼</a>
+  <a href="#indicators">三項指標</a>
+  <a href="#prepare">要準備什麼</a>
+  <a href="#resources">官方資源</a>
+  <a href="#timeline">時程</a>
+  <a href="#help">找我協助</a>
+</nav>
+<main>
+
+<section class="card hero">
+  <h2>一句話重點</h2>
+  <p>客戶的 ESG 評鑑壓力，正一路往下傳到供應商身上。金管會自 115 年度起以「ESG 評鑑」取代公司治理評鑑，其中 S-2、S-15、S-19 三項都和供應鏈職業安全衛生有關。上市櫃客戶要在這幾題拿分，就必須拿出「供應商有被實際管理」的證據，而這些證據，最後都要由供應商來提供。</p>
+  <div class="alert">📅 勞動部職安署「職業健康與安全永續績效自我評量」：<b>115 年度自評請於 12/31 前完成</b>（以官方公告為準）。</div>
+</section>
+
+<section class="card" id="why">
+  <h2>為什麼中小企業也躲不掉？</h2>
+  <p class="hint">法規門檻多半只鎖定大企業，但壓力會沿著採購合約一層一層往下傳。</p>
+  <div class="chain">
+    <div><b>國際法規</b>歐盟 CSDDD、德國 LkSG、挪威透明度法等，要求大型企業對供應鏈做人權與職安盡職調查</div>
+    <div><b>品牌大廠</b>為避免裁罰與聲譽風險，啟動整條價值鏈的盡職調查</div>
+    <div><b>台灣一階供應商</b>透過合約條款、問卷與稽核，把要求轉給下游</div>
+    <div><b>二、三階中小企業</b>沒有法定義務，卻直接面對客戶要求</div>
+  </div>
+  <h3>國內也一樣</h3>
+  <ul class="tight">
+    <li>金管會 ESG 評鑑把「供應商管理」與「人權盡職調查」列為評分項目，上市櫃公司必須說明怎麼管供應商。</li>
+    <li>趨勢很明確：企業對供應鏈的責任正從「自願揭露」走向「法定義務」，範圍也從第一層供應商延伸到整條供應鏈。</li>
+    <li>鄰國韓國已有判例：承攬商員工在工地發生死亡事故，總承包商的代表人因未建立安全衛生管理制度而被判刑。</li>
+  </ul>
+</section>
+
+<section class="card" id="indicators">
+  <h2>金管會 115 年度 ESG 評鑑：三項相關指標白話版</h2>
+  <p class="hint">以下為重點整理，完整計分規則請以主管機關公告的評鑑指標與評分指南為準。</p>
+
+  <details open>
+    <summary><span><span class="tag">S-2</span>人權盡職調查</span></summary>
+    <div class="body">
+      <ul class="tight">
+        <li>必須同時做到三件事才計分：①訂定並揭露人權盡職調查流程；②揭露調查範圍（員工、客戶、供應商等）與重大議題（如薪資工時、健康與安全）；③揭露採取的減緩或補救措施。</li>
+        <li><b>加分題：</b>若另外揭露「針對供應商」的盡職調查流程與執行情形（同樣涵蓋上述三項），總分再加一分。</li>
+      </ul>
+      <div class="ask"><b>客戶可能會問你：</b>工時與薪資怎麼管理？職安狀況如何？發生過哪些事件、怎麼改善？</div>
+    </div>
+  </details>
+
+  <details open>
+    <summary><span><span class="tag">S-15</span>供應商管理</span></summary>
+    <div class="body">
+      <ul class="tight">
+        <li>兩項要件都要符合：①供應商管理政策對職業安全衛生、勞動人權、資安或隱私保護有<b>積極具體</b>的要求（例如要求取得相關認證）；②具體說明實施情形，例如供應商盡職調查、自評、輔導或教育、績效評估。</li>
+        <li class="warn">只要求供應商遵守誠信、維持品質，或只簽聲明書、切結書，這項拿不到分。</li>
+      </ul>
+      <div class="ask"><b>客戶可能會要你：</b>填寫自評問卷、接受輔導或稽核、提供制度文件與紀錄，而不再只是簽一張切結書。</div>
+    </div>
+  </details>
+
+  <details open>
+    <summary><span><span class="tag">S-19</span>職場健康與安全</span></summary>
+    <div class="body">
+      <ul class="tight">
+        <li>二擇一即可計分：①具體說明員工人身安全健康與工作環境保護措施，以及 114 年度的實施情形；或②揭露已取得 ISO 45001 或 TOSHMS 認證，且效期涵蓋至 115 年。</li>
+        <li>製造、倉儲運輸等較高風險行業需詳述工作安全規定；也要涵蓋火災風險、職場不法侵害與霸凌等社會心理危害的因應。</li>
+        <li class="warn">只寫「定期（不定期）安檢」而沒有頻率或具體措施，無法得分。</li>
+      </ul>
+      <div class="ask"><b>對你的意義：</b>同一套職安衛紀錄，既能回覆客戶，也能作為自家永續報告的素材。</div>
+    </div>
+  </details>
+</section>
+
+<section class="card" id="prepare">
+  <h2>供應商現在可以先準備什麼？</h2>
+  <p class="hint">客戶問卷大多以 GRI 403（職業健康與安全）為架構，先把下列文件與紀錄整理好，回覆問卷和稽核都會輕鬆很多。</p>
+  <table>
+    <tr><th style="width:34%">項目</th><th>準備重點</th></tr>
+    <tr><td>管理制度</td><td>職安衛管理計畫或系統文件、適用範圍（含哪些人員與場所）；若有 ISO 45001／TOSHMS 證書，確認效期</td></tr>
+    <tr><td>危害辨識與風險評估</td><td>墜落、感電、火災爆炸、化學品、人因等危害清單，以及對應的分級管理措施</td></tr>
+    <tr><td>事故與虛驚紀錄</td><td>事故調查報告、矯正措施與追蹤結果</td></tr>
+    <tr><td>化學品與承攬管理</td><td>危害標示、安全資料表（SDS）、承攬商入廠管理與協議組織紀錄</td></tr>
+    <tr><td>健康服務與促進</td><td>健康檢查、作業環境監測（有容許暴露標準的場所）、健康促進活動</td></tr>
+    <tr><td>工作者參與與訓練</td><td>安衛委員會或溝通紀錄、教育訓練計畫與簽到紀錄</td></tr>
+    <tr><td>績效數據</td><td>工時、失能傷害頻率／嚴重率、職業病件數，至少保留近 2–3 年</td></tr>
+  </table>
+</section>
+
+<section class="card" id="resources">
+  <h2>官方免費資源導航</h2>
+  <p class="hint">以下為勞動部職業安全衛生署「推動職場永續健康與安全發展計畫」的公開資源，點擊即前往官方網站。</p>
+  <div class="res">
+    <a class="main" href="https://www.gochemgo.com.tw/griosh" target="_blank" rel="noopener"><b>① 職業健康與安全永續績效自我評量 ↗</b><span>依產業選問卷（通用、電子、金融保險、化學、建材營造、交通運輸、鋼鐵、微小型企業等），填完可取得結果分析與同業落點</span></a>
+    <a class="main" href="https://www.oshasdg.com/supplychain-start" target="_blank" rel="noopener"><b>② 第一次來：人力少的中小企業從這裡開始 ↗</b><span>官方為中小企業設計的入門引導</span></a>
+    <a href="https://www.oshasdg.com/supplychain" target="_blank" rel="noopener"><b>供應鏈專區總覽 ↗</b><span>計畫說明、歷程與各類引導頁入口</span></a>
+    <a href="https://www.oshasdg.com/supplychain-supplier" target="_blank" rel="noopener"><b>供應商／承攬商引導 ↗</b><span>收到客戶邀請時該怎麼回應</span></a>
+    <a href="https://www.oshasdg.com/supplychain-leader" target="_blank" rel="noopener"><b>領導企業引導 ↗</b><span>如何邀請供應商參與自評、帶動供應鏈</span></a>
+    <a href="https://www.oshasdg.com/supplychain-toolkit" target="_blank" rel="noopener"><b>資源・工具・機制 ↗</b><span>邀請範本、填寫指引、推進手冊等工具</span></a>
+    <a href="https://www.osha.gov.tw/48110/48207/134603/134615/182014/post" target="_blank" rel="noopener"><b>GRI 403 揭露實務建議指南 ↗</b><span>職場永續健康與安全 SDGs 揭露實務建議指南（勞動部職安署）</span></a>
+    <a href="https://www.oshasdg.com/guidance-gri403-indicators" target="_blank" rel="noopener"><b>數位 GRI 403 指南 ↗</b><span>線上版指標說明</span></a>
+    <a href="https://www.oshasdg.com/supplychain-news" target="_blank" rel="noopener"><b>最新消息與合作方案 ↗</b><span>說明會、116 年合作方案等最新公告</span></a>
+  </div>
+  <div class="src">官方聯絡窗口：oshasdg@sahtech.org／(06) 293-7770。以上資源之內容與權利屬勞動部職業安全衛生署及其執行單位，本頁僅提供連結導覽。</div>
+</section>
+
+<section class="card" id="timeline">
+  <h2>近期時程</h2>
+  <ul class="tight">
+    <li><b>115 年 11 月：</b>官方預告自評的「響應報告」改版，將提供總分與分級、各面向分數、同業比較，以及對應 GRI 403 的改善建議與免費輔導資源。</li>
+    <li><b>115 年 12/31：</b>115 年度自評截止；完成者可取得數位回饋報告並延續歷年紀錄。</li>
+    <li><b>116 年：</b>官方推出供應鏈大會合作方案，供領導企業帶供應商分三階段推動：</li>
+  </ul>
+  <div class="steps" style="margin-top:8px">
+    <div><b>上半年｜啟動盤點</b>邀請供應商、承攬商填寫自評，取得回饋與管理工具</div>
+    <div><b>年中｜分級輔導</b>依自評落點分級，協助供應商建立制度、追蹤改善</div>
+    <div><b>年末｜成果展現</b>呈現分級與輔導成果，可作為 ESG 報告書佐證</div>
+  </div>
+  <p class="hint" style="margin-top:8px">時程與方案內容以官方最新公告為準。</p>
+</section>
+
+<section class="card cta" id="help">
+  <h2>不知道從哪裡開始？可以先聊聊</h2>
+  <p style="font-size:.9rem">中小企業最常卡在三件事：沒有專責人員、文件格式不一，以及不知道第一步從哪裡開始。我可以先陪你把方向釐清：</p>
+  <ul class="tight" style="margin-top:6px">
+    <li>說明客戶問卷或 ESG 評鑑在問什麼，以及你手上哪些資料用得上</li>
+    <li>陪同操作官方自評系統，一起看懂回饋報告的落點與缺口</li>
+    <li>依缺口指引對應的官方免費資源與輔導管道</li>
+    <li>需要時，可與碳盤查、ESG 行動平台診斷一併盤點</li>
+  </ul>
+  <p class="hint" style="margin-top:6px">職安衛制度的建置與法規判定，仍請依您的職安衛人員或專業機構意見辦理。</p>
+  <div class="btnrow">
+    <a class="btn line" href="https://lin.ee/TYRF9wrk" target="_blank" rel="noopener">LINE 諮詢</a>
+    <a class="btn sec" href="mailto:chalotte@gmail.com?subject=%E4%BE%9B%E6%87%89%E9%8F%88%E8%81%B7%E5%AE%89%E8%A1%9B%E8%AB%AE%E8%A9%A2">Email 聯絡</a>
+    <a class="btn sec" href="esg-platform.html">先做 ESG 行動平台診斷</a>
+  </div>
+</section>
+
+</main>
+<footer>
+  Charlotte Chang 張雅雯 整理｜本頁為個人導讀，非官方網站；ESG 評鑑指標以主管機關公告為準，官方資源以勞動部職業安全衛生署公告為準。
+</footer>
+</body>
+</html>
