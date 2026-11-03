@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO 9001:2026 改版 × 核能品保 NQA-1｜Charlotte Chang 張雅雯</title>
+<meta name="description" content="ISO 9001:2026（2026/9/16 發行）與 2015 版差異白話整理、轉版時程，以及核能品保標準 ASME NQA-1 與 ISO 9001 的關係與重點差異，附 NQA-1 準備度自評檢核。">
+<style>
+:root{
+  --green:#1a7a4f; --green-dark:#0e5537; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --amber:#b7791f; --amber-light:#fdf3e0;
+  --red:#c0392b; --red-light:#fdeceb;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f4f7f9; --card:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.7}
+header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem}
+header .sub{font-size:.72rem;opacity:.88;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9;white-space:nowrap}
+nav.toc{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:62px;z-index:49;overflow-x:auto}
+nav.toc a{flex:1;min-width:84px;padding:10px 6px;text-align:center;font-size:.84rem;color:var(--gray);text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent}
+nav.toc a:hover{color:var(--green);border-bottom-color:var(--green)}
+main{max-width:1000px;margin:0 auto;padding:14px 16px 60px}
+section{scroll-margin-top:120px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+.card h2{font-size:1.05rem;color:var(--green);margin-bottom:8px}
+.card h3{font-size:.95rem;margin:14px 0 6px}
+.hint{font-size:.8rem;color:var(--gray)}
+.hero{border-left:5px solid var(--green)}
+.hero p{font-size:.95rem}
+.alert{border-left:4px solid var(--amber);background:var(--amber-light);padding:10px 12px;border-radius:0 8px 8px 0;margin-top:10px;font-size:.88rem}
+.ask{margin-top:10px;border-left:4px solid var(--blue);background:var(--blue-light);padding:8px 10px;border-radius:0 8px 8px 0;font-size:.88rem}
+.ask b{color:var(--blue)}
+ul.tight{padding-left:20px}ul.tight li{margin-bottom:4px;font-size:.88rem}
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.83rem;margin:6px 0;min-width:560px}
+th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{background:var(--green-light);font-weight:700}
+td.no{text-align:center;color:var(--gray);white-space:nowrap}
+.new{display:inline-block;font-size:.7rem;font-weight:700;color:#fff;background:var(--red);border-radius:4px;padding:0 6px;margin-left:4px;vertical-align:1px}
+.chg{display:inline-block;font-size:.7rem;font-weight:700;color:#fff;background:var(--amber);border-radius:4px;padding:0 6px;margin-left:4px;vertical-align:1px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
+@media(max-width:700px){.timeline{grid-template-columns:1fr 1fr}}
+.timeline div{border:1px solid var(--line);border-radius:9px;padding:10px;font-size:.82rem;background:#fff}
+.timeline b{display:block;color:var(--green-dark);font-size:.88rem;margin-bottom:2px}
+.timeline div.end{border-color:var(--red);background:var(--red-light)}
+.timeline div.end b{color:var(--red)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+@media(max-width:620px){.vs{grid-template-columns:1fr}}
+.vs div{border-radius:10px;padding:12px;font-size:.86rem}
+.vs .iso{background:var(--green-light);border:1px solid #bfe0cd}
+.vs .nqa{background:var(--blue-light);border:1px solid #bcd5e8}
+.vs h4{font-size:.95rem;margin-bottom:6px}
+.vs .iso h4{color:var(--green-dark)}.vs .nqa h4{color:var(--blue)}
+.diffs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:620px){.diffs{grid-template-columns:1fr}}
+.diffs div{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:#fff;font-size:.85rem}
+.diffs b{display:block;color:var(--blue);font-size:.92rem;margin-bottom:3px}
+.diffs i{font-style:normal;color:var(--gray);font-size:.78rem;display:block;margin-top:4px}
+.grade{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.grade span{flex:1;min-width:120px;text-align:center;padding:8px;border-radius:8px;font-size:.8rem;color:#fff}
+.check label{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-size:.86rem;cursor:pointer;background:#fff}
+.check label:hover{border-color:var(--blue)}
+.check input{margin-top:5px;width:17px;height:17px;flex-shrink:0;accent-color:var(--blue)}
+.check small{display:block;color:var(--gray);font-size:.76rem}
+.result{margin-top:10px;padding:12px;border-radius:9px;background:var(--bg);border:1px solid var(--line);font-size:.9rem}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+.svcgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:620px){.svcgrid{grid-template-columns:1fr}}
+.svcgrid div{border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff;font-size:.86rem}
+.svcgrid b{display:block;color:var(--green-dark);font-size:.95rem;margin-bottom:4px}
+.svcgrid .who{display:block;font-size:.76rem;color:var(--gray);margin-top:6px}
+.cred{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cred span{font-size:.78rem;background:var(--green-light);color:var(--green-dark);border-radius:20px;padding:3px 10px}
+.cta{border:1px solid var(--green);background:var(--green-light)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{display:inline-block;padding:9px 16px;border-radius:8px;font-size:.9rem;text-decoration:none;background:var(--green);color:#fff;border:0;cursor:pointer;font-family:inherit}
+.btn.sec{background:#fff;color:var(--green);border:1px solid var(--green)}
+.btn.line{background:#06c755}
+.src{font-size:.74rem;color:var(--gray);margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}
+.src a{color:var(--blue);word-break:break-all}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 12px 10px}
+@media print{header,nav.toc,.btnrow{display:none!important}body{background:#fff}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <h1>ISO 9001:2026 改版 × 核能品保 NQA-1</h1><a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜工業能源與永續顧問・給製造業與核能／高可靠度供應商的白話導讀</div>
+</header>
+<nav class="toc">
+  <a href="#iso2026">9001 改版</a>
+  <a href="#timeline">轉版時程</a>
+  <a href="#nqa1">NQA-1 是什麼</a>
+  <a href="#diff">重點差異</a>
+  <a href="#map">條文對照</a>
+  <a href="#check">準備度自評</a>
+</nav>
+<main>
+
+<section class="card hero">
+  <h2>一句話重點</h2>
+  <p><b>ISO 9001:2026 已於 2026 年 9 月 16 日正式發行</b>，屬於「重點升級」而不是大改：新增品質文化、道德行為與氣候議題等要求，舊版證書預計在 2029 年 9 月底前完成轉版。</p>
+  <p style="margin-top:6px">🌍 <b>為什麼品質管理要放在 ESG 平台上？</b>因為<b>氣候變遷已經正式寫進 ISO 9001</b>。2024 年 2 月的修正案（Amd 1:2024）先在條文 4.1 加入「組織應判定氣候變遷是否為相關議題」，並在 4.2 提醒利害關係人可能對氣候變遷有要求；2026 新版則把氣候、永續、品質文化與道德行為更完整地納入架構。也就是說，<b>驗證稽核員現在會問：氣候變遷對你的產品品質與營運有什麼影響？你怎麼因應？</b></p>
+  <div class="ask" style="margin-top:8px"><b>品質系統與 ESG 的交集：</b>
+    <ul class="tight" style="margin-top:4px">
+      <li><b>氣候風險（E）：</b>極端高溫、缺水、颱風停電影響製程與交期 → 同時是 ISO 9001 的 4.1 議題與 6.1 風險，也是永續報告與 IFRS S2 的氣候風險揭露</li>
+      <li><b>客戶要求（E）：</b>品牌客戶要求碳盤查、產品碳足跡與減碳目標 → 屬於 4.2 利害關係人的要求，可與 ISO 14064-1、ISO 14067 資料共用</li>
+      <li><b>品質文化與道德（G）：</b>5.1.1 主管推動道德行為、7.3 員工認知 → 對應 ESG 評鑑的誠信經營與公司治理指標</li>
+    </ul>
+    同一份議題鑑別與風險評估，可以同時用在 ISO 9001 稽核、永續報告與 ESG 評鑑，<b>不必做三次</b>。</div>
+  <p style="margin-top:6px">如果你的客戶是核電廠、核設施或其供應鏈，光有 ISO 9001 還不夠。核能業界通行的品保標準是 <b>ASME NQA-1</b>，它的出發點是「保障核安」，而不是「客戶滿意」，在設計驗證、特殊製程、獨立檢驗、紀錄保存與商用級品項轉用這幾方面，要求都明顯更嚴格。</p>
+  <div class="alert">📌 簡單比喻：<b>ISO 9001 是品質管理的「駕照」，NQA-1 則是開「危險品運輸車」的專業執照</b>。有了 ISO 9001 是好的起點，但要打進核能供應鏈，還要補上不少差距。</div>
+</section>
+
+<!-- ============ ISO 9001:2026 ============ -->
+<section class="card" id="iso2026">
+  <h2>一、ISO 9001:2026 vs 2015：改了什麼？</h2>
+  <p class="hint">由 ISO/TC 176/SC 2 修訂，條文架構全面對齊 ISO 管理系統的「調和結構（HS）」，與 ISO 14001、45001 等標準更容易整合。人工智慧（AI）並未列為特定要求，標準仍維持技術中立。</p>
+  <div class="tablewrap">
+  <table>
+    <tr><th style="width:17%">條文</th><th style="width:30%">2015 版</th><th>2026 版重點</th><th style="width:22%">企業要準備</th></tr>
+    <tr><td>4.1／4.2<br>組織處境與利害關係人</td><td>考量內外部議題（2024 年修正案已加入氣候變遷）</td><td>氣候變遷、永續、品質文化與道德行為正式寫進架構<span class="chg">強化</span></td><td>議題清單納入氣候風險；與 ESG 重大議題對接</td></tr>
+    <tr><td>5.1.1<br>領導</td><td>高階主管對 QMS 有效性負責</td><td><b>高階主管要主動推動「品質文化」與「道德行為」</b><span class="new">新增</span></td><td>主管宣示、行為準則、文化推動的具體作法與紀錄</td></tr>
+    <tr><td>5.2<br>品質政策</td><td>品質政策要適合組織的目的與處境</td><td>品質政策、目標與行動要更明確地對齊<b>長期策略方向</b><span class="chg">強化</span></td><td>檢視品質目標與經營計畫的連結</td></tr>
+    <tr><td>6.1<br>風險與機會</td><td>風險與機會放在同一條處理</td><td><b>拆成 6.1.2 處理風險、6.1.3 處理機會</b>，兩者分開思考<span class="chg">結構調整</span></td><td>風險登錄表與機會清單分開管理</td></tr>
+    <tr><td>7.3<br>認知</td><td>員工了解品質政策與自己的貢獻</td><td>員工也要了解<b>品質文化與道德原則</b><span class="new">新增</span></td><td>教育訓練教材與宣導紀錄更新</td></tr>
+    <tr><td>附錄 A／名詞</td><td>附錄 A 說明結構與用語</td><td>附錄 A 大幅改寫，說明概念與用語，<b>不增加新義務</b>；關鍵名詞重新釐清</td><td>內部文件用語一致化</td></tr>
+  </table>
+  </div>
+  <div class="ask"><b>對企業的意義：</b>改版不需要重建系統，但「品質文化、道德行為、氣候議題」這幾項要拿得出證據。已在做 ESG 報告的企業，可以把永續議題與 ISO 9001 一起整合，省下重複的工作。</div>
+</section>
+
+<section class="card" id="timeline">
+  <h2>二、轉版時程</h2>
+  <div class="timeline">
+    <div><b>2026/9/16</b>ISO 9001:2026 正式發行</div>
+    <div><b>2026–2027</b>自我評估差距、更新文件、內部稽核與管理審查</div>
+    <div><b>2027–2029</b>配合年度追查或換證稽核，完成轉版驗證</div>
+    <div class="end"><b>2029/9/30（預計）</b>ISO 9001:2015 證書失效</div>
+  </div>
+  <p class="hint" style="margin-top:8px">轉版截止日以 IAF 及您的驗證機構正式公告為準。建議先挑 2–3 個優先項目，在下一次稽核前完成。</p>
+</section>
+
+<!-- ============ NQA-1 ============ -->
+<section class="card" id="nqa1">
+  <h2>三、NQA-1 是什麼？跟 ISO 9001 是什麼關係？</h2>
+  <p><b>ASME NQA-1</b>（核設施應用品質保證要求）由美國機械工程師學會（ASME）制定，最新版為 <b>NQA-1-2024</b>。它的 18 項要求源自美國聯邦法規 <b>10 CFR 50 附錄 B</b> 的 18 條品保準則，並經美國核管會（NRC）以法規指引 RG 1.28 認可，是核電廠、核燃料與核設施供應鏈的品保共通語言。台灣核電廠採用美國設計，品保體系也沿用這套架構。</p>
+  <div class="vs">
+    <div class="iso"><h4>ISO 9001</h4>
+      <ul class="tight">
+        <li><b>性質：</b>自願性驗證標準</li>
+        <li><b>目標：</b>穩定提供符合要求的產品，提升客戶滿意度</li>
+        <li><b>思維：</b>以風險為基礎、持續改善，寫「要做到什麼」，方法由企業自己決定</li>
+        <li><b>驗證方式：</b>第三方驗證機構發證</li>
+        <li><b>適用：</b>所有產業</li>
+      </ul></div>
+    <div class="nqa"><h4>ASME NQA-1</h4>
+      <ul class="tight">
+        <li><b>性質：</b>用來符合核能法規的品保標準</li>
+        <li><b>目標：</b>確保安全相關的結構、系統與組件（SSC）不會因品質缺陷而危及核安</li>
+        <li><b>思維：</b>預防為主、零容忍，對「怎麼做、誰來做、怎麼證明」都有具體規定</li>
+        <li><b>驗證方式：</b>多半由<b>買方（電廠或上游供應商）稽核認可</b>，列入合格供應商名單</li>
+        <li><b>適用：</b>核電廠、核燃料、乾式貯存、除役、核能研究設施</li>
+      </ul></div>
+  </div>
+  <h3>分級品保（Graded Approach）</h3>
+  <p style="font-size:.88rem">NQA-1 並非所有物件都套用最嚴格的管制，而是依照物件對核安的重要程度決定管制強度：</p>
+  <div class="grade">
+    <span style="background:var(--red)">安全相關（Safety-Related）<br>全套 NQA-1</span>
+    <span style="background:var(--amber)">重要但非安全相關<br>擇要適用</span>
+    <span style="background:var(--green)">非安全相關<br>一般 ISO 9001 等級即可</span>
+  </div>
+  <p class="hint" style="margin-top:6px">這也是一般製造業切入核能供應鏈的機會：先從非安全相關、重要等級的品項開始，逐步建立品保能力。</p>
+</section>
+
+<section class="card" id="diff">
+  <h2>四、NQA-1 比 ISO 9001 嚴格在哪？6 個重點差異</h2>
+  <div class="diffs">
+    <div><b>① 設計管制：獨立設計驗證</b>設計必須由<b>非原設計者</b>進行驗證，方法包括設計審查、替代計算或鑑定測試；設計所用的電腦軟體也要經過品保管控（NQA-1 第 II 部 2.7 子部）。<i>ISO 9001 8.3：只要求審查、查證與確認，沒有要求由獨立人員執行。</i></div>
+    <div><b>② 特殊製程：人員與程序都要取得資格</b>焊接、熱處理、非破壞檢測（NDT）等製程，必須使用經鑑定的程序，並由取得資格的人員執行，資格紀錄也要保存。<i>ISO 9001 8.5.1 f)：只要求製程確認，方法較有彈性。</i></div>
+    <div><b>③ 檢驗與測試：停止點與獨立檢驗</b>檢驗人員不能是執行或直接督導該項作業的人；買方可以設定<b>停止點（Hold Point）</b>，沒有見證放行就不能進行下一步。<i>ISO 9001 8.6：只要求適當的放行安排。</i></div>
+    <div><b>④ 紀錄：終身保存、可追溯</b>品保紀錄分為「永久性」與「非永久性」，永久性紀錄可能要保存到設施的整個壽期，而且要防火、防損並可檢索。<i>ISO 9001 7.5.3：保存期限由企業自訂。</i></div>
+    <div><b>⑤ 採購：商用級品項檢證轉用（CGD）</b>一般市售零件若要用在安全相關用途，必須經過<b>檢證轉用（Commercial Grade Dedication）</b>：鑑別關鍵特性，再以檢驗、測試或供應商稽核加以驗證。供應商也要負擔法規 10 CFR 21 的缺陷通報義務。<i>ISO 9001 8.4：依風險管理外部供應者即可。</i></div>
+    <div><b>⑥ 稽核與不符合：資格更嚴、處置更嚴</b>主任稽核員要取得資格認證；對不符合品的「照用（use-as-is）」或「修理」處置，必須有工程評估並留下紀錄；重大的「品質不利狀況」要找出根本原因、防止再發，並向管理階層報告。<i>ISO 9001 8.7、9.2、10.2：精神相同，但要求的程度較低。</i></div>
+  </div>
+  <div class="ask"><b>ISO 9001 有、NQA-1 沒特別強調的：</b>組織處境、利害關係人、客戶滿意、品質目標，以及 2026 版新增的品質文化。所以兩者不是取代關係，而是<b>互補</b>：ISO 9001 打底管理系統，NQA-1 加上核安等級的技術管制。</div>
+</section>
+
+<section class="card" id="map">
+  <h2>五、NQA-1 18 項要求 ↔ ISO 9001:2026 條文對照</h2>
+  <p class="hint">對應關係為重點整理，實際適用範圍仍以合約與買方的品保要求為準。</p>
+  <div class="tablewrap">
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:23%">NQA-1 要求</th><th style="width:15%">ISO 9001 對應</th><th>NQA-1 額外要求（差距重點）</th></tr>
+    <tr><td class="no">1</td><td>組織</td><td>5.3</td><td>品保人員要有足夠的權限與組織獨立性，可以獨立於成本與時程壓力之外</td></tr>
+    <tr><td class="no">2</td><td>品保方案</td><td>4.4、7.2</td><td>人員要接受品保入門教育；檢驗、測試與稽核人員要取得資格認證</td></tr>
+    <tr><td class="no">3</td><td>設計管制</td><td>8.3</td><td>獨立設計驗證、設計介面管制，以及電腦軟體品保</td></tr>
+    <tr><td class="no">4</td><td>採購文件管制</td><td>8.4.3</td><td>技術與品保要求要往下傳遞；買方有進廠權；需註明 10 CFR 21 通報義務</td></tr>
+    <tr><td class="no">5</td><td>指示、程序與圖面</td><td>7.5、8.5.1</td><td>作業必須依照書面程序執行，並訂有允收標準</td></tr>
+    <tr><td class="no">6</td><td>文件管制</td><td>7.5.3</td><td>文件變更須由原審查單位審查</td></tr>
+    <tr><td class="no">7</td><td>外購品項與服務管制</td><td>8.4</td><td>供應商稽核評鑑、源頭驗證、進料檢驗，以及商用級品項檢證轉用（CGD）</td></tr>
+    <tr><td class="no">8</td><td>品項識別與管制</td><td>8.5.2</td><td>從材料到成品的完整追溯（例如材料爐號）</td></tr>
+    <tr><td class="no">9</td><td>特殊製程管制</td><td>8.5.1 f)</td><td>使用經鑑定的程序，並由取得資格的人員執行（焊接、非破壞檢測等）</td></tr>
+    <tr><td class="no">10</td><td>檢驗</td><td>8.6</td><td>由獨立檢驗人員執行，並設停止點</td></tr>
+    <tr><td class="no">11</td><td>測試管制</td><td>8.6</td><td>測試程序要訂有前提條件、允收標準，結果也要經過評估</td></tr>
+    <tr><td class="no">12</td><td>量測與測試設備管制</td><td>7.1.5</td><td>校正可追溯至國家標準；發現儀器失準時，要回溯評估先前的量測結果</td></tr>
+    <tr><td class="no">13</td><td>搬運、貯存與運送</td><td>8.5.4</td><td>依品項等級訂定特殊的貯存環境與保護要求</td></tr>
+    <tr><td class="no">14</td><td>檢驗、測試與運轉狀態</td><td>8.5.2</td><td>以標籤或紀錄標示狀態，防止誤用</td></tr>
+    <tr><td class="no">15</td><td>不符合品管制</td><td>8.7</td><td>「照用」與「修理」的處置要有工程評估，必要時須經買方核准</td></tr>
+    <tr><td class="no">16</td><td>矯正措施</td><td>10.2</td><td>重大品質不利狀況要做根本原因分析、防止再發，並向管理階層報告</td></tr>
+    <tr><td class="no">17</td><td>品保紀錄</td><td>7.5.3</td><td>區分永久性與非永久性紀錄，有保存年限及防火、防損要求</td></tr>
+    <tr><td class="no">18</td><td>稽核</td><td>9.2</td><td>主任稽核員要取得資格；對供應商也要定期稽核</td></tr>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 自評 ============ -->
+<section class="card" id="check">
+  <h2>六、NQA-1 準備度快速自評（10 題）</h2>
+  <p class="hint">勾選貴公司目前「已經做到，而且有紀錄」的項目。結果只存在您的瀏覽器，不會上傳。</p>
+  <div class="check" id="checklist"></div>
+  <div class="result" id="result">
+    <div>準備度：<b id="score">0</b> / 10</div>
+    <div class="bar"><i id="barfill"></i></div>
+    <div id="verdict" style="font-size:.86rem"></div>
+  </div>
+  <div class="btnrow"><button class="btn sec" type="button" onclick="resetCheck()">清除重填</button></div>
+</section>
+
+</main>
+<footer>
+  Charlotte Chang 張雅雯 整理｜本頁為個人導讀，非 ISO、ASME 或主管機關官方文件；標準條文以 ISO 9001:2026、ASME NQA-1 原文及驗證機構公告為準。
+  <div class="src" style="border:0">參考資料：
+    <a href="https://www.dqsglobal.com/intl/learn/blog/revision-iso-9001" target="_blank" rel="noopener">DQS – ISO 9001 Revision 2026</a>｜
+    <a href="https://www.nqa.com/en-in/transitions/iso-9001-2026" target="_blank" rel="noopener">NQA – ISO 9001:2026 Transition</a>｜
+    <a href="https://en.wikipedia.org/wiki/ASME_NQA" target="_blank" rel="noopener">ASME NQA（Wikipedia）</a>｜
+    <a href="https://nric.inl.gov/content/uploads/34/2024/12/NQA-1-Introduction-and-its-role-as-a-pathway-to-meeting-the-Part-50-Appx-B-requirements.pdf" target="_blank" rel="noopener">INL – NQA-1 and 10 CFR 50 Appendix B</a>
+  </div>
+</footer>
+<script>
+const ITEMS=[
+  ['已取得 ISO 9001 驗證，且系統運作至少一年','有系統是基本門檻'],
+  ['品保人員可以獨立於生產與交期壓力，有權停止出貨','對應 NQA-1 第 1 項：組織'],
+  ['設計或圖面變更由非原設計者審查驗證','對應第 3 項：設計管制'],
+  ['焊接、熱處理、非破壞檢測等特殊製程有鑑定過的程序與合格人員','對應第 9 項：特殊製程'],
+  ['檢驗人員與生產人員分開，可以配合客戶的停止點進行見證','對應第 10、11 項：檢驗與測試'],
+  ['從原材料（如材料證明、爐號）到成品可以完整追溯','對應第 8 項：識別與管制'],
+  ['量測儀器校正可追溯至國家標準，失準時會回溯評估先前的量測結果','對應第 12 項：量測與測試設備'],
+  ['對外購零件做過關鍵特性鑑別與驗證（不只看出廠證明）','對應第 7 項：商用級品項檢證轉用'],
+  ['不符合品的照用或修理處置有工程評估與核准紀錄','對應第 15、16 項：不符合與矯正'],
+  ['品質紀錄有明確的保存年限、防火防損措施，而且可以快速調閱','對應第 17 項：品保紀錄']
+];
+const KEY='nqa1-check-v1';
+let state=[];
+try{state=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){state=[]}
+const box=document.getElementById('checklist');
+ITEMS.forEach((it,i)=>{
+  const l=document.createElement('label');
+  l.innerHTML='<input type="checkbox" data-i="'+i+'"'+(state[i]?' checked':'')+'><span>'+it[0]+'<small>'+it[1]+'</small></span>';
+  box.appendChild(l);
+});
+box.addEventListener('change',e=>{
+  if(e.target.dataset.i===undefined)return;
+  state[+e.target.dataset.i]=e.target.checked;
+  try{localStorage.setItem(KEY,JSON.stringify(state))}catch(err){}
+  update();
+});
+function update(){
+  const n=state.filter(Boolean).length;
+  document.getElementById('score').textContent=n;
+  document.getElementById('barfill').style.width=(n*10)+'%';
+  let v;
+  if(n<=3)v='🔴 <b>起步階段</b>：建議先把 ISO 9001 系統紮穩，並從非安全相關的品項切入核能供應鏈。';
+  else if(n<=6)v='🟡 <b>有基礎、有差距</b>：管理系統已經有了，差距多半落在獨立檢驗、追溯性與外購品項驗證，適合做一次完整的 NQA-1 差距分析。';
+  else if(n<=8)v='🟢 <b>接近準備好</b>：可以針對剩下的項目補強，並模擬買方的品保稽核。';
+  else v='✅ <b>準備度高</b>：建議以 NQA-1 的 18 項要求做一次文件總檢，迎接客戶稽核。';
+  document.getElementById('verdict').innerHTML=v;
+}
+function resetCheck(){
+  state=[];
+  try{localStorage.removeItem(KEY)}catch(e){}
+  box.querySelectorAll('input').forEach(c=>c.checked=false);
+  update();
+}
+update();
+</script>
+</body>
+</html>
