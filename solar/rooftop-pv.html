@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>屋頂太陽光電投資效益試算｜Charlotte Chang 張雅雯</title>
+<meta name="description" content="社區與公有建築屋頂太陽光電投資效益試算：依115年度躉購費率自動判斷級距，計算裝置容量、IRR、回收年限、20年現金流與減碳量，並說明太陽光電與ESG的關係。">
+<style>
+:root{
+  --sun:#d97706; --sun-dark:#92400e; --sun-light:#fef3c7;
+  --green:#1a7a4f; --green-light:#e8f5ee;
+  --blue:#1e5f8a; --blue-light:#e7f1f8;
+  --purple:#6b46a8; --purple-light:#f0eaf8;
+  --red:#c0392b;
+  --ink:#1f2d3d; --gray:#6b7a8d; --line:#dde5ec; --bg:#f3f2f1; --card:#fff;
+  --c1:#118DFF; --c2:#12239E; --c3:#E66C37; --c4:#6B007B; --c5:#E044A7; --c6:#744EC2; --c7:#D9B300;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.65}
+header{background:linear-gradient(135deg,#78350f,var(--sun));color:#fff;padding:14px 16px;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+header h1{font-size:1.15rem}
+header .sub{font-size:.72rem;opacity:.9;margin-top:2px}
+header a.home{color:#fff;font-size:.78rem;text-decoration:none;opacity:.9}
+nav{display:flex;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:49;overflow-x:auto}
+nav button{flex:1 0 auto;padding:11px 12px;border:none;background:none;font-size:.88rem;font-family:inherit;color:var(--gray);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+nav button.active{color:var(--sun-dark);border-bottom-color:var(--sun);font-weight:700}
+main{max-width:1080px;margin:0 auto;padding:14px 12px 80px}
+.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+.card h2{font-size:1.05rem;color:var(--sun-dark);margin-bottom:8px}
+.card h3{font-size:.95rem;margin:12px 0 6px}
+.card p{margin-bottom:8px;font-size:.9rem}
+.hint{font-size:.8rem;color:var(--gray)}
+input,select{padding:8px;border:1px solid var(--line);border-radius:7px;font-family:inherit;font-size:.9rem;background:#fff;width:100%}
+input[readonly]{background:#f6f7f8;color:var(--gray)}
+label.f{display:block;font-size:.78rem;color:var(--gray);margin:8px 0 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:9px 16px;border:none;border-radius:8px;font-family:inherit;font-size:.9rem;cursor:pointer;background:var(--sun);color:#fff;text-decoration:none}
+.btn.sec{background:#fff;color:var(--sun-dark);border:1px solid var(--sun)}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:.8rem;margin:6px 0}
+th,td{border:1px solid var(--line);padding:6px 7px;text-align:right}
+th{background:#fdf6e7;font-weight:700;text-align:center}
+td:first-child{text-align:center}
+.tblwrap{overflow-x:auto}
+.esg3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+@media(max-width:760px){.esg3{grid-template-columns:1fr}}
+.esg3 .p{border-radius:10px;padding:12px;border:1px solid var(--line)}
+.esg3 .p b{display:block;font-size:.95rem;margin-bottom:4px}
+.esg3 .p ul{padding-left:18px;font-size:.84rem}
+.pE{background:var(--green-light)}.pE b{color:var(--green)}
+.pS{background:var(--blue-light)}.pS b{color:var(--blue)}
+.pG{background:var(--purple-light)}.pG b{color:var(--purple)}
+.support{border:2px solid var(--green);background:#f3fbf6;border-radius:12px;padding:16px;margin-bottom:12px}
+.support h2{color:var(--green)}
+.support .tag{display:inline-block;background:var(--green);color:#fff;font-size:.72rem;padding:2px 10px;border-radius:12px;margin-bottom:8px}
+.support ul{padding-left:20px;font-size:.88rem}
+.support li{margin-bottom:4px}
+/* dashboard */
+.dash{background:#252423;color:#fff;border-radius:10px 10px 0 0;padding:12px 16px;font-weight:700}
+.dash small{display:block;font-weight:400;font-size:.72rem;opacity:.75}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#fff;border-radius:8px;border:1px solid var(--line);border-top:5px solid var(--c1);padding:10px 12px}
+.kpi .t{font-size:.75rem;color:#605e5c}
+.kpi .v{font-size:1.45rem;font-weight:700;color:#252423;line-height:1.3}
+.kpi .s{font-size:.7rem;color:var(--gray)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:860px){.charts{grid-template-columns:1fr}}
+.chart{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px}
+.chart h3{font-size:.9rem;margin-bottom:6px;color:#252423}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.74rem;color:#605e5c;margin-top:4px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:middle}
+.heat td{text-align:center;font-weight:700;color:#1f2d3d}
+.heat th{font-size:.75rem}
+.cons{background:#fff;border:1px solid var(--line);border-left:5px solid var(--green);border-radius:8px;padding:12px 14px;margin:12px 0;font-size:.86rem}
+.cons b.h{color:var(--green);display:block;margin-bottom:4px;font-size:.92rem}
+.cons ul{padding-left:18px}.cons li{margin-bottom:3px}
+.upside{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+@media(max-width:640px){.upside{grid-template-columns:1fr}}
+.upside div{background:var(--green-light);border-radius:8px;padding:8px 10px;text-align:center}
+.upside b{display:block;font-size:1.2rem;color:var(--green)}
+.upside span{font-size:.72rem;color:var(--gray)}
+.badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.72rem;background:var(--sun-light);color:var(--sun-dark);font-weight:700}
+.src{font-size:.74rem;color:var(--gray);margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.src a{color:var(--blue);word-break:break-all}
+.src li{margin-left:18px}
+footer{text-align:center;font-size:.75rem;color:var(--gray);padding:18px 10px 8px}
+@media print{header,nav,.btnrow,footer,.noprint,.lead-box{display:none!important}body{background:#fff}.page{display:block!important}}
+.lead-box{margin-top:14px;border:1px solid var(--sun);background:var(--sun-light);border-radius:10px;padding:16px}
+.lead-title{font-size:1rem;font-weight:700;color:var(--sun-dark);margin-bottom:4px}
+.lead-sub{font-size:.8rem;color:var(--gray);line-height:1.6;margin-bottom:12px}
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+@media(max-width:560px){.lead-grid{grid-template-columns:1fr}}
+.lead-consent{display:flex;align-items:flex-start;gap:7px;font-size:.76rem;color:var(--gray);line-height:1.5;margin-bottom:11px;cursor:pointer}
+.lead-consent input{margin-top:2px;width:14px;height:14px;flex-shrink:0;accent-color:var(--sun)}
+.lead-msg{font-size:.82rem;margin-top:9px;text-align:center;line-height:1.5}
+.lead-msg.ok{color:var(--green);font-weight:700}
+.lead-msg.err{color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1>☀️ 屋頂太陽光電投資效益試算</h1><a class="home" href="../index.html">← 回首頁</a>
+  </div>
+  <div class="sub">Charlotte Chang 張雅雯｜社區・公有建築屋頂光電可行性與投資效益初評</div>
+</header>
+<nav>
+  <button class="active" data-p="intro">前言：光電 × ESG</button>
+  <button data-p="input">參數設定</button>
+  <button data-p="dash">儀表板</button>
+  <button data-p="cf">20年現金流</button>
+  <button data-p="sens">敏感度分析</button>
+</nav>
+<main>
+
+<!-- ============ 前言 ============ -->
+<section class="page active" id="p-intro">
+  <div class="card">
+    <h2>為什麼屋頂太陽光電是最「看得見」的 ESG 行動？</h2>
+    <p>多數組織談 ESG，第一步是碳盤查，第二步就會問：「那要怎麼減？」電力是範疇二排放的主要來源，而<b>在自己的屋頂發綠電</b>，是少數能同時產生現金流、減碳數據與社會影響力的做法。一片閒置屋頂，可以連續 20 年發電、售電、減碳，並把收益與成果留在在地。</p>
+    <div class="esg3">
+      <div class="p pE"><b>E 環境：可量化的減碳</b>
+        <ul>
+          <li>每發一度綠電，約可減少一度市電的排放（依能源署公告電力排碳係數換算）</li>
+          <li>自發自用可直接降低範疇二排放；轉供或憑證可對應再生能源使用目標</li>
+          <li>屋頂遮蔭兼具降溫效果，不額外占用土地</li>
+        </ul>
+      </div>
+      <div class="p pS"><b>S 社會：在地參與與公平轉型</b>
+        <ul>
+          <li>公民電廠讓居民共同出資、共同決策，收益回饋社區</li>
+          <li>綠能公益模式可協助社福機構與能源弱勢降低電費負擔</li>
+          <li>培育在地綠領人才，讓能源轉型不遺落任何人</li>
+        </ul>
+      </div>
+      <div class="p pG"><b>G 治理：20 年的承諾與揭露</b>
+        <ul>
+          <li>20 年躉購契約需要清楚的權責分工、履約與維運管理</li>
+          <li>發電量、減碳量可定期揭露，成為永續報告的實證數據</li>
+          <li>公有屋頂依政府採購法標租，流程公開透明</li>
+        </ul>
+      </div>
+    </div>
+    <p class="hint">本工具協助社區、公所與公有建築管理單位，先用公開參數估算「這片屋頂值不值得做」，再決定是否進入詳細規劃、標租或公民電廠募集。</p>
+  </div>
+
+  <div class="support">
+    <span class="tag">我支持</span>
+    <h2>支持「115 年低碳社區公民電廠種子培訓暨推動計畫」</h2>
+    <p>我支持<b>環境部</b>與<b>台灣綠能公益發展協會</b>推動的低碳社區公民電廠種子培訓。這項計畫的目標，是培育能在自己社區推動屋頂光電的在地綠領人才，讓社區屋頂成為綠電來源。</p>
+    <ul>
+      <li><b>第二屆「低碳永續家園綠能屋頂種子培訓」</b>：環境部於 115 年 10 月 28 日宣布開辦，於臺北、高雄各開一期，預計培育 50 位以上社區綠領人才。</li>
+      <li><b>高雄場</b>：116 年 1 月 9 日（六）、1 月 23 日（六），分別於國立中山大學及高雄市第一社區大學上課；報名至 115 年 12 月 20 日 17 時止。</li>
+      <li><b>課程</b>：政策、繪圖、財務、實務四大模組，涵蓋屋頂場址評估、系統規劃、3D 建築繪圖與售電財務試算。</li>
+      <li><b>適合對象</b>：關心能源轉型的民眾、村里長、社區幹部及大樓管委會成員（年滿 18 歲、可自備筆電；女性及弱勢背景報名者優先錄取）。</li>
+    </ul>
+    <p style="margin-top:8px">本頁的財務試算，可作為社區學員課前預習或課後練習的輔助工具。報名方式與最新資訊，請以環境部及協會官方公告為準。</p>
+    <div class="src">
+      本頁為 Charlotte Chang 個人推廣與支持，非上述計畫之官方網頁。<br>
+      資料來源：<a href="https://enews.moenv.gov.tw/moenv-news/zh-tw/News/14378" target="_blank" rel="noopener">環境部新聞專區（115-10-28）：第二屆綠能屋頂種子培訓 臺北、高雄場開放報名</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>這個工具能做什麼？</h2>
+    <ul style="padding-left:20px;font-size:.88rem">
+      <li>輸入屋頂面積與模組規格，自動估算可裝片數與裝置容量（kWp）</li>
+      <li>依 115 年度屋頂型躉購費率，<b>自動判斷容量級距</b>並帶入費率、建置與運維參考值</li>
+      <li>計算 IRR、回收年限、20 年現金流、減碳量，並以儀表板呈現</li>
+      <li>日照 × 建置成本敏感度矩陣，看清楚專案的風險區間</li>
+    </ul>
+    <div class="btnrow"><button class="btn" onclick="go('input')">開始試算 →</button><button class="btn sec" onclick="go('dash')">直接看範例儀表板</button></div>
+  </div>
+</section>
+
+<!-- ============ 參數 ============ -->
+<section class="page" id="p-input">
+  <div class="card">
+    <h2>① 屋頂與模組</h2>
+    <p class="hint">預設範例：小型公有建築（單層，屋頂約 270 m²）。請改成你的實際條件。</p>
+    <div class="grid3">
+      <div><label class="f">屋頂面積（m²）</label><input type="number" id="area" value="271.69" step="0.01"></div>
+      <div><label class="f">可用覆蓋率（%）</label><input type="number" id="cov" value="65" step="1"><div class="hint">扣除女兒牆退縮、水塔、樓梯間、維修走道</div></div>
+      <div><label class="f">模組瓦數（W）</label><input type="number" id="watt" value="470" step="5"></div>
+      <div><label class="f">模組長（m）</label><input type="number" id="ml" value="2.08" step="0.001"></div>
+      <div><label class="f">模組寬（m）</label><input type="number" id="mw" value="1.002" step="0.001"></div>
+      <div><label class="f">日照等效滿發時數（小時/日）</label><input type="number" id="hrs" value="3.4" step="0.1"><div class="hint">高雄平地約 3.4；能源署審定參數 1,250 度/kW/年 ≈ 3.42</div></div>
+    </div>
+    <div class="result" id="sizeBox" style="margin-top:12px;background:var(--sun-light);border-left:4px solid var(--sun);padding:10px 12px;border-radius:0 8px 8px 0;font-size:.9rem"></div>
+  </div>
+  <div class="card">
+    <h2>② 費率與成本</h2>
+    <label style="font-size:.85rem;display:flex;gap:6px;align-items:center"><input type="checkbox" id="auto" checked style="width:auto"> 依容量級距自動帶入 115 年度躉購費率與審定會參考值</label>
+    <div class="grid3">
+      <div><label class="f">躉購費率（元/度，固定20年）</label><input type="number" id="fit" step="0.0001"></div>
+      <div><label class="f">建置單價（元/kW）</label><input type="number" id="capu" step="100"></div>
+      <div><label class="f">首年運維費（元/kW/年）</label><input type="number" id="omu" step="10"></div>
+      <div><label class="f">運維年漲幅（%）</label><input type="number" id="omg" value="1" step="0.1"></div>
+      <div><label class="f">模組年衰減率（%）</label><input type="number" id="deg" value="0.5" step="0.1"></div>
+      <div><label class="f">回饋金比例（占售電收入 %）</label><input type="number" id="rent" value="0" step="0.5"><div class="hint">0＝自建自營；公有屋頂標租常見約 5～10%</div></div>
+      <div><label class="f">逆變器更換年度（第 N 年）</label><input type="number" id="invy" value="11" step="1"></div>
+      <div><label class="f">逆變器更換單價（元/kW）</label><input type="number" id="invu" value="2500" step="100"></div>
+      <div><label class="f">電力排碳係數（kg CO2e/度）</label><input type="number" id="ef" value="0.467" step="0.001"></div>
+    </div>
+    <div class="btnrow"><button class="btn" onclick="go('dash')">看儀表板 →</button><button class="btn sec" onclick="resetDefaults()">恢復預設範例</button></div>
+    <div class="src">
+      <b>參數來源</b>
+      <ul>
+        <li>躉購費率：經濟部 115 年度再生能源電能躉購費率（太陽光電全年沿用 114 年度第二期水準）。屋頂型：1～10瓩 5.6279、10～20瓩 5.3819、20～50瓩 4.2505、50～100瓩 4.0459、100～500瓩 3.7152、500瓩以上 3.6236 元/度。<a href="https://www.moeaea.gov.tw/ECW/populace/news/wHandNews_File.ashx?file_id=28963" target="_blank" rel="noopener">能源署公告附表</a></li>
+        <li>建置成本與運維費參考值：115 年度躉購費率審定會會議紀錄（屋頂型各級距期初設置成本、年運轉維護費）。<a href="https://www.moeaea.gov.tw/ECW/main/content/wHandMenuFile.ashx?file_id=16977" target="_blank" rel="noopener">審定會第3次會議紀錄</a>、<a href="https://www.moeaea.gov.tw/ECW/main/content/wHandMenuFile.ashx?file_id=16931" target="_blank" rel="noopener">太陽光電分組第3次會議紀錄</a></li>
+        <li>電力排碳係數：經濟部能源署公告 114 年度公用售電業電力排碳係數 0.467 kg CO2e/度（115 年 6 月公布）。</li>
+        <li>模組瓦數、覆蓋率、衰減率、逆變器更換、運維漲幅為一般經驗假設，請以實際報價與型錄修正。</li>
+        <li><b>預設值刻意偏保守</b>（日照、建置成本取官方平均、只計躉售收入），讓試算結果作為「下限」參考；實際 IRR 依當時建置成本與售電價格而定。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 儀表板 ============ -->
+<section class="page" id="p-dash">
+  <div class="dash">屋頂太陽光電 投資效益儀表板<small id="dashSub"></small></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="cons">
+    <b class="h">📌 本試算採「保守估算」，IRR 是下限參考，不是天花板</b>
+    <ul>
+      <li><b>日照取保守值</b>：預設 3.4 小時（約 1,241 度/kW/年），略低於能源署審定參數 1,250 度；日照條件良好、方位與傾角得宜的屋頂，實際發電常高於此值。</li>
+      <li><b>建置成本取官方參考值</b>：採躉購費率審定會的平均設置成本，未反映實際議價、統包規模或材料價格下修。</li>
+      <li><b>只計躉售收入</b>：未計入自發自用省下的電費、地方政府設置補助、綠電轉供（CPPA）溢價，以及社區回饋帶來的非財務效益。</li>
+      <li><b>IRR 依當時條件而定</b>：簽約年度的躉購費率、當時的模組與工程價格、售電方式（躉售或民間購售電合約）都會改變結果，請以正式報價與簽約條件重算。</li>
+    </ul>
+    <div class="upside" id="upside"></div>
+  </div>
+
+  <div class="charts">
+    <div class="chart"><h3>逐年淨現金流與累計現金流（萬元）</h3><div id="ch1"></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>淨現金流</span><span><i style="background:var(--c3)"></i>累計現金流</span></div></div>
+    <div class="chart"><h3>年度售電收入 vs 支出（萬元）</h3><div id="ch2"></div>
+      <div class="legend"><span><i style="background:var(--c2)"></i>售電收入</span><span><i style="background:var(--c5)"></i>運維費</span><span><i style="background:var(--c6)"></i>回饋金</span><span><i style="background:var(--c7)"></i>逆變器更換</span></div></div>
+    <div class="chart"><h3>20 年支出結構</h3><div id="ch3"></div><div class="legend" id="lg3"></div></div>
+    <div class="chart"><h3>逐年發電量（萬度）與減碳量（公噸）</h3><div id="ch4"></div>
+      <div class="legend"><span><i style="background:var(--c2)"></i>發電量</span><span><i style="background:var(--c7)"></i>減碳量</span></div></div>
+  </div>
+  <div class="card" style="margin-top:12px">
+    <h2>判讀</h2>
+    <div id="insight" style="font-size:.9rem"></div>
+    <div class="btnrow noprint"><button class="btn sec" onclick="window.print()">列印／存成 PDF</button><button class="btn sec" onclick="downloadCSV()">下載現金流 CSV</button></div>
+  </div>
+
+  <div class="lead-box">
+    <div class="lead-title">需要進一步評估？把這份試算送給顧問</div>
+    <div class="lead-sub">留下聯絡方式，Charlotte Chang 將於一個工作天內與您聯繫，協助屋頂現勘、可行性評估、標案企劃與 EPC 工程合作媒合。</div>
+    <div class="lead-grid">
+      <input type="text" id="lead-name" placeholder="您的姓名 ＊">
+      <input type="text" id="lead-company" placeholder="單位 / 社區 / 公司 ＊">
+      <input type="tel" id="lead-phone" placeholder="聯絡電話 ＊">
+      <input type="email" id="lead-email" placeholder="Email（選填）">
+    </div>
+    <label class="lead-consent">
+      <input type="checkbox" id="lead-consent">
+      <span>我同意將上述聯絡資訊與本次評估結果提供予顧問，作為後續聯繫與服務之用；個資僅用於本目的，不作其他用途。</span>
+    </label>
+    <button type="button" class="btn" id="lead-submit" onclick="submitLead()" style="width:100%">送出結果給顧問</button>
+    <div class="lead-msg" id="lead-msg"></div>
+  </div>
+</section>
+
+<!-- ============ 現金流 ============ -->
+<section class="page" id="p-cf">
+  <div class="card">
+    <h2>20 年現金流量表（元）</h2>
+    <div class="tblwrap"><table id="cfTable"></table></div>
+    <div class="btnrow noprint"><button class="btn sec" onclick="downloadCSV()">下載 CSV</button></div>
+  </div>
+</section>
+
+<!-- ============ 敏感度 ============ -->
+<section class="page" id="p-sens">
+  <div class="card">
+    <h2>IRR 敏感度：日照時數 × 建置成本</h2>
+    <p class="hint">以目前參數為基準（框線格），日照 ±0.2 小時、建置成本 ±10%。顏色越綠代表 IRR 越高。基準格採保守參數；只要日照略佳或議價取得較低成本，IRR 就會往左下方的綠色區間移動。</p>
+    <div class="tblwrap"><table class="heat" id="heat"></table></div>
+    <h3>回饋金情境</h3>
+    <div class="tblwrap"><table id="rentTbl"></table></div>
+    <p class="hint">公有屋頂標租時，回饋金會直接壓低投資人報酬；建置成本與屋頂條件（結構、防水、併網距離）往往是決定案子能否成立的關鍵。</p>
+  </div>
+</section>
+
+<p class="hint" style="text-align:center;margin-top:8px">本工具為初步試算，結果不代表正式設計、報價或政府核准文件；實際效益依現勘、結構安全評估、台電併網審查與廠商報價而定。</p>
+</main>
+<footer>© Charlotte Chang 張雅雯｜工業能源與永續顧問｜<a href="../index.html" style="color:var(--gray)">回首頁</a></footer>
+
+<script>
+/* ===== 115年度屋頂型級距參數 ===== */
+const TIERS=[ // [上限kW, 躉購費率, 建置參考值, 運維參考值]
+  [10,   5.6279, 50900, 2454],
+  [20,   5.3819, 47700, 2454],
+  [50,   4.2505, 42800, 1707],
+  [100,  4.0459, 39600, 1707],
+  [500,  3.7152, 37400, 1504],
+  [1e9,  3.6236, 36400, 1504]
+];
+const TIER_LABEL=['1～未滿10瓩','10～未滿20瓩','20～未滿50瓩','50～未滿100瓩','100～未滿500瓩','500瓩以上'];
+const DEF={area:271.69,cov:65,watt:470,ml:2.08,mw:1.002,hrs:3.4,omg:1,deg:0.5,rent:0,invy:11,invu:2500,ef:0.467};
+const $=id=>document.getElementById(id);
+const v=id=>parseFloat($(id).value)||0;
+const fmt=(n,d=0)=>Number(n).toLocaleString('zh-TW',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+function go(p){
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.p===p));
+  document.querySelectorAll('.page').forEach(s=>s.classList.toggle('active',s.id==='p-'+p));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.p));
+
+function tierOf(kw){for(let i=0;i<TIERS.length;i++){if(kw<TIERS[i][0])return i}return TIERS.length-1}
+
+function irr(cf){
+  let lo=-0.99,hi=1;const npv=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
+  if(npv(lo)*npv(hi)>0)return NaN;
+  for(let k=0;k<200;k++){const m=(lo+hi)/2;(npv(lo)*npv(m)<=0)?hi=m:lo=m}
+  return (lo+hi)/2;
+}
+
+function model(o){
+  const pa=o.ml*o.mw, n=Math.floor(o.area*o.cov/100/pa), kw=n*o.watt/1000;
+  const capex=kw*o.capu;
+  const rows=[{y:0,gen:0,rev:0,om:0,rent:0,inv:0,capex:-capex}];
+  for(let y=1;y<=20;y++){
+    const gen=kw*o.hrs*365*Math.pow(1-o.deg/100,y-1);
+    const rev=gen*o.fit;
+    rows.push({y,gen,rev,om:-kw*o.omu*Math.pow(1+o.omg/100,y-1),rent:-rev*o.rent/100,inv:(y===o.invy?-kw*o.invu:0),capex:0});
+  }
+  let cum=0;rows.forEach(r=>{r.net=r.rev+r.om+r.rent+r.inv+r.capex;cum+=r.net;r.cum=cum;r.co2=r.gen*o.ef/1000});
+  const cf=rows.map(r=>r.net);
+  const neg=rows.filter(r=>r.cum<0).length;
+  return {n,kw,capex,rows,irr:irr(cf),payback:(rows[20].cum<0?null:neg),
+    net20:rows[20].cum,gen20:rows.reduce((s,r)=>s+r.gen,0),co220:rows.reduce((s,r)=>s+r.co2,0)};
+}
+
+function read(){
+  return {area:v('area'),cov:v('cov'),watt:v('watt'),ml:v('ml'),mw:v('mw'),hrs:v('hrs'),fit:v('fit'),capu:v('capu'),
+    omu:v('omu'),omg:v('omg'),deg:v('deg'),rent:v('rent'),invy:Math.round(v('invy')),invu:v('invu'),ef:v('ef')};
+}
+
+function applyTier(){
+  const o=read(); const kw=Math.floor(o.area*o.cov/100/(o.ml*o.mw))*o.watt/1000; const t=tierOf(kw);
+  const auto=$('auto').checked;
+  ['fit','capu','omu'].forEach(id=>$(id).readOnly=auto);
+  if(auto){$('fit').value=TIERS[t][1];$('capu').value=TIERS[t][2];$('omu').value=TIERS[t][3];}
+  return t;
+}
+
+let last=null;
+function calc(){
+  const t=applyTier(); const o=read(); const m=model(o); last={o,m,t};
+  $('sizeBox').innerHTML=`可裝約 <b>${fmt(m.n)}</b> 片，裝置容量 <b>${fmt(m.kw,2)} kWp</b>，落在屋頂型 <span class="badge">${TIER_LABEL[t]}</span> 級距（躉購費率 ${TIERS[t][1]} 元/度）。`
+   +(t===2&&m.kw<21?'<br><span class="hint">提示：容量若調整到 20 瓩以下，可適用 5.3819 元/度的較高費率，值得比較兩種配置。</span>':'');
+  $('dashSub').textContent=`${fmt(o.area,2)} m² 屋頂｜${fmt(m.n)} 片 × ${o.watt}W｜日照 ${o.hrs} 小時｜躉購 ${o.fit} 元/度｜回饋金 ${o.rent}%`;
+  const K=[
+    ['專案 IRR（保守估算・20年稅前）',isNaN(m.irr)?'—':(m.irr*100).toFixed(1)+'%','',getComputedStyle(document.body).getPropertyValue('--c1')],
+    ['投資回收年限',m.payback===null?'＞20 年':m.payback+' 年','累計現金流轉正','#E66C37'],
+    ['裝置容量',fmt(m.kw,1)+' kWp',fmt(m.n)+' 片模組','#12239E'],
+    ['建置總成本',fmt(m.capex/1e4,1)+' 萬元',fmt(o.capu)+' 元/kW','#6B007B'],
+    ['首年發電量',fmt(m.rows[1].gen/1e4,2)+' 萬度',fmt(o.hrs*365)+' 度/kW','#E044A7'],
+    ['首年售電收入',fmt(m.rows[1].rev/1e4,1)+' 萬元','','#118DFF'],
+    ['20年累計淨現金流',fmt(m.net20/1e4,1)+' 萬元','已扣除期初投資','#744EC2'],
+    ['20年減碳量',fmt(m.co220,1)+' 公噸','CO2e','#D9B300']
+  ];
+  $('kpis').innerHTML=K.map(k=>`<div class="kpi" style="border-top-color:${k[3]}"><div class="t">${k[0]}</div><div class="v">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('');
+  const up=[['保守基準',o],['日照 +0.2 小時',{...o,hrs:o.hrs+0.2}],['日照 +0.2 小時＋成本 −10%',{...o,hrs:o.hrs+0.2,capu:o.capu*0.9}]];
+  $('upside').innerHTML=up.map(([t,x])=>{const r=model(x).irr;return `<div><span>${t}</span><b>${isNaN(r)?'—':(r*100).toFixed(1)+'%'}</b><span>IRR</span></div>`}).join('');
+  drawCharts(m); drawTable(m); drawSens(o); insight(o,m);
+  try{localStorage.setItem('pvcalc',JSON.stringify({...o,auto:$('auto').checked}))}catch(e){}
+}
+
+/* ===== SVG charts ===== */
+const W=520,H=260,PL=52,PR=14,PT=12,PB=30;
+function axis(min,max,fmtY){
+  const raw=(max-min)/5,p10=Math.pow(10,Math.floor(Math.log10(raw))),step=Math.ceil(raw/p10)*p10;let g='';
+  for(let val0=Math.ceil(min/step)*step;val0<=max+1e-9;val0+=step){const val=val0,y=PT+(H-PT-PB)*(1-(val-min)/(max-min));
+    g+=`<line x1="${PL}" x2="${W-PR}" y1="${y}" y2="${y}" stroke="#eee"/><text x="${PL-6}" y="${y+4}" font-size="10" text-anchor="end" fill="#605e5c">${fmtY(val)}</text>`}
+  return g;
+}
+function yS(val,min,max){return PT+(H-PT-PB)*(1-(val-min)/(max-min))}
+function niceRange(a,b){const span=b-a||1;const p=Math.pow(10,Math.floor(Math.log10(span/5)));const st=Math.ceil(span/5/p)*p;return [Math.floor(a/st)*st,Math.ceil(b/st)*st]}
+function drawCharts(m){
+  const R=m.rows, n=R.length, bw=(W-PL-PR)/n;
+  // ch1
+  let vals=R.map(r=>r.net/1e4).concat(R.map(r=>r.cum/1e4),[0]);
+  let [mn,mx]=niceRange(Math.min(...vals),Math.max(...vals));
+  let s=`<svg viewBox="0 0 ${W} ${H}">`+axis(mn,mx,x=>fmt(x));
+  R.forEach((r,i)=>{const x=PL+i*bw+bw*0.15,y0=yS(0,mn,mx),y1=yS(r.net/1e4,mn,mx);
+    s+=`<rect x="${x}" y="${Math.min(y0,y1)}" width="${bw*0.7}" height="${Math.abs(y1-y0)}" fill="var(--c1)"><title>第${r.y}年 淨現金流 ${fmt(r.net)} 元</title></rect>`;
+    if(i%2===0)s+=`<text x="${x+bw*0.35}" y="${H-PB+14}" font-size="9" text-anchor="middle" fill="#605e5c">${r.y}</text>`});
+  s+=`<polyline fill="none" stroke="var(--c3)" stroke-width="2.5" points="${R.map((r,i)=>`${PL+i*bw+bw/2},${yS(r.cum/1e4,mn,mx)}`).join(' ')}"/>`;
+  s+=`<line x1="${PL}" x2="${W-PR}" y1="${yS(0,mn,mx)}" y2="${yS(0,mn,mx)}" stroke="#605e5c"/>`;
+  if(m.payback!==null){const px=PL+m.payback*bw+bw/2;s+=`<line x1="${px}" x2="${px}" y1="${PT}" y2="${H-PB}" stroke="var(--c3)" stroke-dasharray="4 3"/><text x="${px+4}" y="${PT+12}" font-size="10" fill="var(--c3)">第${m.payback}年回收</text>`}
+  $('ch1').innerHTML=s+'</svg>';
+  // ch2
+  const Y=R.slice(1);const bw2=(W-PL-PR)/Y.length;
+  vals=Y.map(r=>r.rev/1e4).concat(Y.map(r=>(r.om+r.rent+r.inv)/1e4),[0]);
+  [mn,mx]=niceRange(Math.min(...vals),Math.max(...vals));
+  s=`<svg viewBox="0 0 ${W} ${H}">`+axis(mn,mx,x=>fmt(x,1));
+  Y.forEach((r,i)=>{const x=PL+i*bw2+bw2*0.15,w=bw2*0.7,y0=yS(0,mn,mx);
+    s+=`<rect x="${x}" y="${yS(r.rev/1e4,mn,mx)}" width="${w}" height="${y0-yS(r.rev/1e4,mn,mx)}" fill="var(--c2)"><title>第${r.y}年 售電收入 ${fmt(r.rev)} 元</title></rect>`;
+    let acc=0;[['om','--c5'],['rent','--c6'],['inv','--c7']].forEach(([k,c])=>{const h=-r[k]/1e4;if(h<=0)return;const ya=yS(-acc,mn,mx),yb=yS(-(acc+h),mn,mx);
+      s+=`<rect x="${x}" y="${ya}" width="${w}" height="${yb-ya}" fill="var(${c})"><title>第${r.y}年 ${k} ${fmt(r[k])} 元</title></rect>`;acc+=h});
+    if(i%2===0)s+=`<text x="${x+w/2}" y="${H-PB+14}" font-size="9" text-anchor="middle" fill="#605e5c">${r.y}</text>`});
+  s+=`<line x1="${PL}" x2="${W-PR}" y1="${yS(0,mn,mx)}" y2="${yS(0,mn,mx)}" stroke="#605e5c"/>`;
+  $('ch2').innerHTML=s+'</svg>';
+  // ch3 doughnut
+  const parts=[['期初建置',m.capex,'#118DFF'],['運轉維護',-R.reduce((a,r)=>a+r.om,0),'#E66C37'],['逆變器更換',-R.reduce((a,r)=>a+r.inv,0),'#D9B300'],['回饋金',-R.reduce((a,r)=>a+r.rent,0),'#744EC2']].filter(p=>p[1]>0);
+  const tot=parts.reduce((a,p)=>a+p[1],0);let ang=-Math.PI/2;const cx=150,cy=125,ro=105,ri=60;
+  s=`<svg viewBox="0 0 ${W} 250">`;
+  parts.forEach(p=>{const a2=ang+2*Math.PI*p[1]/tot,large=(a2-ang)>Math.PI?1:0;
+    const P=(r,a)=>`${cx+r*Math.cos(a)},${cy+r*Math.sin(a)}`;
+    if(parts.length===1){s+=`<circle cx="${cx}" cy="${cy}" r="${(ro+ri)/2}" fill="none" stroke="${p[2]}" stroke-width="${ro-ri}"/>`}
+    else s+=`<path d="M${P(ro,ang)} A${ro},${ro} 0 ${large} 1 ${P(ro,a2)} L${P(ri,a2)} A${ri},${ri} 0 ${large} 0 ${P(ri,ang)} Z" fill="${p[2]}"><title>${p[0]} ${fmt(p[1])} 元</title></path>`;
+    ang=a2});
+  s+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="12" fill="#605e5c">20年總支出</text><text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="16" font-weight="700">${fmt(tot/1e4,1)}萬</text>`;
+  parts.forEach((p,i)=>{s+=`<rect x="290" y="${50+i*36}" width="14" height="14" fill="${p[2]}"/><text x="312" y="${62+i*36}" font-size="13">${p[0]}</text><text x="${W-14}" y="${62+i*36}" font-size="13" text-anchor="end" font-weight="700">${(p[1]/tot*100).toFixed(1)}%</text>`});
+  $('ch3').innerHTML=s+'</svg>';$('lg3').innerHTML='';
+  // ch4
+  const g=Y.map(r=>r.gen/1e4),c=Y.map(r=>r.co2);
+  const gm=Math.max(...g)*1.15,cm=Math.max(...c)*1.15;
+  s=`<svg viewBox="0 0 ${W} ${H}">`+axis(0,gm,x=>fmt(x,1));
+  Y.forEach((r,i)=>{const x=PL+i*bw2+bw2*0.15;s+=`<rect x="${x}" y="${yS(g[i],0,gm)}" width="${bw2*0.7}" height="${H-PB-yS(g[i],0,gm)}" fill="var(--c2)"><title>第${r.y}年 ${fmt(r.gen)} 度</title></rect>`;
+    if(i%2===0)s+=`<text x="${x+bw2*0.35}" y="${H-PB+14}" font-size="9" text-anchor="middle" fill="#605e5c">${r.y}</text>`});
+  s+=`<polyline fill="none" stroke="var(--c7)" stroke-width="2.5" points="${Y.map((r,i)=>`${PL+i*bw2+bw2/2},${yS(c[i],0,cm)}`).join(' ')}"/>`;
+  for(let i=0;i<=5;i++){const val=cm*i/5;s+=`<text x="${W-PR+2}" y="${yS(val,0,cm)+4}" font-size="9" fill="var(--c7)">${val.toFixed(0)}</text>`}
+  $('ch4').innerHTML=s+'</svg>';
+}
+
+function drawTable(m){
+  let h='<tr><th>年度</th><th>發電量(度)</th><th>售電收入</th><th>運維費</th><th>回饋金</th><th>逆變器更換</th><th>期初投資</th><th>淨現金流</th><th>累計現金流</th><th>減碳(公噸)</th></tr>';
+  m.rows.forEach(r=>{h+=`<tr><td>${r.y}</td><td>${fmt(r.gen)}</td><td>${fmt(r.rev)}</td><td>${fmt(r.om)}</td><td>${fmt(r.rent)}</td><td>${fmt(r.inv)}</td><td>${fmt(r.capex)}</td><td><b>${fmt(r.net)}</b></td><td style="color:${r.cum<0?'var(--red)':'var(--green)'}">${fmt(r.cum)}</td><td>${r.co2.toFixed(1)}</td></tr>`});
+  const S=k=>m.rows.reduce((a,r)=>a+r[k],0);
+  h+=`<tr style="background:#fdf6e7;font-weight:700"><td>合計</td><td>${fmt(S('gen'))}</td><td>${fmt(S('rev'))}</td><td>${fmt(S('om'))}</td><td>${fmt(S('rent'))}</td><td>${fmt(S('inv'))}</td><td>${fmt(S('capex'))}</td><td>${fmt(S('net'))}</td><td></td><td>${S('co2').toFixed(1)}</td></tr>`;
+  $('cfTable').innerHTML=h;
+}
+
+function heatColor(x){ // x: irr
+  if(isNaN(x))return '#eee';const t=Math.max(0,Math.min(1,(x-0.0)/0.08));
+  const r=Math.round(253-(253-26)*t),g=Math.round(236-(236-160)*t*0.6),b=Math.round(234-(234-100)*t);return `rgb(${r},${g},${b})`;
+}
+function drawSens(o){
+  const dh=[-0.2,-0.1,0,0.1,0.2],dc=[0.9,0.95,1,1.05,1.1];
+  let h='<tr><th>日照＼建置成本</th>'+dc.map(c=>`<th>${Math.round(c*100)}%<br><span class="hint">${fmt(o.capu*c)}元/kW</span></th>`).join('')+'</tr>';
+  dh.forEach(d=>{const hr=+(o.hrs+d).toFixed(2);h+=`<tr><th>${hr} 小時</th>`;
+    dc.forEach(c=>{const r=model({...o,hrs:hr,capu:o.capu*c}).irr;const base=(d===0&&c===1);
+      h+=`<td style="background:${heatColor(r)};${base?'outline:3px solid #252423;outline-offset:-3px':''}">${isNaN(r)?'—':(r*100).toFixed(1)+'%'}</td>`});h+='</tr>'});
+  $('heat').innerHTML=h;
+  let t='<tr><th>情境</th><th>回饋金比例</th><th>IRR</th><th>回收年限</th><th>20年累計淨現金流</th></tr>';
+  [['自建自營',0],['標租（低回饋）',5],['標租（中回饋）',8],['標租（高回饋）',10]].forEach(([n,p])=>{const m=model({...o,rent:p});
+    t+=`<tr><td>${n}</td><td>${p}%</td><td>${isNaN(m.irr)?'—':(m.irr*100).toFixed(1)+'%'}</td><td>${m.payback===null?'＞20年':m.payback+'年'}</td><td>${fmt(m.net20)} 元</td></tr>`});
+  $('rentTbl').innerHTML=t;
+}
+
+function insight(o,m){
+  const i=m.irr*100;let lv;
+  if(isNaN(i)||i<2)lv='在保守參數下報酬偏低，建議先檢討建置成本、屋頂可用面積或容量級距配置；也可評估自發自用、補助或公民電廠模式，再決定是否投入。';
+  else if(i<5)lv='在保守參數下仍有穩定的正報酬，且 20 年躉購價格固定、現金流可預期，適合重視減碳與社區效益的公有屋頂或公民電廠。實際 IRR 依當時建置成本與售電價格而定：日照略佳、議價取得較低成本，或結合自發自用與補助，報酬都會再往上（見上方情境與敏感度分析）。若走標租，回饋金比例是談判重點。';
+  else lv='具一定投資吸引力，可進一步做現勘、結構評估與廠商詢價，確認數字站得住。';
+  $('insight').innerHTML=`<p>本案裝置容量 <b>${fmt(m.kw,1)} kWp</b>，20 年 IRR 約 <b>${isNaN(i)?'—':i.toFixed(1)+'%'}</b>，${m.payback===null?'20 年內無法回收':'約第 <b>'+m.payback+'</b> 年回收'}，20 年累計減碳約 <b>${fmt(m.co220,1)}</b> 公噸 CO2e。</p><p>${lv}</p><p class="hint">提醒：本試算未計所得稅、融資利息、保險與結構補強費用；20～50 瓩級距併網工程費另有額外費率可申請，正式評估時需納入。</p>`;
+}
+
+function downloadCSV(){
+  if(!last)return;const m=last.m;
+  let csv='﻿年度,發電量(度),售電收入,運維費,回饋金,逆變器更換,期初投資,淨現金流,累計現金流,減碳(公噸)\n';
+  m.rows.forEach(r=>{csv+=[r.y,r.gen.toFixed(0),r.rev.toFixed(0),r.om.toFixed(0),r.rent.toFixed(0),r.inv.toFixed(0),r.capex.toFixed(0),r.net.toFixed(0),r.cum.toFixed(0),r.co2.toFixed(2)].join(',')+'\n'});
+  csv+=`\nIRR,${(m.irr*100).toFixed(2)}%\n回收年限,${m.payback===null?'>20':m.payback}\n裝置容量kWp,${m.kw.toFixed(2)}\n`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='屋頂光電20年現金流.csv';a.click();
+}
+
+function resetDefaults(){
+  Object.entries(DEF).forEach(([k,val])=>$(k).value=val);$('auto').checked=true;calc();
+}
+
+/* ===== 送出結果給顧問（連接 CRM 收單 Apps Script）===== */
+const LEAD_ENDPOINT='https://script.google.com/macros/s/AKfycbzHVU7fq2p3ej9aW1fyjBqXqrXLYyO0BZJi_VJvP9cWd_EThHQNcrJHentwnAfnA8od/exec';
+function submitLead(){
+  const name=$('lead-name').value.trim(),company=$('lead-company').value.trim(),phone=$('lead-phone').value.trim(),email=$('lead-email').value.trim(),consent=$('lead-consent').checked;
+  const msg=$('lead-msg'),btn=$('lead-submit');
+  if(!name||!company||!phone){msg.className='lead-msg err';msg.textContent='請填寫姓名、單位與聯絡電話。';return}
+  if(!consent){msg.className='lead-msg err';msg.textContent='請先勾選個資同意聲明，再送出。';return}
+  if(!last){msg.className='lead-msg err';msg.textContent='請先完成試算，再送出結果。';return}
+  btn.disabled=true;btn.textContent='傳送中…';msg.className='lead-msg';msg.textContent='';
+  const {o,m}=last;
+  const scoreLine=`IRR ${(m.irr*100).toFixed(1)}%｜回收 ${m.payback===null?'>20':m.payback} 年｜${m.kw.toFixed(1)} kWp`;
+  const summaryText=`【屋頂太陽光電投資試算】\n屋頂面積：${o.area} m²｜覆蓋率 ${o.cov}%｜模組 ${o.watt}W × ${m.n} 片\n裝置容量：${m.kw.toFixed(2)} kWp｜躉購費率 ${o.fit} 元/度｜日照 ${o.hrs} 小時\n建置成本：${fmt(m.capex)} 元｜回饋金 ${o.rent}%\nIRR：${(m.irr*100).toFixed(2)}%｜回收年限：${m.payback===null?'>20':m.payback} 年\n20年累計淨現金流：${fmt(m.net20)} 元｜20年減碳：${m.co220.toFixed(1)} 公噸\n—\n本試算由 Charlotte Chang 工具產出，僅供初步評估參考。`;
+  const payload={tool:'屋頂光電投資試算',company,name,phone,email,area:`屋頂 ${o.area} m²／${m.kw.toFixed(1)} kWp`,score:scoreLine,summary:summaryText,consent};
+  fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+  .then(()=>{msg.className='lead-msg ok';msg.textContent='✓ 已送出！Charlotte 將於一個工作天內與您聯繫，感謝您的填寫。';btn.textContent='已送出'})
+  .catch(()=>{msg.className='lead-msg err';msg.textContent='送出時發生問題，請改用 Email（chalotte@gmail.com）或 LINE 官方帳號與顧問聯繫。';btn.disabled=false;btn.textContent='送出結果給顧問'});
+}
+
+/* ===== init ===== */
+try{const s=JSON.parse(localStorage.getItem('pvcalc')||'null');if(s){Object.keys(DEF).forEach(k=>{if(s[k]!==undefined)$(k).value=s[k]});$('auto').checked=s.auto!==false;if(!$('auto').checked){$('fit').value=s.fit;$('capu').value=s.capu;$('omu').value=s.omu}}}catch(e){}
+document.querySelectorAll('input').forEach(i=>{if(!i.id.startsWith('lead'))i.addEventListener('input',calc)});
+$('auto').addEventListener('change',calc);
+calc();
+</script>
+</body>
+</html>
